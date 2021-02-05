@@ -15,11 +15,10 @@ namespace Service
             _vHost = vhost;
         }
 
-        public override bool IsOnline()
+        public async override Task<bool> IsOnline()
         {
             Task<string> result = Get("/");
-            result.Wait();
-            return  result.Result != "";
+            return (await result) != "";
         }
         
         

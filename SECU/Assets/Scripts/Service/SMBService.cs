@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Service
 {
@@ -11,7 +12,7 @@ namespace Service
             _version = version;
         }
 
-        public override bool IsOnline()
+        public override Task<bool> IsOnline()
         {
             throw new NotImplementedException("TODO: Ping SMB Server");
         }
