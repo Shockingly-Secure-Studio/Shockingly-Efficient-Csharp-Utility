@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\alois\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\alois\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_SECU.-69004431.00" t="ExcludeRecursive" />
-    <e p="C:\Users\alois\AppData\Roaming\JetBrains\Rider2020.2\scratches" t="IncludeRecursive" />
-    <e p="C:\Users\alois\OneDrive - EPITA\Personnel\Shockingly-Efficient-Csharp-Utility\SECU" t="IncludeRecursive">
+    <e p="C:\Users\Kristen\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Kristen\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_SECU.1035706204.00" t="ExcludeRecursive" />
+    <e p="D:\Projet-code\projet-S2\Shockingly-Efficient-Csharp-Utility\SECU" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
@@ -17,6 +16,12 @@
             <e p="WebService.cs" t="Include" />
           </e>
           <e p="Utils.cs" t="Include" />
+          <e p="Web" t="Include">
+            <e p="request.cs" t="Include" />
+            <e p="tst.cs" t="Include" />
+            <e p="web.cs" t="Include" />
+            <e p="WordList.txt" t="Include" />
+          </e>
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
