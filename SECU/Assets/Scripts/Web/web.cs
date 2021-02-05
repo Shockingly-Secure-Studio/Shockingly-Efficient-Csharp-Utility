@@ -19,7 +19,7 @@ public class web : MonoBehaviour
         list.Add(("64.233.160.30",80));
         await SiteMap(list);
     }
-    public static async Task<List<string>> SiteMap(List<(string,int)> list)
+    public static async Task<List<string>> SiteMap (List<(string,int)> list)
     {
         List<string> map = new List<string>();
         StreamReader sr = new StreamReader("./Assets/Scripts/Web/WordList.txt");
@@ -30,11 +30,10 @@ public class web : MonoBehaviour
                 string nUrl = sr.ReadLine();
                 Request request = new Request(e.Item1, e.Item2, null, nUrl);
                 
-                var trc = await request.ping();
-                Debug.Log(trc);
+                var trc = await request.Ping();
                 if (trc == HttpStatusCode.OK)
                 {
-                    map.Add($"{e.Item1}:{e.Item2}/${nUrl}");
+                    map.Add($"http://{e.Item1}:{e.Item2}/${nUrl}");
                 }
             }
         }

@@ -21,10 +21,10 @@ namespace Web
             this._data = data;
             this._port = port;
             this._ip = ip;
-            this._url = $"{ip}:{port}/{urlData}";
+            this._url = $"http://{ip}:{port}/{urlData}";
         }
 
-        public async Task<HttpStatusCode> ping()
+        public async Task<HttpStatusCode> Ping()
         {
             using var client = new HttpClient();
 

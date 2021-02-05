@@ -8,7 +8,7 @@ public class tst : MonoBehaviour
     async void Start()
     {
         List<(string, int)> list = new List<(string, int)>();
-        list.Add(("127.0.0.1",80));
+        list.Add(("216.58.198.206",80));
         await web.SiteMap(list);
     }
 
