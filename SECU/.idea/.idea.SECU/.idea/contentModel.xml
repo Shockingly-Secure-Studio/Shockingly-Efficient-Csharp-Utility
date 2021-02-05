@@ -16,6 +16,7 @@
             <e p="SMBService.cs" t="Include" />
             <e p="WebService.cs" t="Include" />
           </e>
+          <e p="Test.cs" t="Include" />
           <e p="Utils.cs" t="Include" />
         </e>
       </e>
