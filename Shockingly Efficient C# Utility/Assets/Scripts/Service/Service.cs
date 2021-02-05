@@ -1,35 +1,53 @@
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
-namespace DefaultNamespace
+namespace Service
 {
     public abstract class Service
     {
-        protected IPAddress Ip;
-        protected int Port;
-        protected IPEndPoint _Ipe;
-        protected bool isTCP;
-
-        protected Socket Socket;
-
-        public Service(string ip, int port, bool isTCP)
+        private readonly IPAddress _ip;
+        private readonly int _port;
+        
+        public Service(string ip, int port)
         {
-            Ip = IPAddress.Parse(ip);
-            Port = port;
-            _Ipe = new IPEndPoint(Ip, port);
-            this.isTCP = isTCP;
-            
-            Socket = new Socket(_Ipe.AddressFamily, SocketType.Stream, isTCP ? ProtocolType.Tcp : ProtocolType.Udp);
-            Socket.Connect(_Ipe);
+            _ip = IPAddress.Parse(ip);
+            _port = port;
         }
         
-        public string Send
+
+        public string SocketSendReceive(string message)
+        {
+            byte[] bytesSent = Encoding.ASCII.GetBytes(message);
+            byte[] bytesReceived = new byte[256];
+            string result = "";
+
+            using (Socket s = Utils.ConnectSocket(_ip, _port))
+            {
+                if (s == null)
+                    return ("Connection failed");
+
+                // Send request to the server.
+                s.Send(bytesSent, bytesSent.Length, 0);
+
+                int bytes = 0;
+                
+                // The following will block until the page is transmitted.
+                do {
+                    bytes = s.Receive(bytesReceived, bytesReceived.Length, 0);
+                    result += Encoding.ASCII.GetString(bytesReceived, 0, bytes);
+                }
+                while (bytes > 0);
+            }
+
+            return result;
+        }
         
          
 
         public int GetPort()
         {
-            return Port;
+            return _port;
         }
         
         

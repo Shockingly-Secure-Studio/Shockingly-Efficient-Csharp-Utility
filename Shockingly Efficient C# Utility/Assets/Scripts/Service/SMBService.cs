@@ -1,15 +1,14 @@
 using System;
-using System.Net;
 
-namespace DefaultNamespace
+namespace Service
 {
     public class SMBService : Service
     {
-        protected string Version;
+        private string _version;
 
-        public SMBService(string ip, int port, string version) : base(ip, port, true)
+        public SMBService(string ip, int port, string version) : base(ip, port)
         {
-            Version = version;
+            _version = version;
         }
 
         public override bool IsOnline()
