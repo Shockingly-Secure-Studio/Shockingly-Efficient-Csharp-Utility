@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service
 {
@@ -52,6 +53,6 @@ namespace Service
         
         
 
-        public abstract bool IsOnline();
+        public abstract Task<bool> IsOnline();
     }
 }

@@ -16,13 +16,13 @@ public class web : MonoBehaviour
     async void Start()
     {
         List<(string, int)> list = new List<(string, int)>();
-        list.Add(("127.0.0.1",80));
+        list.Add(("64.233.160.30",80));
         await SiteMap(list);
     }
     public static async Task<List<string>> SiteMap(List<(string,int)> list)
     {
         List<string> map = new List<string>();
-        StreamReader sr = new StreamReader("WordList.txt");
+        StreamReader sr = new StreamReader("./Assets/Scripts/Web/WordList.txt");
         foreach (var e in list)
         {
             while (sr.ReadLine() != null)
@@ -38,6 +38,7 @@ public class web : MonoBehaviour
                 }
             }
         }
+        sr.Close();
 
         return map;
     }

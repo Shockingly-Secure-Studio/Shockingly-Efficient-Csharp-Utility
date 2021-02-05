@@ -15,19 +15,20 @@ namespace Service
             _vHost = vhost;
         }
 
-        public override bool IsOnline()
+        public async override Task<bool> IsOnline()
         {
-            return Get("/") != "";
+            Task<string> result = Get("/");
+            return (await result) != "";
         }
         
         
-        private async Task<HttpResponseMessage> MakeHttpRequest(string url, HttpMethod method, Dictionary<string, string> cookies = null,
+        private async Task<string> MakeHttpRequest(string url, HttpMethod method, Dictionary<string, string> cookies = null,
             
             Dictionary<string, string> headers = null, Dictionary<string, string> content = null)
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage()
             {
-                RequestUri = new Uri(url),
+                RequestUri = new Uri(_vHost),
                 Method = method
             };
 
@@ -54,10 +55,11 @@ namespace Service
 
             HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
             responseMessage.EnsureSuccessStatusCode();
-            return responseMessage.Content.ReadAsStringAsync().Result;
+            string responseContent = await responseMessage.Content.ReadAsStringAsync();
+            return responseContent;
         }
         
-        public string Get(string url, Dictionary<string, string> cookies = null, Dictionary<string, string> headers = null)
+        public async Task<string> Get(string url, Dictionary<string, string> cookies = null, Dictionary<string, string> headers = null)
         {
            /*
             GET / HTTP/2
@@ -71,13 +73,13 @@ namespace Service
             Upgrade-Insecure-Requests: 1
             */
 
-           return MakeHttpRequest(url, HttpMethod.Get, cookies, headers).Result;
+           return await MakeHttpRequest(url, HttpMethod.Get, cookies, headers);
         }
 
-        public string Post(string url, Dictionary<string, string> cookies = null,
+        public async Task<string> Post(string url, Dictionary<string, string> cookies = null,
             Dictionary<string, string> headers = null, Dictionary<string, string> content = null)
         {
-            return MakeHttpRequest(url, HttpMethod.Post, cookies, headers, content).Result;
+            return await MakeHttpRequest(url, HttpMethod.Post, cookies, headers, content);
         }
     }
 }
