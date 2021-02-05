@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Service
 {
     public class WebService : Service
     {
         private readonly string _vHost;
+        private readonly HttpClient _httpClient = new HttpClient();
 
         public WebService(string vhost, string ip, int port) : base(ip, port)
         {
@@ -15,7 +19,37 @@ namespace Service
         {
             return Get("/") != "";
         }
+        
+        
+        private async Task<string> MakeHttpRequest(string url, HttpMethod method, Dictionary<string, string> cookies = null,
+            
+            Dictionary<string, string> headers = null, string content = null)
+        {
+            HttpRequestMessage requestMessage = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(url),
+                Method = method
+            };
 
+            if (cookies != null)
+            {
+                string cookieString = "";
+                foreach (KeyValuePair<string, string> cookie in cookies)
+                {
+                    cookieString += $"{cookie.Key}={cookie.Value}; ";
+                }
+                requestMessage.Headers.Add("Cookie", cookieString);
+            }
+
+            if (headers != null)
+            {
+                foreach (KeyValuePair<string, string> header in headers)
+                {
+                    requestMessage.Headers.Add(header.Key, header.Value);
+                }
+            }
+        }
+        
         public string Get(string url, Dictionary<string, string> cookies = null, Dictionary<string, string> headers = null)
         {
            /*
@@ -30,30 +64,13 @@ namespace Service
             Upgrade-Insecure-Requests: 1
             */
 
-           string request = "";
-           request += $"GET {url} HTTP/2\r\n";
-           request += $"Host: {_vHost}\r\n";
+           return MakeHttpRequest(url, HttpMethod.Get, cookies, headers).Result;
+        }
 
-           if (cookies != null)
-           {
-               request += "Cookie: ";
-               foreach (KeyValuePair<string, string> cookie in cookies)
-               {
-                   request += $"{cookie.Key}={cookie.Value}; ";
-               }
-
-               request += "\r\n";
-           }
-
-           if (headers != null)
-           {
-               foreach (KeyValuePair<string, string> header in headers)
-               {
-                   request += $"{header.Key}: {header.Value}\r\n";
-               }
-           }
-
-           return SocketSendReceive(request);
+        public string Post(string url, Dictionary<string, string> cookies = null,
+            Dictionary<string, string> headers = null, string content = null)
+        {
+            return MakeHttpRequest(url, HttpMethod.Post, cookies: cookies, headers: headers, content = content).Result;
         }
     }
 }
