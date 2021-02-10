@@ -44,18 +44,7 @@ public class Scan: MonoBehaviour
         }
         return null;
     }
-    public static String SourceCode(string url) //Retourne le code source du site à l'url
-    {
-        HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
-        r.Method = "GET";
-        WebResponse Response = r.GetResponse();
-        StreamReader sr = new StreamReader(Response.GetResponseStream(), System.Text.Encoding.UTF8);
-        string result = sr.ReadToEnd();
-        sr.Close();
-        Response.Close();
-
-        return result;
-    }
+    
 
 
 }
