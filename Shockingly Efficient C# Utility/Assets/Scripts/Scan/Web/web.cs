@@ -22,7 +22,7 @@ public class web : MonoBehaviour
     public static async Task<List<string>> SiteMap (List<(string,int)> list)
     {
         List<string> map = new List<string>();
-        StreamReader sr = new StreamReader("./Assets/Scripts/Web/WordList.txt");
+        StreamReader sr = new StreamReader(Path.Combine(".", "Assets", "Scripts", "Scan", "Web", "WordList.txt"));
         foreach (var e in list)
         {
             while (sr.ReadLine() != null)

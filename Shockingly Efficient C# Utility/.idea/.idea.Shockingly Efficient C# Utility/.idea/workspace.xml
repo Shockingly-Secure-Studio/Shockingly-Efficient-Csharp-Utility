@@ -3,41 +3,46 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="3f7e98b6-d63a-4c66-8209-2b3709d44e42" name="Default Changelist" comment="début du scaner de port incroybale">
-      <change afterPath="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/riderModule.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/WordList.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/WordList.txt.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/request.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/request.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/tst.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/tst.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/web.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/web.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/trc.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/trc.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/09/0935d1af755aa308f20cc08cd3136d8f" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/2c/2c1b5bbc5bc87602d719173ecee1681a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/32/32694de6ed6afcab529ec303fbe84401" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/66/6686af371b2ba26a471f74ea2a429a73" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/82/82abb95f7ad8786fc4c2888edac9ba55" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/9c/9c238758e7d238ca73540edabbadd1fa" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/9c/9c80796a0063fe271826f832b232141c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/b1/b186310b6c2cc93bfeb9aedd95ea16e5" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/bc/bc116958cd277b057924511809bb5108" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/c6/c649aeedaf61ccb06415fdac85760a55" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Artifacts/ee/ee02fa926fd0b7edbcee7dc214949f64" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/riderModule.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/riderModule.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/riderModule.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/riderModule.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/test.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/web.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/web.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Service/SSHService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Service/SSHService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Test.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Test.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test.unity.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test.unity.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/09/0935d1af755aa308f20cc08cd3136d8f" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/2c/2c1b5bbc5bc87602d719173ecee1681a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/32/32694de6ed6afcab529ec303fbe84401" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/66/6686af371b2ba26a471f74ea2a429a73" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/82/82abb95f7ad8786fc4c2888edac9ba55" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/9c/9c238758e7d238ca73540edabbadd1fa" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/b1/b186310b6c2cc93bfeb9aedd95ea16e5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/bc/bc116958cd277b057924511809bb5108" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/ee/ee02fa926fd0b7edbcee7dc214949f64" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,18 +53,31 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/tudual/Desktop/Projet S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Scripts/Scan/Web/request.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scan/Web/request.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/fb/ed5d30a9/SynchronizationContextAwaitTaskContinuation.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C7169CD6-0632-4A41-B931-ACC40C516428/78/daa61717/SshClient.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/8f/f40b627d/AwaitTaskContinuation.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/9577AC7A-62EF-4317-9789-031239BA8798/21/db110c06/02000840.il" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scan/Web/request.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/b0/d02cc2ae/AsyncMethodBuilderCore.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/e2/3f254aec/AsyncTaskMethodBuilder`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/test/test.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/tudual/Desktop/Projet S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Scripts/Scan/Web/request.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/ce/63475f07/Task`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/12/a3deda56/Task.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Service/SSHService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
-    <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/test/test.cs" />
-      <option value="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/.gitignore" />
-    </changedPaths>
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/../.gitignore" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Test.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ServiceTest.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/test/ServiceTest.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Web/web.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Service/SSHService.cs" />
+      </list>
+    </option>
   </component>
   <component name="ProjectId" id="1o3LzXV7JNQgbho6ANb6hXHp7TC" />
   <component name="ProjectViewState">
@@ -68,29 +86,30 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34991708" />
-    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.3502052" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.032831736" />
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs.cucumber.cucumber_node_package_dir" value="" />
     <property name="settings.editor.selected.configurable" value="preferences.environmentSetup" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="15152">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="15152" />
       <option name="selectedOptions">
         <set />
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="14160">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="14160" />
       <option name="selectedOptions">
         <set />
       </option>
@@ -116,6 +135,9 @@
       <workItem from="1612777671616" duration="2378000" />
       <workItem from="1612870863342" duration="2892000" />
       <workItem from="1612873885605" duration="1254000" />
+      <workItem from="1612942470712" duration="346000" />
+      <workItem from="1612964414299" duration="1648000" />
+      <workItem from="1612967475076" duration="4206000" />
     </task>
     <task id="LOCAL-00001" summary="début du scaner de port incroybale">
       <created>1612874144304</created>
@@ -124,7 +146,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612874144304</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="resolved merge conflicts. Updated Service.cs">
+      <created>1612942797565</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1612942797565</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,8 +177,122 @@
     <MESSAGE value="merge fin du grand conflit" />
     <MESSAGE value="Merge branch 'main' of https://github.com/Shockingly-Secure-Studio/Shockingly-Efficient-Csharp-Utility into main&#10;&#10;# Conflicts:" />
     <MESSAGE value="début du scaner de port incroybale" />
-    <option name="LAST_COMMIT_MESSAGE" value="début du scaner de port incroybale" />
+    <MESSAGE value="resolved merge conflicts. Updated Service.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolved merge conflicts. Updated Service.cs" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="112" y="55" width="1089" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612970162872">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="112" y="55" width="1089" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.864@0.0.1536.864" timestamp="1612970162872" />
+    <state x="524" y="136" key="#xdebugger.evaluate" timestamp="1612967828023">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="524" y="136" key="#xdebugger.evaluate/0.0.1536.864@0.0.1536.864" timestamp="1612967828023" />
+    <state width="1493" height="301" key="GridCell.Tab.0.bottom" timestamp="1612971046428">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1612971046428" />
+    <state width="1493" height="301" key="GridCell.Tab.0.center" timestamp="1612971046428">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1612971046428" />
+    <state width="1493" height="301" key="GridCell.Tab.0.left" timestamp="1612971046428">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1612971046428" />
+    <state width="1493" height="301" key="GridCell.Tab.0.right" timestamp="1612971046428">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1612971046428" />
+    <state width="1493" height="301" key="GridCell.Tab.1.bottom" timestamp="1612971046025">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1612971046025" />
+    <state width="1493" height="301" key="GridCell.Tab.1.center" timestamp="1612971046025">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1612971046025" />
+    <state width="1493" height="301" key="GridCell.Tab.1.left" timestamp="1612971046024">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1612971046024" />
+    <state width="1493" height="301" key="GridCell.Tab.1.right" timestamp="1612971046025">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1612971046025" />
+    <state width="1493" height="301" key="GridCell.Tab.2.bottom" timestamp="1612971046026">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.2.bottom/0.0.1536.864@0.0.1536.864" timestamp="1612971046026" />
+    <state width="1493" height="301" key="GridCell.Tab.2.center" timestamp="1612971046025">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.2.center/0.0.1536.864@0.0.1536.864" timestamp="1612971046025" />
+    <state width="1493" height="301" key="GridCell.Tab.2.left" timestamp="1612971046025">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.2.left/0.0.1536.864@0.0.1536.864" timestamp="1612971046025" />
+    <state width="1493" height="301" key="GridCell.Tab.2.right" timestamp="1612971046025">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.2.right/0.0.1536.864@0.0.1536.864" timestamp="1612971046025" />
+    <state width="1493" height="301" key="GridCell.Tab.3.bottom" timestamp="1612971046026">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.3.bottom/0.0.1536.864@0.0.1536.864" timestamp="1612971046026" />
+    <state width="1493" height="301" key="GridCell.Tab.3.center" timestamp="1612971046026">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.3.center/0.0.1536.864@0.0.1536.864" timestamp="1612971046026" />
+    <state width="1493" height="301" key="GridCell.Tab.3.left" timestamp="1612971046026">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.3.left/0.0.1536.864@0.0.1536.864" timestamp="1612971046026" />
+    <state width="1493" height="301" key="GridCell.Tab.3.right" timestamp="1612971046026">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="301" key="GridCell.Tab.3.right/0.0.1536.864@0.0.1536.864" timestamp="1612971046026" />
+    <state x="147" y="68" key="MergeDialog" timestamp="1612942719929">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="147" y="68" key="MergeDialog/0.0.1536.864@0.0.1536.864" timestamp="1612942719929" />
+    <state x="407" y="193" key="MultipleFileMergeDialog" timestamp="1612942724951">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="407" y="193" key="MultipleFileMergeDialog/0.0.1536.864@0.0.1536.864" timestamp="1612942724951" />
+    <state x="535" y="156" key="RiderGenerateDialog" timestamp="1612968822819">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="535" y="156" key="RiderGenerateDialog/0.0.1536.864@0.0.1536.864" timestamp="1612968822819" />
+    <state x="461" y="190" key="Vcs.Multiple.Commit.Info.Dialog.Key" timestamp="1612942703127">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="461" y="190" key="Vcs.Multiple.Commit.Info.Dialog.Key/0.0.1536.864@0.0.1536.864" timestamp="1612942703127" />
+    <state x="361" y="165" key="Vcs.Push.Dialog.v2" timestamp="1612942813909">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="361" y="165" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1612942813909" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Service/SSHService.cs</url>
+          <line>46</line>
+          <properties documentPath="C:\Users\alois\OneDrive - EPITA\Personnel\Shockingly-Efficient-Csharp-Utility\Shockingly Efficient C# Utility\Assets\Scripts\Service\SSHService.cs" initialLine="46">
+            <startOffsets>
+              <option value="1393" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1456" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
