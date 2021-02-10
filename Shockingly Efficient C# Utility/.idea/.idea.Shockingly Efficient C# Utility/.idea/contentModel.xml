@@ -27,6 +27,7 @@
           <e p="Machine" t="Include">
             <e p="Machine.cs" t="Include" />
           </e>
+          <e p="MenuManager.cs" t="Include" />
           <e p="Scan" t="Include">
             <e p="Scan.cs" t="Include" />
             <e p="Web" t="Include">
@@ -43,9 +44,9 @@
             <e p="WebService.cs" t="Include" />
           </e>
           <e p="test" t="Include">
-            <e p="ServiceTest.cs" t="Include" />
             <e p="test.cs" t="Include" />
           </e>
+          <e p="test.cs" t="Include" />
           <e p="Utils.cs" t="Include" />
         </e>
       </e>
