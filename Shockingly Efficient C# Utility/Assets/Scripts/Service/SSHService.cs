@@ -10,42 +10,55 @@ namespace Service
     {
         private string _version;
 
-        private bool IsConnected = false;
+        private bool _isConnected = false;
         private SshClient _sshClient = null;
-        private PrivateKeyFile KeyFile;
+        private PrivateKeyFile _keyFile;
         
         public SSHService(string ip, int port, string version = "") : base(ip, port)
         {
             _version = version;
-            KeyFile = GenerateKey();
+            //Task<PrivateKeyFile> task = GenerateKey();
+            //task.Wait(100);
+            //_keyFile = task.Result;
         }
 
-        public override Task<bool> IsOnline()
+        public override async Task<bool> IsOnline()
         {
-            throw new System.NotImplementedException();
+            return _isConnected;
         }
 
         public bool ConnectPassword(string username, string password)
         {
             _sshClient = new SshClient(GetIP().ToString(), GetPort(), username, password);
-            IsConnected = _sshClient.IsConnected;
+            _sshClient.Connect();
+            _isConnected = _sshClient.IsConnected;
             return _sshClient.IsConnected;
         }
 
         public bool ConnectKey(string username, params PrivateKeyFile[] key)
         {
             _sshClient = new SshClient(GetIP().ToString(), GetPort(), username, key);
-            IsConnected = _sshClient.IsConnected;
+            _isConnected = _sshClient.IsConnected;
             return _sshClient.IsConnected;
         }
 
-        public static PrivateKeyFile GenerateKey()
+        public static async Task<PrivateKeyFile> GenerateKey()
         {
-            Utils.Exec("ssh-keygen -f ssh_key -t rsa -P");
+            Debug.Log(Utils.Exec("ssh-keygen -f .ssh_key -t rsa -P \"\""));
             PrivateKeyFile keyFile = new PrivateKeyFile(".ssh_key");
             return keyFile;
         }
-        
+
+        public string SendCommand(string cmd)
+        {
+            string result;
+            using (var command = _sshClient.CreateCommand(cmd))
+            {
+                result = command.Execute();
+            }
+
+            return result;
+        }
         
     }
 }
