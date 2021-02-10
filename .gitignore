@@ -75,3 +75,8 @@ crashlytics-build.properties
 
 # Rider generated files
 */.idea
+
+# ?
+*/Logs
+*/UserSettings
+*/obj
