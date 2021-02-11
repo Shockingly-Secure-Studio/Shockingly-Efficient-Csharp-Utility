@@ -27,6 +27,7 @@
       <Path>.idea</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
+      <Path>Rapport</Path>
       <Path>UserSettings</Path>
       <Path>obj</Path>
     </explicitExcludes>
