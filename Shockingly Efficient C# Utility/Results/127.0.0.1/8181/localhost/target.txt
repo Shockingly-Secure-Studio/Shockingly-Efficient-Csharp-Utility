@@ -1,0 +1,1 @@
+http://localhost:8181/?name=* (GET)  # sqlmap.py -u http://localhost:8181/?name=* --dump --technique=BEUQ --flush-session --level=5 --risk=3 -v 0 --batch --output-dir=..\..\Results\127.0.0.1\8181\
