@@ -88,9 +88,9 @@ public static class Utils
     {
         string res;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            res = Cmd($"where {programm}").Split('\n')[0];
+            res = Cmd($"where {programm}").Split('\n')[0].TrimEnd();
         else
-            res = Bash($"which {programm}").Split('\n')[0];
+            res = Bash($"which {programm}").Split('\n')[0].TrimEnd();
         
         return new FileInfo(res).Exists;
     }
