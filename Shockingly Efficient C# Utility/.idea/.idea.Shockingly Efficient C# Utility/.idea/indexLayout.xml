@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelUserStore">
-    <attachedFolders>
-      <Path>../../Shockingly-Efficient-Csharp-Utility</Path>
-    </attachedFolders>
+    <attachedFolders />
     <explicitIncludes>
       <Path>Library/PackageCache/com.unity.2d.animation@5.0.3</Path>
       <Path>Library/PackageCache/com.unity.2d.common@4.0.3</Path>
@@ -27,11 +25,7 @@
       <Path>.idea</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
-<<<<<<< HEAD:SECU/.idea/.idea.SECU/.idea/indexLayout.xml
-      <Path>Rapport</Path>
-=======
       <Path>Temp</Path>
->>>>>>> 70e76a85dae3736cc9b097d6e93a97c0c3a24e1d:Shockingly Efficient C# Utility/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml
       <Path>UserSettings</Path>
       <Path>obj</Path>
     </explicitExcludes>

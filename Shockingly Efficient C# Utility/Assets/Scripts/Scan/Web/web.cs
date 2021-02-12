@@ -6,7 +6,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using VSCodeEditor;
 using Web;
 
 public class web : MonoBehaviour
@@ -19,28 +18,31 @@ public class web : MonoBehaviour
         list.Add(("64.233.160.30",80));
         await SiteMap(list);
     }
-    public static async Task<List<string>> SiteMap (List<(string,int)> list)
+
+    public static async Task<List<string>> SiteMap(List<(string, int)> list)
     {
         List<string> map = new List<string>();
-        StreamReader sr = new StreamReader("./Assets/Scripts/Web/WordList.txt");
-        foreach (var e in list)
+        StreamReader sr = new StreamReader("./Assets/Scripts/Web/WordList.txt"); //open the wordlist's stream
+        foreach (var e in list) //for all ip in the list
         {
-            while (sr.ReadLine() != null)
+            while (sr.ReadLine() != null) //checks all the paths possible with the wordlists
             {
                 string nUrl = sr.ReadLine();
-                Request request = new Request(e.Item1, e.Item2, null, nUrl);
-                
+                Request request = new Request(e.Item1, e.Item2, null, nUrl); //makes an async request
+
                 var trc = await request.Ping();
-                if (trc == HttpStatusCode.OK)
+                if (trc == HttpStatusCode.OK) //checks if the page exists
                 {
-                    map.Add($"http://{e.Item1}:{e.Item2}/${nUrl}");
+                    map.Add($"http://{e.Item1}:{e.Item2}/${nUrl}"); //add the paths to a list
                 }
             }
         }
-        sr.Close();
 
-        return map;
+        sr.Close(); //closes the stream of data
+
+        return map; //return a list with all the url of the site
     }
+
     public static void SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
