@@ -76,7 +76,7 @@ crashlytics-build.properties
 */[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Rider generated files
-*/.idea
+.idea
 
 # ?
 */Logs
