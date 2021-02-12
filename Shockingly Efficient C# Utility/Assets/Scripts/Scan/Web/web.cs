@@ -14,9 +14,6 @@ public class web : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        List<(string, int)> list = new List<(string, int)>();
-        list.Add(("64.233.160.30",80));
-        await SiteMap(list);
     }
 
     public static async Task<List<string>> SiteMap(List<(string, int)> list)
@@ -42,8 +39,7 @@ public class web : MonoBehaviour
 
         return map; //return a list with all the url of the site
     }
-
-    public static void SourceCode(string url) //Retourne le code source du site à l'url
+    public static string SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
         r.Method = "GET";
@@ -53,9 +49,9 @@ public class web : MonoBehaviour
         sr.Close();
         Response.Close();
         GetCommentaire(result);
-        
+        return result;
     }
-    public static void GetCommentaire(string sourceCode)
+    public static List<string> GetCommentaire(string sourceCode)
     {
         List<String> commentaires = new List<String>();
         string accS = "";
@@ -76,10 +72,8 @@ public class web : MonoBehaviour
                 }
             }
         }
-        foreach(String e in commentaires){
-            UnityEngine.Debug.Log(e);
-        }
-        
+
+        return commentaires;
     }
 
     

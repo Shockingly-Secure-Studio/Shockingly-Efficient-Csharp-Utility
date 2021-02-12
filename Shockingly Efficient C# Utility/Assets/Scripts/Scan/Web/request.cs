@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 namespace Web
@@ -30,6 +31,11 @@ namespace Web
 
             var result = await client.GetAsync(this._url);
             return result.StatusCode;
+            
+        }
+
+        public string GetDomainName(string url)
+        {
             
         }
         

@@ -56,7 +56,6 @@
      <Compile Include="Assets\Scripts\Test.cs" />
      <Compile Include="Assets\Scripts\Service\WebService.cs" />
      <Compile Include="Assets\Scripts\Machine\Machine.cs" />
-     <Compile Include="Assets\Scripts\Scan\Web\tst.cs" />
      <Compile Include="Assets\Scripts\Service\Service.cs" />
      <Compile Include="Assets\Scripts\MenuManager.cs" />
      <Compile Include="Assets\Scripts\test\test.cs" />

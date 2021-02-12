@@ -36,7 +36,6 @@
             <e p="Scan.cs" t="Include" />
             <e p="Web" t="Include">
               <e p="request.cs" t="Include" />
-              <e p="tst.cs" t="Include" />
               <e p="web.cs" t="Include" />
               <e p="WordList.txt" t="Include" />
             </e>
