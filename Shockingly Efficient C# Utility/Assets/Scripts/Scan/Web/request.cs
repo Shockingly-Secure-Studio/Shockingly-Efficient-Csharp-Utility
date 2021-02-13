@@ -36,7 +36,7 @@ namespace Web
 
         public string GetDomainName(string url)
         {
-            
+            return "";
         }
         
     }
