@@ -90,7 +90,7 @@ public class web : MonoBehaviour
                 // Print the properties of each cookie.
                 foreach (Cookie cook in response.Cookies)
                 {
-                    CookieList.Add(cook)
+                    CookieList.Add(cook);
                 }
             }
         return CookieList;
