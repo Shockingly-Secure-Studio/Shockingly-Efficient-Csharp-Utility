@@ -5,8 +5,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using VSCodeEditor;
 using Web;
 
 public class web : MonoBehaviour
@@ -15,9 +15,6 @@ public class web : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        List<(string, int)> list = new List<(string, int)>();
-        list.Add(("64.233.160.30",80));
-        await SiteMap(list);
     }
     public static async Task<List<string>> SiteMap (List<(string,int)> list)
     {
@@ -25,6 +22,24 @@ public class web : MonoBehaviour
         StreamReader sr = new StreamReader("./Assets/Scripts/Web/WordList.txt");
         foreach (var e in list)
         {
+            IPHostEntry hostEntry = Dns.GetHostEntry(e.Item1);
+            string src = SourceCode($"http://{e.Item1}:{e.Item2})");
+            string pattern = "(href=\")+([%-z])+";
+            string pattern2 = "("+hostEntry+")";
+            Regex regex = new Regex(pattern);
+            Regex rgx = new Regex(pattern2);
+            foreach (string s in regex.Matches(src))
+            {
+                if (rgx.IsMatch(s))
+                {
+                    string ns = "";
+                    for (int i = 5; i < s.Length; i++)
+                    {
+                        ns += s[i];
+                    }
+                    map.Add(ns);
+                }
+            }
             while (sr.ReadLine() != null)
             {
                 string nUrl = sr.ReadLine();
@@ -41,6 +56,7 @@ public class web : MonoBehaviour
 
         return map;
     }
+    
     public static String SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
@@ -86,13 +102,13 @@ public class web : MonoBehaviour
         r.Method = "GET";
       
         using (var response = (HttpWebResponse) r.GetResponse())
-            {
+        {
                 // Print the properties of each cookie.
                 foreach (Cookie cook in response.Cookies)
                 {
                     CookieList.Add(cook);
                 }
-            }
+        }
         return CookieList;
     }
 
