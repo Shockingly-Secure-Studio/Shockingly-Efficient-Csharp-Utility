@@ -33,7 +33,7 @@ namespace Service
             
             Dictionary<string, string> headers = null, Dictionary<string, string> content = null)
         {
-            Uri uri = new Uri($"{_vHost}:{GetPort()}/{url}");
+            Uri uri = new Uri($"http://{_vHost}:{GetPort()}/{url}");
             HttpRequestMessage requestMessage = new HttpRequestMessage()
             {
                 RequestUri = uri,

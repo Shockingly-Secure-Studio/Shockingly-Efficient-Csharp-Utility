@@ -1,5 +1,6 @@
 */Library/
 
+Results
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
@@ -82,3 +83,4 @@ crashlytics-build.properties
 */Logs
 */UserSettings
 */obj
+

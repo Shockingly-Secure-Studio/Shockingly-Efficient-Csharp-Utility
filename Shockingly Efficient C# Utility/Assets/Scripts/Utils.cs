@@ -1,8 +1,10 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using Debug = UnityEngine.Debug;
 
 public static class Utils
 {
@@ -59,7 +61,9 @@ public static class Utils
     public static string Cmd(this string cmd)
     {
         var escapedArgs = cmd.Replace("\"", "\\\"");
-            
+
+
+        string result = "";
         var process = new Process()
         {
             StartInfo = new ProcessStartInfo
@@ -69,10 +73,21 @@ public static class Utils
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
+            },
+        };
+
+        process.OutputDataReceived += (sender, e) =>
+        {
+            // Prepend line numbers to each line of the output.
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                Debug.Log(escapedArgs + " : " + e.Data);
+                result += e.Data;
             }
         };
+        
         process.Start();
-        string result = process.StandardOutput.ReadToEnd();
+        process.BeginOutputReadLine();
         process.WaitForExit();
         return result;
     }
@@ -91,8 +106,15 @@ public static class Utils
             res = Cmd($"where {programm}").Split('\n')[0].TrimEnd();
         else
             res = Bash($"which {programm}").Split('\n')[0].TrimEnd();
-        
-        return new FileInfo(res).Exists;
+
+        try
+        {
+            return new FileInfo(res).Exists;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     public enum WebMethod

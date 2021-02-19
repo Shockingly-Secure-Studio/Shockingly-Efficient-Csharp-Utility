@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Editor
 {
-    public class UtilsTest
+    public static class UtilsTest
     {
 
         [TestFixture]
@@ -27,5 +27,7 @@ namespace Editor
                     );
             }
         }
+        
+        
     }
 }

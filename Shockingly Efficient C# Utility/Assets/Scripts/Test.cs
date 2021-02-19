@@ -17,8 +17,7 @@ public class Test : MonoBehaviour
             "name"
             );
         
-        // Debug.Log(await inputWebService.Submit(""));
-        Debug.Log(inputWebService.SQLInjection());
+        inputWebService.SQLInjection();
     }
 
     // Update is called once per frame
