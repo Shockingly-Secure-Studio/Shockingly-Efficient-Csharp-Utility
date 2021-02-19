@@ -6,21 +6,51 @@
     <e p="C:\Users\tudual\Desktop\Projet S2\Shockingly-Efficient-Csharp-Utility\Shockingly Efficient C# Utility" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="Fonts" t="Include">
+          <e p="roboto" t="Include">
+            <e p="NOTICE.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Packages" t="Include">
+          <e p="SSH.NET.2020.0.1" t="Include">
+            <e p="lib" t="Include">
+              <e p="netstandard2.0" t="Include">
+                <e p="Renci.SshNet.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="SshNet.Security.Cryptography.1.3.0" t="Include">
+            <e p="lib" t="Include">
+              <e p="netstandard2.0" t="Include">
+                <e p="SshNet.Security.Cryptography.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
         <e p="Scripts" t="Include">
           <e p="Machine" t="Include">
             <e p="Machine.cs" t="Include" />
           </e>
+          <e p="MenuManager.cs" t="Include" />
           <e p="Scan" t="Include">
             <e p="Scan.cs" t="Include" />
+            <e p="Web" t="Include">
+              <e p="request.cs" t="Include" />
+              <e p="tst.cs" t="Include" />
+              <e p="web.cs" t="Include" />
+              <e p="WordList.txt" t="Include" />
+            </e>
           </e>
           <e p="Service" t="Include">
             <e p="Service.cs" t="Include" />
             <e p="SMBService.cs" t="Include" />
+            <e p="SSHService.cs" t="Include" />
             <e p="WebService.cs" t="Include" />
           </e>
           <e p="test" t="Include">
             <e p="test.cs" t="Include" />
           </e>
+          <e p="test.cs" t="Include" />
           <e p="Utils.cs" t="Include" />
         </e>
       </e>
