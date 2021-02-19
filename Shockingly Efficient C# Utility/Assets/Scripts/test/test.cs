@@ -7,7 +7,7 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        new Scan().makePing(("127.0.0.1","127.0.0.1"));
+        gameObject.AddComponent<Scan>().makePing(("127.0.0.1","127.0.0.1"));
         //Scan test = new Scan();
     }
 
