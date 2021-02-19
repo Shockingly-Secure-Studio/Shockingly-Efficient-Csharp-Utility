@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f7e98b6-d63a-4c66-8209-2b3709d44e42" name="Default Changelist" comment="début du scaner de port incroybale">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/riderModule.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/riderModule.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/test/test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/test/test.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/test/test.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shockingly Efficient C# Utility.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Shockingly Efficient C# Utility.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +26,8 @@
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/.gitignore" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/test/test.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1o3LzXV7JNQgbho6ANb6hXHp7TC" />
@@ -99,7 +89,7 @@
       <workItem from="1613542545283" duration="2561000" />
       <workItem from="1613561367559" duration="1588000" />
       <workItem from="1613648855675" duration="712000" />
-      <workItem from="1613719982733" duration="1497000" />
+      <workItem from="1613719982733" duration="9445000" />
     </task>
     <task id="LOCAL-00001" summary="début du scaner de port incroybale">
       <created>1612874144304</created>
@@ -121,19 +111,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/dev" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
