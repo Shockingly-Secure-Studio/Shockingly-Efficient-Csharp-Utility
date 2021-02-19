@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -8,16 +9,22 @@ namespace Service
     public class WebService : Service
     {
         private readonly string _vHost;
-        private readonly HttpClient _httpClient = new HttpClient();
+
+        private static HttpClientHandler _handler = new HttpClientHandler()
+        {
+            Proxy = new WebProxy("127.0.0.1:8080", false),
+            UseProxy = true
+        };
+        private readonly HttpClient _httpClient = new HttpClient(_handler);
 
         public WebService(string vhost, string ip, int port) : base(ip, port)
         {
             _vHost = vhost;
         }
 
-        public async override Task<bool> IsOnline()
+        public override async Task<bool> IsOnline()
         {
-            Task<string> result = Get("/");
+            Task<string> result = Get("");
             return (await result) != "";
         }
         
@@ -26,9 +33,10 @@ namespace Service
             
             Dictionary<string, string> headers = null, Dictionary<string, string> content = null)
         {
+            Uri uri = new Uri($"http://{_vHost}:{GetPort()}/{url}");
             HttpRequestMessage requestMessage = new HttpRequestMessage()
             {
-                RequestUri = new Uri(_vHost),
+                RequestUri = uri,
                 Method = method
             };
 

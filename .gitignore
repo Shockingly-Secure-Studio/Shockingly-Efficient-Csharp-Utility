@@ -1,5 +1,6 @@
 */Library/
 
+Results
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
@@ -76,9 +77,10 @@ crashlytics-build.properties
 */[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Rider generated files
-*/.idea
+.idea
 
 # ?
 */Logs
 */UserSettings
 */obj
+

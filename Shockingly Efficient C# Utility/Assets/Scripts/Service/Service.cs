@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -9,11 +10,16 @@ namespace Service
     {
         private readonly IPAddress _ip;
         private readonly int _port;
+        protected readonly string WorkingDirectory;
         
         public Service(string ip, int port)
         {
             _ip = IPAddress.Parse(ip);
             _port = port;
+
+            WorkingDirectory = Path.Combine("Results", ip, port.ToString());
+
+            Directory.CreateDirectory(WorkingDirectory);
         }
         
 
