@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Text;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -105,11 +106,39 @@ public class web : MonoBehaviour
         {
                 // Print the properties of each cookie.
                 foreach (Cookie cook in response.Cookies)
-                {
-                    CookieList.Add(cook);
-                }
+                    CookieList.Add(cook);     
         }
         return CookieList;
+    }
+
+    
+    public static void JwtToken(string url)
+    {
+        List<Cookie> cookies = GetCookies(url);
+        //string pattern = "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$";
+        //Regex rgx = new Regex(pattern2);
+        List<Cookie> JWT_list = new List<Cookie>(); // Liste de JWT
+        
+        // Find JWT token
+        foreach (Cookie c in cookies)
+        {
+            if ( c.Name == "jwt") //rgx.IsMatch(c.Value) ||
+                JWT_list.Add(c);
+        }
+
+        foreach (Cookie token in JWT_list)
+        {
+            string header = "";
+            string payloads = "";
+            string signature = "";
+            string Value = token.Value;
+            string[] Part = Value.Split('.');
+            header = Encoding.UTF8.GetString(Convert.FromBase64String(Part[0]));
+            payloads = Encoding.UTF8.GetString(Convert.FromBase64String(Part[0]));
+            signature = Encoding.UTF8.GetString(Convert.FromBase64String(Part[0]));
+            UnityEngine.Debug.Log(header+  payloads+signature);
+
+        }
     }
 
     
