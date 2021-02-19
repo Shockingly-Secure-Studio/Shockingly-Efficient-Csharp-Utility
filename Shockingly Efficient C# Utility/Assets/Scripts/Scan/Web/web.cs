@@ -5,8 +5,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using VSCodeEditor;
 using Web;
 
 public class web : MonoBehaviour
@@ -15,9 +15,6 @@ public class web : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        List<(string, int)> list = new List<(string, int)>();
-        list.Add(("64.233.160.30",80));
-        await SiteMap(list);
     }
     public static async Task<List<string>> SiteMap (List<(string,int)> list)
     {
@@ -25,6 +22,24 @@ public class web : MonoBehaviour
         StreamReader sr = new StreamReader("./Assets/Scripts/Web/WordList.txt");
         foreach (var e in list)
         {
+            IPHostEntry hostEntry = Dns.GetHostEntry(e.Item1);
+            string src = SourceCode($"http://{e.Item1}:{e.Item2})");
+            string pattern = "(href=\")+([%-z])+";
+            string pattern2 = "("+hostEntry+")";
+            Regex regex = new Regex(pattern);
+            Regex rgx = new Regex(pattern2);
+            foreach (string s in regex.Matches(src))
+            {
+                if (rgx.IsMatch(s))
+                {
+                    string ns = "";
+                    for (int i = 5; i < s.Length; i++)
+                    {
+                        ns += s[i];
+                    }
+                    map.Add(ns);
+                }
+            }
             while (sr.ReadLine() != null)
             {
                 string nUrl = sr.ReadLine();
@@ -41,7 +56,8 @@ public class web : MonoBehaviour
 
         return map;
     }
-    public static void SourceCode(string url) //Retourne le code source du site à l'url
+    
+    public static String SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
         r.Method = "GET";
@@ -50,10 +66,10 @@ public class web : MonoBehaviour
         string result = sr.ReadToEnd();
         sr.Close();
         Response.Close();
-        GetCommentaire(result);
+        return result;
         
     }
-    public static void GetCommentaire(string sourceCode)
+    public static List<String> GetCommentaire(string sourceCode) // retourne une liste avec tout les commentaire pour après check si y'a des trucs intérréssant
     {
         List<String> commentaires = new List<String>();
         string accS = "";
@@ -65,6 +81,7 @@ public class web : MonoBehaviour
             {
                 while(sourceCode[i] != '>') //Jusqu'à la fin du commentaire on enregistre tout ça dans accS
                 {
+                    UnityEngine.Debug.Log(1);
                     accS += sourceCode[i];
                     i++;
                 }
@@ -74,10 +91,25 @@ public class web : MonoBehaviour
                 }
             }
         }
-        foreach(String e in commentaires){
-            UnityEngine.Debug.Log(e);
-        }
+        return commentaires;
         
+    }
+    public static List<Cookie> GetCookies(string url) //retourne une liste d'objets cookies qui sont les cookies de la page 
+    {
+        List<Cookie> CookieList = new List<Cookie>();
+        HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
+        r.CookieContainer = new CookieContainer(); //Crée le container de cookies
+        r.Method = "GET";
+      
+        using (var response = (HttpWebResponse) r.GetResponse())
+        {
+                // Print the properties of each cookie.
+                foreach (Cookie cook in response.Cookies)
+                {
+                    CookieList.Add(cook);
+                }
+        }
+        return CookieList;
     }
 
     

@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ScanStart.unity
     guid: 5f339f0d5009d594fac566e21a0e9929
+  - enabled: 1
+    path: Assets/Scenes/Options.unity
+    guid: 863f007406a3d454a8e739482d10fd61
   m_configObjects: {}

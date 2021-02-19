@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3f7e98b6-d63a-4c66-8209-2b3709d44e42" name="Default Changelist" comment="début du scaner de port incroybale">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/contentModel.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/riderModule.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/riderModule.iml" afterDir="false" />
@@ -16,6 +17,13 @@
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/test/test.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Shockingly Efficient C# Utility.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Shockingly Efficient C# Utility.sln" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/web.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/Web/web.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shockingly Efficient C# Utility.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Shockingly Efficient C# Utility.sln" afterDir="false" />
+>>>>>>> a569e1b430af32b64812fe868b4e76501b380f35
       <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,17 +35,31 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+<<<<<<< HEAD
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Service/WebService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scan/Web/request.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Utils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/test/test.cs" root0="FORCE_HIGHLIGHTING" />
+=======
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.20/UnityEngine.TestRunner/Assertions/AllocatingGCMemoryConstraint.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/test/test.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scan/Web/request.cs" root0="FORCE_HIGHLIGHTING" />
+>>>>>>> a569e1b430af32b64812fe868b4e76501b380f35
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/.gitignore" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/test/test.cs" />
+<<<<<<< HEAD
+=======
+      <option value="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/.gitignore" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Service/SSHService.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Web/request.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Web/web.cs" />
+>>>>>>> a569e1b430af32b64812fe868b4e76501b380f35
     </changedPaths>
   </component>
   <component name="ProjectId" id="1o3LzXV7JNQgbho6ANb6hXHp7TC" />
@@ -53,6 +75,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.environmentSetup" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -95,11 +118,17 @@
       <workItem from="1612777671616" duration="2378000" />
       <workItem from="1612870863342" duration="2892000" />
       <workItem from="1612873885605" duration="1254000" />
+<<<<<<< HEAD
       <workItem from="1613509382864" duration="820000" />
       <workItem from="1613542545283" duration="2561000" />
       <workItem from="1613561367559" duration="1588000" />
       <workItem from="1613648855675" duration="712000" />
       <workItem from="1613719982733" duration="1497000" />
+=======
+      <workItem from="1613144950394" duration="735000" />
+      <workItem from="1613145797545" duration="2635000" />
+      <workItem from="1613511841825" duration="4225000" />
+>>>>>>> a569e1b430af32b64812fe868b4e76501b380f35
     </task>
     <task id="LOCAL-00001" summary="début du scaner de port incroybale">
       <created>1612874144304</created>
