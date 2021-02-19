@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,9 +22,26 @@ namespace Web
         public Request(string ip, int port, object data, string urlData)
         {
             this._data = data;
-            this._port = port;
-            this._ip = ip;
-            this._url = $"http://{ip}:{port}/{urlData}";
+            
+            if (urlData == null)
+            {
+                this._url = $"http://{ip}:{port}";
+            }
+            else
+            {
+                this._url = $"http://{ip}:{port}/{urlData}";
+            }
+
+            if (ip == "" && port == -1)
+            {
+                this._port = 0;
+                this._ip = "";
+            }
+            else
+            {
+                this._ip = ip;
+                this._port = port;
+            }
         }
 
         public async Task<HttpStatusCode> Ping()
@@ -34,9 +53,28 @@ namespace Web
             
         }
 
+        public void test()
+        {
+            List<(string,int)> list = new List<(string,int)>();
+            list.Add(("172.217.22.142", 80));
+            Debug.Log(list.Count);
+            List<string> map = web.SiteMap(list);
+            Debug.Log(map.Count);
+            foreach (var VARIABLE in map)
+            {
+                Debug.Log(VARIABLE);
+            }
+        }
         public string GetDomainName(string url)
         {
-            return "";
+            HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
+            r.Method = "GET";
+            WebResponse response = r.GetResponse();
+            Uri s = response.ResponseUri;
+            string ns = s.ToString();
+            ns = ns.Remove(0, 11);
+            ns = ns.Remove(ns.Length - 1, 1);
+            return ns;
         }
         
     }

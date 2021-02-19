@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\Kristen\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Kristen\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Shockingly Efficient C# Utility.538200800.00" t="ExcludeRecursive" />
-    <e p="D:\Projet-code\projet-S2\Shockingly-Efficient-Csharp-Utility\Shockingly Efficient C# Utility" t="IncludeRecursive">
+    <e p="C:\Users\Kristen\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Shockingly Efficient C# Utility.1706907324.00" t="ExcludeRecursive" />
+    <e p="D:\Projet-code\Shockingly-Efficient-Csharp-Utility\Shockingly Efficient C# Utility" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Fonts" t="Include">
@@ -32,18 +32,11 @@
             <e p="Machine.cs" t="Include" />
           </e>
           <e p="MenuManager.cs" t="Include" />
-<<<<<<< HEAD
-=======
           <e p="Options.cs" t="Include" />
->>>>>>> a569e1b430af32b64812fe868b4e76501b380f35
           <e p="Scan" t="Include">
             <e p="Scan.cs" t="Include" />
             <e p="Web" t="Include">
               <e p="request.cs" t="Include" />
-<<<<<<< HEAD
-              <e p="tst.cs" t="Include" />
-=======
->>>>>>> a569e1b430af32b64812fe868b4e76501b380f35
               <e p="web.cs" t="Include" />
               <e p="WordList.txt" t="Include" />
             </e>
