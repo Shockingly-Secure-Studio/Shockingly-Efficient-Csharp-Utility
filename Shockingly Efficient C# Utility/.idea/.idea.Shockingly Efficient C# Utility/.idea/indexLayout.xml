@@ -26,10 +26,7 @@
       <Path>.vs</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
-<<<<<<< HEAD
       <Path>Temp</Path>
-=======
->>>>>>> a569e1b430af32b64812fe868b4e76501b380f35
       <Path>UserSettings</Path>
       <Path>obj</Path>
     </explicitExcludes>
