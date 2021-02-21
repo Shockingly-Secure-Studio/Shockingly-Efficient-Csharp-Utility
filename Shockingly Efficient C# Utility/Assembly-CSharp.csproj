@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Scan\Scan.cs" />
      <Compile Include="Assets\Scripts\Service\InputWebService.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
+     <Compile Include="Assets\Scripts\Machine\Shell.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\web.cs" />
      <Compile Include="Assets\Scripts\Service\SSHService.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\request.cs" />

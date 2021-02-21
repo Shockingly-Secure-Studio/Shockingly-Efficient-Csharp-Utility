@@ -10,14 +10,15 @@ public class Test : MonoBehaviour
     async void Start()
     {
         InputWebService inputWebService = new InputWebService(
-            "http://localhost", 
+            "localhost", 
             "127.0.0.1",
-            8181, "",
+            8181, 
+            "command.php",
             Utils.WebMethod.GET,
-            "name"
+            "ip"
             );
         
-        inputWebService.SQLInjection();
+        inputWebService.Exploit();
     }
 
     // Update is called once per frame
