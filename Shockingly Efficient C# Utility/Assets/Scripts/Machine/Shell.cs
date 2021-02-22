@@ -1,6 +1,8 @@
 using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Service;
+using UnityEngine;
 
 namespace Machine
 {
@@ -38,8 +40,8 @@ namespace Machine
             string postCommand = "";
             if (_shellType == ShellType.Linux || _shellType == ShellType.Windows)
             {
-                preCommand = "echo <SECUStudio> && ";
-                postCommand = " && echo </SECUStudio>";
+                preCommand = "1 & echo \"SECUStudioDEBUT\" && ";
+                postCommand = " && echo \"SECUStudioFIN\"";
             }
 
             if (_isUpgraded)
@@ -62,7 +64,14 @@ namespace Machine
         public async Task<string> SendCommand(string cmd)
         {
             cmd = PreCommand(cmd);
-            return await _entry.Submit(cmd);
+            string result = await _entry.Submit(cmd);
+            
+            Regex filter = new Regex("(?<!echo \")(?>SECUStudioDEBUT\"?)(?<result>.*?)(?<!echo \")(?>\"?SECUStudioFIN)",
+                RegexOptions.Singleline // SingleLine is an option telling Regex to treat newline as an ordinary characters (usually Regex matches are separated by newlines) 
+                );
+            result = filter.Match(result).Groups["result"].Value;
+            
+            return result;
         }
     }
 }
