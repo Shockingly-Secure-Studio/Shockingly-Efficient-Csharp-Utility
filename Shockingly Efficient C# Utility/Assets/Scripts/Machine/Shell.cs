@@ -67,7 +67,11 @@ namespace Machine
             string result = await _entry.Submit(cmd);
             
             Regex filter = new Regex("(?<!echo \")(?>SECUStudioDEBUT\"?)(?<result>.*?)(?<!echo \")(?>\"?SECUStudioFIN)",
+<<<<<<< HEAD
                 RegexOptions.Singleline // SingleLine is an option telling Regex to treat newline as an ordinary characters (usually Regex matches are separated by newlines) 
+=======
+                RegexOptions.Singleline
+>>>>>>> CommandInjection
                 );
             result = filter.Match(result).Groups["result"].Value;
             
