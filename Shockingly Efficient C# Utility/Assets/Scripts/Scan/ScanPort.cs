@@ -15,7 +15,7 @@ namespace Scan
             TcpClient tcpClient = (TcpClient)asyncResult.AsyncState;
             tcpClient.EndConnect(asyncResult);
         }
-        public static async Task<List<int>> scanTask(IPAddress ip,(int,int)portRange)
+        public static async Task<(IPAddress,List<int>)> scanTask(IPAddress ip,(int,int)portRange)
         {
             List<int> portList = new List<int>();
             var tcpClient = new TcpClient();
@@ -29,7 +29,7 @@ namespace Scan
                 portList.Add(port);
             }
             tcpClient.Close();
-            return portList;
+            return (ip,portList);
         }
     }
 }

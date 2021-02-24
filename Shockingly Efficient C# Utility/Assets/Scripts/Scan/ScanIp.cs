@@ -109,6 +109,7 @@ public class ScanIp: MonoBehaviour
     {
         var portScanRange = (400, 65000);
         var portScanTaskList = new List<Task>();
+        var data = new List<(IPAddress, List<int>)>();
         Debug.Log("port start:");
         foreach (var ip in ipList)
         {
@@ -116,16 +117,18 @@ public class ScanIp: MonoBehaviour
         }
         while (portScanTaskList.Count > 0)
         {
-            Task<List<int>> taskResult = await Task.WhenAny(portScanTaskList) as Task<List<int>>;
-            List<int> portList = await taskResult;
+            Task<(IPAddress,List<int>)> taskResult = await Task.WhenAny(portScanTaskList) as Task<(IPAddress,List<int>)>;
+            (IPAddress ip,List<int> portList) = await taskResult;
             portScanTaskList.Remove(taskResult);
             if (portList.Count !=0)
             {
-                UnityEngine.Debug.Log("result:");
+                UnityEngine.Debug.Log("ip:"+ip);
+                data.Add((ip,portList));
                 foreach (var p in portList)
                 {
                     Debug.Log("New port found:"+p);
                 }
+                
             }
         }
         Debug.Log("FIN DU SCAN Port");

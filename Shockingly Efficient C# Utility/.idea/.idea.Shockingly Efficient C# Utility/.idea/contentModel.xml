@@ -12,6 +12,13 @@
           </e>
         </e>
         <e p="Packages" t="Include">
+          <e p="Newtonsoft.Json.12.0.3" t="Include">
+            <e p="lib" t="Include">
+              <e p="netstandard2.0" t="Include">
+                <e p="Newtonsoft.Json.xml" t="Include" />
+              </e>
+            </e>
+          </e>
           <e p="SSH.NET.2020.0.1" t="Include">
             <e p="lib" t="Include">
               <e p="netstandard2.0" t="Include">
@@ -33,6 +40,7 @@
           </e>
           <e p="MenuManager.cs" t="Include" />
           <e p="Scan" t="Include">
+            <e p="SaveScan.cs" t="Include" />
             <e p="ScanIp.cs" t="Include" />
             <e p="ScanPort.cs" t="Include" />
             <e p="Web" t="Include">
