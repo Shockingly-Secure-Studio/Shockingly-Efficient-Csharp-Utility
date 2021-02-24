@@ -510,7 +510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1684122798406371231}
   m_Layer: 5
-  m_Name: Device-Info
+  m_Name: Device-HTB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

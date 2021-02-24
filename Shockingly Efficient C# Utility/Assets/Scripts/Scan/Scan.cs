@@ -19,7 +19,7 @@ public class Scan: MonoBehaviour
     private readonly object ipListLock = new object();
     public Scan()//TODO maske de sous réseau
     {
-        UnityEngine.Debug.Log(ReturnSubnetmask());
+        //UnityEngine.Debug.Log(ReturnSubnetmask());
     }
 
     public static string GETLocalIp()

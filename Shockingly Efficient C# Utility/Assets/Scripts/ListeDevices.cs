@@ -9,6 +9,7 @@ public class ListeDevices : MonoBehaviour
     public GameObject display;
 
     public GameObject Device_Prefab;
+    public GameObject Device_HTB;
     
     void Start()
     {
@@ -20,19 +21,26 @@ public class ListeDevices : MonoBehaviour
         SetDevices();
         
     }
-    public void SetDevices(){
-        int nb_devices = 3;
-        int acc = 0;
+    public void Spawn_( bool spawn)
+    {
+        Device_HTB.SetActive(spawn) ;  
+
+    }
+    public void SetDevices() //Pour display les carrés rouges
+    {
+        int nb_devices = 7; // TODO - prendre depuis le fichier
+        Vector3 acc = content.transform.position;
+        acc += new Vector3(0,-2,0); //FIX position pb
         for (int i = 0; i < nb_devices; i++)
         {
-            Instantiate(Device_Prefab, new Vector3(86, -12, 0), Quaternion.identity,content.transform);
-            //newChild.transform.SetParent(content.transform);
+            Instantiate(Device_Prefab, new Vector3(acc[0], -12, 0), Quaternion.identity,content.transform);
+ 
             UnityEngine.Debug.Log("Ajouté");
-            acc += 420;
+            acc += new Vector3(6,0,0); //Pour espacer les différents éléments
         }
 
     }
-    public void SetAttribut()
+    public void SetAttribut() //Pour les carrés rouges
     {
         for (int i = 0; i< display.transform.childCount; i++)
         {
