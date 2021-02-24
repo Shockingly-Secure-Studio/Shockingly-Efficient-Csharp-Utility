@@ -52,7 +52,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Scan\Scan.cs" />
+     <Compile Include="Assets\Scripts\Scan\ScanIp.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\web.cs" />
      <Compile Include="Assets\Scripts\Service\SSHService.cs" />
@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\Scan\Web\tst.cs" />
      <Compile Include="Assets\Scripts\Service\Service.cs" />
      <Compile Include="Assets\Scripts\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\Scan\ScanPort.cs" />
      <None Include="Assets\Scripts\Scan\Web\WordList.txt" />
      <None Include="Assets\Fonts\roboto\NOTICE.txt" />
      <None Include="Assets\Packages\SSH.NET.2020.0.1\lib\netstandard2.0\Renci.SshNet.xml" />
