@@ -176,22 +176,16 @@ public class web : MonoBehaviour
                     payloads = Encoding.UTF8.GetString(Convert.FromBase64String(Part[1]+"=")); //ça regle le problème
                 }
             }
-            strings args = header+"."+payloads+"."+signature;
-            Exploited_cookies.Add(ExploitCookies( args, "jwt")) ;
-        }
-    }
-    public List<Cookie> ExploitCookies(string args,string type){
-        switch (type)
-        {
-            case "jwt":
-                string[] Part = Value.Split('.');
-                if (Part[1].Countain("username"))
-                    strings payload = "{\"username\" : \" admin\"}" ;
-                break;
-            default:
-        }
+            if (payloads.Contains("username"))
+                payloads = "{\"username\" : \" admin\"}" ;
 
+
+            //Manque des tests + l'encodage
+            string argus = header+"."+payloads+"."+signature; //Reformer le payload
+            
+        }
     }
+
 
     
     // Update is called once per frame
