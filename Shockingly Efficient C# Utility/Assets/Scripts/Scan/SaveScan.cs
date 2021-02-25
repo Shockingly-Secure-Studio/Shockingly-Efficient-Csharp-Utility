@@ -8,7 +8,7 @@ namespace Scan
 {
     public class SaveScan
     {
-        static void NewJson(List<(IPAddress,List<int>)> scanResult)
+        public void NewJson(List<(IPAddress,List<int>)> scanResult)
         {
             Debug.Log("newSave");
             List<Device> devicesList = new List<Device>();
@@ -17,7 +17,7 @@ namespace Scan
                 devicesList.Add(new Device(){IP=ip.ToString(),Port=port});
             }
             string jsonSerializedObj = JsonConvert.SerializeObject(devicesList, Formatting.Indented);
-            File.WriteAllText(@"C:\Users\tudual\Desktop\Projet_S2\Autres\Scan1.son", jsonSerializedObj);
+            File.WriteAllText(@"C:\Users\tudual\Desktop\Projet S2\Autres\Scan1.json", jsonSerializedObj);
         }
         private class Device
         {

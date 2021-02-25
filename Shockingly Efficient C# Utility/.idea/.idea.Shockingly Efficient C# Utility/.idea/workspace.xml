@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f7e98b6-d63a-4c66-8209-2b3709d44e42" name="Default Changelist" comment="Scaner ip: corrections mineures&#10;Scanner ports: ajout de scanTask">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/SaveScan.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/SaveScan.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/contentModel.xml" afterDir="false" />
+    <list default="true" id="3f7e98b6-d63a-4c66-8209-2b3709d44e42" name="Default Changelist" comment="SaveScan: sauvegarder en json">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scan/ScanIp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/ScanIp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scan/ScanPort.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/ScanPort.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scan/SaveScan.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/SaveScan.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/test/test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/test/test.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/packages.config" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/packages.config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,9 +31,9 @@
       <option value="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/.gitignore" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Scan/ScanPort.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/ScanIp.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/test/test.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Scan/SaveScan.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/ScanIp.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1o3LzXV7JNQgbho6ANb6hXHp7TC" />
@@ -67,10 +62,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="22064">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="22064" />
+      <option name="pid" />
       <option name="selectedOptions">
         <list />
       </option>
@@ -102,7 +97,8 @@
       <workItem from="1613648855675" duration="712000" />
       <workItem from="1613719982733" duration="12902000" />
       <workItem from="1613750074646" duration="814000" />
-      <workItem from="1614085723043" duration="24558000" />
+      <workItem from="1614085723043" duration="25747000" />
+      <workItem from="1614263698743" duration="1288000" />
     </task>
     <task id="LOCAL-00001" summary="début du scaner de port incroybale">
       <created>1612874144304</created>
@@ -125,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614199821377</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="SaveScan: sauvegarder en json">
+      <created>1614206494982</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1614206494982</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,7 +161,8 @@
     <MESSAGE value="début du scaner de port incroybale" />
     <MESSAGE value="Scaner ip: makePing" />
     <MESSAGE value="Scaner ip: corrections mineures&#10;Scanner ports: ajout de scanTask" />
-    <option name="LAST_COMMIT_MESSAGE" value="Scaner ip: corrections mineures&#10;Scanner ports: ajout de scanTask" />
+    <MESSAGE value="SaveScan: sauvegarder en json" />
+    <option name="LAST_COMMIT_MESSAGE" value="SaveScan: sauvegarder en json" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
