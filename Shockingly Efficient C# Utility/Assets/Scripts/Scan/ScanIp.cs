@@ -17,13 +17,8 @@ using Debug = UnityEngine.Debug;
 
 public class ScanIp
 {
-    public List<IPAddress> ipList=new List<IPAddress>();//tableau [ip,[port]] (list couple Ip, port)
     public List<(IPAddress, List<int>)> results;
     
-    public ScanIp()
-    {
-    }
-
     public static string GETLocalIp()
     {
         IPHostEntry ipLocal = Dns.GetHostEntry("");//recherche la liste d'adrese ip associer a notre machine
@@ -55,7 +50,7 @@ public class ScanIp
                 return ("127.0.0.1","127.0.0.1"); 
         }
     }
-    public async void makePing()
+    public async void MakePing()
     {
         List<IPAddress> ipList=new List<IPAddress>();
         (string,string) ipRange = ReturnIpRange();
@@ -89,7 +84,7 @@ public class ScanIp
         }
 
         Debug.Log("FIN DU SCAN IP");
-        results = await MakePortScan();
+        results = await ScanPort.MakePortScan(ipList);
         new SaveScan().NewJson(results);
     }
     private  static async Task<IPAddress> PingAsync(IPAddress ip)
@@ -112,36 +107,4 @@ public class ScanIp
     }
 
     //test pour le scan de port
-    public async static Task<List<(IPAddress, List<int>)>> makePortScan (List<IPAddress> ipList)
-    {
-        var portScanRange = (1, 65535);
-        var portScanTaskList = new List<Task>();
-        var data = new List<(IPAddress, List<int>)>();
-        Debug.Log("port start:");
-        foreach (var ip in ipList)
-        {
-            portScanTaskList.Add(ScanPort.scanTask(ip,(portScanRange.Item1,portScanRange.Item2)));
-        }
-        while (portScanTaskList.Count > 0)
-        {
-            Task<(IPAddress,List<int>)> taskResult = await Task.WhenAny(portScanTaskList) as Task<(IPAddress,List<int>)>;
-            (IPAddress ip,List<int> portList) = await taskResult;
-            portScanTaskList.Remove(taskResult);
-            if (portList.Count !=0)
-            {
-                UnityEngine.Debug.Log("ip:"+ip);
-                data.Add((ip,portList));
-                foreach (var p in portList)
-                {
-                    Debug.Log("New port found:"+p);
-                }
-                
-            }
-        }
-        Debug.Log("FIN DU SCAN Port");
-        return data;
-    }
-    
-
-
 }
