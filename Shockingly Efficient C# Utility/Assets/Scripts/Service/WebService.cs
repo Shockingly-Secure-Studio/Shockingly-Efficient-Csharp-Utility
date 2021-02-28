@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
+using UnityEngine;
 
 namespace Service
 {
@@ -61,6 +63,7 @@ namespace Service
             if (content != null)
                 requestMessage.Content = new FormUrlEncodedContent(content);
 
+            // Debug.Log(requestMessage.ToString());
             HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
             responseMessage.EnsureSuccessStatusCode();
             string responseContent = await responseMessage.Content.ReadAsStringAsync();
@@ -88,6 +91,11 @@ namespace Service
             Dictionary<string, string> headers = null, Dictionary<string, string> content = null)
         {
             return await MakeHttpRequest(url, HttpMethod.Post, cookies, headers, content);
+        }
+
+        public string GetVhost()
+        {
+            return _vHost;
         }
     }
 }
