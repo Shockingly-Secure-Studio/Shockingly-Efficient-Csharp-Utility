@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f7e98b6-d63a-4c66-8209-2b3709d44e42" name="Default Changelist" comment="SaveScan: sauvegarder en json">
+    <list default="true" id="3f7e98b6-d63a-4c66-8209-2b3709d44e42" name="Default Changelist" comment="minor change">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shockingly Efficient C# Utility/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scan/ScanIp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/ScanIp.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scan/ScanPort.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scan/ScanPort.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,10 +27,10 @@
     <changedPaths>
       <option value="$PROJECT_DIR$/../.idea/.idea.Shockingly-Efficient-Csharp-Utility.dir/.idea/.gitignore" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Scan/Scan.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/ScanIp.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Scan/SaveScan.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/test/test.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Scan/ScanIp.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Scan/ScanPort.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/test/test.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1o3LzXV7JNQgbho6ANb6hXHp7TC" />
@@ -96,7 +96,7 @@
       <workItem from="1613750074646" duration="814000" />
       <workItem from="1614085723043" duration="25747000" />
       <workItem from="1614263698743" duration="9022000" />
-      <workItem from="1614510905427" duration="382000" />
+      <workItem from="1614510905427" duration="4150000" />
     </task>
     <task id="LOCAL-00001" summary="début du scaner de port incroybale">
       <created>1612874144304</created>
@@ -133,7 +133,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614265064337</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="minor change">
+      <created>1614511561209</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1614511561209</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,6 +154,17 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/scanPort" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
               <option name="TEXT_FILTER_SETTINGS">
                 <TextFilterSettings>
                   <option name="REGEX" value="true" />
@@ -167,7 +185,8 @@
     <MESSAGE value="Scaner ip: makePing" />
     <MESSAGE value="Scaner ip: corrections mineures&#10;Scanner ports: ajout de scanTask" />
     <MESSAGE value="SaveScan: sauvegarder en json" />
-    <option name="LAST_COMMIT_MESSAGE" value="SaveScan: sauvegarder en json" />
+    <MESSAGE value="minor change" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor change" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">

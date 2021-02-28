@@ -15,13 +15,8 @@ using Scan;
 using UnityEditor.Experimental.GraphView;
 using Debug = UnityEngine.Debug;
 
-public class ScanIp: MonoBehaviour
+public class ScanIp
 {
-    public List<IPAddress> ipList=new List<IPAddress>();
-    public ScanIp()
-    {
-    }
-
     public static string GETLocalIp()
     {
         IPHostEntry ipLocal = Dns.GetHostEntry("");//recherche la liste d'adrese ip associer a notre machine
@@ -55,6 +50,7 @@ public class ScanIp: MonoBehaviour
     }
     public async void makePing()
     {
+        List<IPAddress> ipList=new List<IPAddress>();
         (string,string) ipRange = ReturnIpRange();
         int[] ipStart = ipRange.Item1.Split('.').Select(int.Parse).ToArray();
         int[] ipEnd = ipRange.Item2.Split('.').Select(int.Parse).ToArray();
@@ -74,12 +70,9 @@ public class ScanIp: MonoBehaviour
         }
         while (pingTaskList.Count > 0)
         {
-            //Task finishedTask = await Task.WhenAny(pingTaskList);
-            //pingTaskList.Remove(finishedTask);
             Task<IPAddress> taskResult = await Task.WhenAny(pingTaskList) as Task<IPAddress>;
             IPAddress newIp = await taskResult;
             pingTaskList.Remove(taskResult);
-            //IPAddress newIp = await pingTask;
             if (newIp != null)
             {
                 UnityEngine.Debug.Log("New ip found"+newIp);
@@ -88,25 +81,32 @@ public class ScanIp: MonoBehaviour
             }
         }
         Debug.Log("FIN DU SCAN IP");
-        makePortScan();
-        
+        List<(IPAddress, List<int>)> data=await makePortScan(ipList);
+        new SaveScan().NewJson(data);
     }
     private  static async Task<IPAddress> PingAsync(IPAddress ip)
     {
         Ping pingSender = new Ping ();
         int timeout = 120;
-        PingReply reply = await pingSender.SendPingAsync(ip, timeout);
-        if (reply !=null && reply.Status == IPStatus.Success)
+        try
         {
-            return ip;
+            PingReply reply = await pingSender.SendPingAsync(ip, timeout);
+            if (reply !=null && reply.Status == IPStatus.Success)
+            {
+                return ip;
+            }
+            return null;
         }
-        return null;
+        catch
+        {
+            return null;
+        }
     }
 
     //test pour le scan de port
-    public async void makePortScan()
+    public async static Task<List<(IPAddress, List<int>)>> makePortScan (List<IPAddress> ipList)
     {
-        var portScanRange = (400, 65000);
+        var portScanRange = (1, 65535);
         var portScanTaskList = new List<Task>();
         var data = new List<(IPAddress, List<int>)>();
         Debug.Log("port start:");
@@ -131,6 +131,7 @@ public class ScanIp: MonoBehaviour
             }
         }
         Debug.Log("FIN DU SCAN Port");
+        return data;
         
     }
     

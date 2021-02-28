@@ -9,16 +9,22 @@ using UnityEngine;
 namespace Scan
 {
     public class ScanPort: ScanIp
-    { 
+    {
         public static void ConnectCallback(IAsyncResult asyncResult)
         {
-            TcpClient tcpClient = (TcpClient)asyncResult.AsyncState;
-            tcpClient.EndConnect(asyncResult);
+            try
+            {
+                TcpClient tcpClient = (TcpClient) asyncResult.AsyncState;
+                tcpClient.EndConnect(asyncResult);
+            }
+            catch
+            {
+            }
         }
         public static async Task<(IPAddress,List<int>)> scanTask(IPAddress ip,(int,int)portRange)
         {
             List<int> portList = new List<int>();
-            var tcpClient = new TcpClient();//try
+            var tcpClient = new TcpClient();
             for (var port = portRange.Item1; port < portRange.Item2; port++)
             {
                 IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port, ConnectCallback, tcpClient);
@@ -31,7 +37,7 @@ namespace Scan
             tcpClient.Close();
             return (ip,portList);
         }
-        //RAW socket
+        //RAW socket ?
 
     }
     
