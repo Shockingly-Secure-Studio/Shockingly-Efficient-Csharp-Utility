@@ -57,6 +57,7 @@ public class ScanIp
     }
     public async void makePing()
     {
+        List<IPAddress> ipList=new List<IPAddress>();
         (string,string) ipRange = ReturnIpRange();
         int[] ipStart = ipRange.Item1.Split('.').Select(int.Parse).ToArray();
         int[] ipEnd = ipRange.Item2.Split('.').Select(int.Parse).ToArray();
@@ -76,12 +77,9 @@ public class ScanIp
         }
         while (pingTaskList.Count > 0)
         {
-            //Task finishedTask = await Task.WhenAny(pingTaskList);
-            //pingTaskList.Remove(finishedTask);
             Task<IPAddress> taskResult = await Task.WhenAny(pingTaskList) as Task<IPAddress>;
             IPAddress newIp = await taskResult;
             pingTaskList.Remove(taskResult);
-            //IPAddress newIp = await pingTask;
             if (newIp != null)
             {
                 UnityEngine.Debug.Log("New ip found"+newIp);
@@ -98,19 +96,25 @@ public class ScanIp
     {
         Ping pingSender = new Ping ();
         int timeout = 120;
-        PingReply reply = await pingSender.SendPingAsync(ip, timeout);
-        if (reply !=null && reply.Status == IPStatus.Success)
+        try
         {
-            return ip;
+            PingReply reply = await pingSender.SendPingAsync(ip, timeout);
+            if (reply !=null && reply.Status == IPStatus.Success)
+            {
+                return ip;
+            }
+            return null;
         }
-        return null;
+        catch
+        {
+            return null;
+        }
     }
-    //faire fichier json pour stoker les ip
-    
+
     //test pour le scan de port
-    public async Task<List<(IPAddress, List<int>)>> MakePortScan()
+    public async static Task<List<(IPAddress, List<int>)>> makePortScan (List<IPAddress> ipList)
     {
-        var portScanRange = (8179, 65000);
+        var portScanRange = (1, 65535);
         var portScanTaskList = new List<Task>();
         var data = new List<(IPAddress, List<int>)>();
         Debug.Log("port start:");
