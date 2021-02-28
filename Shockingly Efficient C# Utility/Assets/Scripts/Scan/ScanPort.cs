@@ -18,7 +18,7 @@ namespace Scan
         public static async Task<(IPAddress,List<int>)> scanTask(IPAddress ip,(int,int)portRange)
         {
             List<int> portList = new List<int>();
-            var tcpClient = new TcpClient();
+            var tcpClient = new TcpClient();//try
             for (var port = portRange.Item1; port < portRange.Item2; port++)
             {
                 IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port, ConnectCallback, tcpClient);
@@ -31,5 +31,8 @@ namespace Scan
             tcpClient.Close();
             return (ip,portList);
         }
+        //RAW socket
+
     }
+    
 }

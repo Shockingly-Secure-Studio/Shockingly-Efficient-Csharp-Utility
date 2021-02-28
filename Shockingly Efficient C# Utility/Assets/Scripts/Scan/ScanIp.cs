@@ -17,7 +17,7 @@ using Debug = UnityEngine.Debug;
 
 public class ScanIp: MonoBehaviour
 {
-    public List<IPAddress> ipList=new List<IPAddress>();//tableau [ip,[port]] (list couple Ip, port)
+    public List<IPAddress> ipList=new List<IPAddress>();
     public ScanIp()
     {
     }
@@ -102,8 +102,7 @@ public class ScanIp: MonoBehaviour
         }
         return null;
     }
-    //faire fichier json pour stoker les ip
-    
+
     //test pour le scan de port
     public async void makePortScan()
     {
