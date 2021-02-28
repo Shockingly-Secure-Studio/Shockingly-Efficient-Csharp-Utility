@@ -34,7 +34,7 @@ namespace Machine
             _interactive = interactive;
         }
 
-        public string PreCommand(string command)
+        public string PreProcessCommand(string command)
         {
             string preCommand = "";
             string postCommand = "";
@@ -46,8 +46,8 @@ namespace Machine
 
             if (_isUpgraded)
             {
-                preCommand = "passthru(" + preCommand;
-                postCommand = postCommand + ");";
+                preCommand = ";passthru(" + preCommand;
+                postCommand += ");";
             }
 
             return preCommand + command + postCommand;
@@ -63,7 +63,7 @@ namespace Machine
         
         public async Task<string> SendCommand(string cmd)
         {
-            cmd = PreCommand(cmd);
+            cmd = PreProcessCommand(cmd);
             string result = await _entry.Submit(cmd);
             
             Regex filter = new Regex("(?<!echo \")(?>SECUStudioDEBUT\"?)(?<result>.*?)(?<!echo \")(?>\"?SECUStudioFIN)",
