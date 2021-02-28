@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using Scan;
 using UnityEngine;
 
 public class test : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
-        //gameObject.AddComponent<ScanIp>().makePing();
-        //new SaveScan().NewJson(ScanResult);
-        //Scan test = new Scan();
+        ScanIp o = new ScanIp();
+        o.makePing();
     }
 
     // Update is called once per frame

@@ -15,9 +15,11 @@ using Scan;
 using UnityEditor.Experimental.GraphView;
 using Debug = UnityEngine.Debug;
 
-public class ScanIp: MonoBehaviour
+public class ScanIp
 {
     public List<IPAddress> ipList=new List<IPAddress>();//tableau [ip,[port]] (list couple Ip, port)
+    public List<(IPAddress, List<int>)> results;
+    
     public ScanIp()
     {
     }
@@ -87,9 +89,10 @@ public class ScanIp: MonoBehaviour
                 ipList.Add(newIp);//on peut aussi récuperer les adresse mac et nom NetBios
             }
         }
+
         Debug.Log("FIN DU SCAN IP");
-        makePortScan();
-        
+        results = await MakePortScan();
+        new SaveScan().NewJson(results);
     }
     private  static async Task<IPAddress> PingAsync(IPAddress ip)
     {
@@ -105,9 +108,9 @@ public class ScanIp: MonoBehaviour
     //faire fichier json pour stoker les ip
     
     //test pour le scan de port
-    public async void makePortScan()
+    public async Task<List<(IPAddress, List<int>)>> MakePortScan()
     {
-        var portScanRange = (400, 65000);
+        var portScanRange = (8179, 65000);
         var portScanTaskList = new List<Task>();
         var data = new List<(IPAddress, List<int>)>();
         Debug.Log("port start:");
@@ -132,7 +135,7 @@ public class ScanIp: MonoBehaviour
             }
         }
         Debug.Log("FIN DU SCAN Port");
-        
+        return data;
     }
     
 

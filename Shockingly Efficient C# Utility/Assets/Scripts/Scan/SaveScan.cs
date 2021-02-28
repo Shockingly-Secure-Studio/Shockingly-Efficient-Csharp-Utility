@@ -17,7 +17,9 @@ namespace Scan
                 devicesList.Add(new Device(){IP=ip.ToString(),Port=port});
             }
             string jsonSerializedObj = JsonConvert.SerializeObject(devicesList, Formatting.Indented);
-            File.WriteAllText(@"C:\Users\tudual\Desktop\Projet S2\Autres\Scan1.json", jsonSerializedObj);
+            
+            string path = Path.Combine("Results", "scan.json");
+            File.WriteAllText(path, jsonSerializedObj);
         }
         private class Device
         {
