@@ -12,12 +12,13 @@ namespace Scan
     {
         public static void ConnectCallback(IAsyncResult asyncResult)
         {
+            TcpClient tcpClient = (TcpClient) asyncResult.AsyncState;
+
             try
             {
-                TcpClient tcpClient = (TcpClient) asyncResult.AsyncState;
                 tcpClient.EndConnect(asyncResult);
             }
-            catch
+            catch (Exception e)
             {
             }
         }
@@ -25,15 +26,15 @@ namespace Scan
         public static async Task<(IPAddress,List<int>)> scanTask(IPAddress ip,(int,int)portRange)
         {
             List<int> portList = new List<int>();
-            var tcpClient = new TcpClient();
             for (var port = portRange.Item1; port < portRange.Item2; port++)
             {
+                var tcpClient = new TcpClient();
                 Debug.Log(port);
                 IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port, ConnectCallback, tcpClient);
-                if (asyncResult.AsyncWaitHandle.WaitOne(120, false) && tcpClient.Connected)
+                if (asyncResult.AsyncWaitHandle.WaitOne(150, false) && tcpClient.Connected)
                     portList.Add(port);
+                tcpClient.Close();
             }
-            tcpClient.Close();
             return (ip,portList);
         }
         //RAW socket ?

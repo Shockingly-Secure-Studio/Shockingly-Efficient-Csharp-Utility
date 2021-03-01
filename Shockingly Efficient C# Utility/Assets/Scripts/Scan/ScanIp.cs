@@ -89,7 +89,7 @@ public class ScanIp
         }
 
         Debug.Log("FIN DU SCAN IP");
-        results = await MakePortScan();
+        results = await makePortScan(ipList);
         new SaveScan().NewJson(results);
     }
     private  static async Task<IPAddress> PingAsync(IPAddress ip)
@@ -114,7 +114,7 @@ public class ScanIp
     //test pour le scan de port
     public async static Task<List<(IPAddress, List<int>)>> makePortScan (List<IPAddress> ipList)
     {
-        var portScanRange = (1, 65535);
+        var portScanRange = (1, 10000);
         var portScanTaskList = new List<Task>();
         var data = new List<(IPAddress, List<int>)>();
         Debug.Log("port start:");

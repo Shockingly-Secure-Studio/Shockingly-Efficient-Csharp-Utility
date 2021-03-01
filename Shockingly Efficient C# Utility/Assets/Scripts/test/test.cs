@@ -11,7 +11,8 @@ public class test : MonoBehaviour
     async void Start()
     {
         ScanIp o = new ScanIp();
-        o.makePing();
+        Thread t = new Thread(o.makePing);
+        t.Start();
     }
 
     // Update is called once per frame
