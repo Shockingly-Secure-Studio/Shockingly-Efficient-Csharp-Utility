@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\Machine\Machine.cs" />
      <Compile Include="Assets\Scripts\Service\Service.cs" />
      <Compile Include="Assets\Scripts\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\Scan\StartScan.cs" />
      <None Include="Assets\Scripts\Scan\Web\WordList.txt" />
      <None Include="Assets\Fonts\roboto\NOTICE.txt" />
      <None Include="Assets\Packages\SSH.NET.2020.0.1\lib\netstandard2.0\Renci.SshNet.xml" />
