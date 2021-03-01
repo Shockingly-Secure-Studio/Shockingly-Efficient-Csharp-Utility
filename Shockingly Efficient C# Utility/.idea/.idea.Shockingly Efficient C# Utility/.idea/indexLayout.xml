@@ -27,7 +27,6 @@
       <Path>Library</Path>
       <Path>Logs</Path>
       <Path>Results</Path>
-      <Path>Temp</Path>
       <Path>UserSettings</Path>
       <Path>obj</Path>
     </explicitExcludes>

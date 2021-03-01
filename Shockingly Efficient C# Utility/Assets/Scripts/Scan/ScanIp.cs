@@ -17,6 +17,7 @@ using Debug = UnityEngine.Debug;
 
 public class ScanIp
 {
+    //si ip vide tt tout seul sinon scan a l'aide de l'ip
     public List<(IPAddress, List<int>)> results;
     
     public static string GETLocalIp()
@@ -47,7 +48,7 @@ public class ScanIp
             case 192:
                 return ("192.168.1.0","192.168.255.255");//classe C,  192.168.1.0 à 192.168.255.255
             default:
-                return ("127.0.0.1","127.0.0.1"); 
+                return ("192.168.246.73","192.168.246.73"); 
         }
     }
     public async void MakePing()
@@ -72,7 +73,7 @@ public class ScanIp
         }
         while (pingTaskList.Count > 0)
         {
-            Task<IPAddress> taskResult = await Task.WhenAny(pingTaskList) as Task<IPAddress>;
+            Task<IPAddress> taskResult = await Task.WhenAny(pingTaskList) as Task<IPAddress>;//atention peut attendre, task doit une erreur au bout d'un certin temps
             IPAddress newIp = await taskResult;
             pingTaskList.Remove(taskResult);
             if (newIp != null)
@@ -84,8 +85,12 @@ public class ScanIp
         }
 
         Debug.Log("FIN DU SCAN IP");
-        results = await ScanPort.MakePortScan(ipList);
-        new SaveScan().NewJson(results);
+        //TODO ne pas push
+        //List<IPAddress> testnull = new List<IPAddress>();
+        //testnull.Add(IPAddress.Parse("192.168.246.73"));
+        
+        ScanPort.MakePortScan(ipList);
+        //ScanPort.MakePortScan(testnull);
     }
     private  static async Task<IPAddress> PingAsync(IPAddress ip)
     {

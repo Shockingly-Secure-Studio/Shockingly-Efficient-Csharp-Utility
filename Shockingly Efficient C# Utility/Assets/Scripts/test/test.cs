@@ -14,7 +14,7 @@ public class test : MonoBehaviour
         
         ScanIp o = new ScanIp(); 
         //o.MakePing();
-        Thread t = new Thread(new ThreadStart(o.MakePing));
+        Thread t = new Thread(new ThreadStart( o.MakePing));
         t.Start();
     }
 

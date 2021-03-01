@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -8,23 +9,69 @@ namespace Scan
 {
     public class SaveScan
     {
-        public void NewJson(List<(IPAddress,List<int>)> scanResult)
+        public static void NewJson(string fileName)
+        {
+            string jsonSerializedObj = "";
+            Directory.CreateDirectory("Results");
+            string path = Path.Combine("Results", fileName+".json");
+            File.WriteAllText(path, jsonSerializedObj);
+        }
+        public static void UpdateJson((IPAddress ip,List<int> port) scanResult,string fileName)
         {
             Debug.Log("newSave");
-            List<Device> devicesList = new List<Device>();
-            foreach (var (ip,port) in scanResult)
+            List<Device> devicesList = LoadJson();
+            var (ip, port) = scanResult;
+            var isNew = IsNewDevice(devicesList, ip);
+            if (!isNew.Item1)
+            {
+                List<int> portList= devicesList[isNew.Item2].Port;
+                portList.AddRange(port);
+            }
+            else
             {
                 devicesList.Add(new Device(){IP=ip.ToString(),Port=port});
             }
             string jsonSerializedObj = JsonConvert.SerializeObject(devicesList, Formatting.Indented);
             Directory.CreateDirectory("Results");
-            string path = Path.Combine("Results", "scan.json");
+            string path = Path.Combine("Results", fileName+".json");
             File.WriteAllText(path, jsonSerializedObj);
+            
+        }
+
+        private static (bool,int) IsNewDevice(List<Device> devicesList, IPAddress ip)
+        {
+            var i = 0;
+            bool newDevice = true;
+            while (newDevice && i<devicesList.Count)
+            {
+                if (IPAddress.Parse(devicesList[i].IP).Equals(ip))
+                {
+                    newDevice = false;
+                }
+            }
+            return (newDevice,i);
+        }
+
+        private static List<Device> LoadJson()
+        {
+            List<Device> devicesList = new List<Device>();
+            if (File.Exists("Result/scan.json"))
+            {
+                string json = File.ReadAllText("Result/scan.json");
+                devicesList = JsonConvert.DeserializeObject<List<Device>>(json);
+            }
+            return devicesList;
         }
         private class Device
         {
+            public string hostName { get; set; }
             public string IP { get; set; }
             public List<int> Port { get; set; }
+            public string nbOfSFlaw { get; set; }
+            //sevérité CVE
+            public string severityLevel { get; set; }
+            public string scanStatus { get; set; }
+            
         }
     }
 }
