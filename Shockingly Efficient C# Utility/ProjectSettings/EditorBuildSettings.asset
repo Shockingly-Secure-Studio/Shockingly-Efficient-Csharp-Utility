@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Options.unity
     guid: 863f007406a3d454a8e739482d10fd61
+  - enabled: 1
+    path: Assets/Scenes/ListDevices.unity
+    guid: d26926784e4ac42c99e8d4b9f55bd93d
+  - enabled: 1
+    path: Assets/Scenes/NewScan.unity
+    guid: 590a506ea7e854de190a3ad4a1eb01f7
   m_configObjects: {}
