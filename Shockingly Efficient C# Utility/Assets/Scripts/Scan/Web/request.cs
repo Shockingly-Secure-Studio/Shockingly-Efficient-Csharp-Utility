@@ -55,15 +55,10 @@ namespace Web
 
         public void test()
         {
-            List<(string,int)> list = new List<(string,int)>();
-            list.Add(("172.217.22.142", 80));
-            Debug.Log(list.Count);
-            List<string> map = web.SiteMap(list);
-            Debug.Log(map.Count);
-            foreach (var VARIABLE in map)
-            {
-                Debug.Log(VARIABLE);
-            }
+            List<(string, int)> list = new List<(string, int)>();
+            List<string> url = new List<string>();
+            url.Add("http://secu.studio");
+            List<string> map = web.map(list,url);
         }
         public string GetDomainName(string url)
         {
@@ -72,7 +67,7 @@ namespace Web
             WebResponse response = r.GetResponse();
             Uri s = response.ResponseUri;
             string ns = s.ToString();
-            ns = ns.Remove(0, 11);
+            ns = ns.Remove(0, 8);
             ns = ns.Remove(ns.Length - 1, 1);
             return ns;
         }

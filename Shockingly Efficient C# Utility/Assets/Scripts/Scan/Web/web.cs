@@ -10,6 +10,8 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using UnityEditor;
+using UnityEditor.SceneTemplate;
 using Web;
 
 public class web : MonoBehaviour
@@ -20,71 +22,164 @@ public class web : MonoBehaviour
     {
         
     }
-    public static List<string> SiteMap(List<(string,int)> list)
+    public static List<string> map(List<(string, int)> list, List<string> url)
     {
-        List<string> map = new List<string>();
-        foreach (var e in list)
+        List<string> nlist = new List<string>();
+        if (list.Count == 0)
         {
-            Request request = new Request(e.Item1, e.Item2, null, null);
-            string hostEntry = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
-
-            static List<string> Map_rec(string url, string domain, int depth, List<string> map)
+            Request request = new Request("", -1, null, null);
+            foreach (var VARIABLE in url)
             {
-                int total = map.Count;
-                if (depth == 0)
+                
+                string domain = request.GetDomainName(VARIABLE);
+                List<string> nnlist= moche(domain, VARIABLE, 10);
+                foreach (var items in nnlist)
                 {
-                   return map; 
-                }
-                else
-                {
-                    Request request = new Request("",-1 , null, null);
-                    string src = SourceCode($"http://");
-                    string pattern = "(href=\")+([%-z])+";
-                    string pattern2 = "("+domain+")";
-                    Regex regex = new Regex(pattern);
-                    Regex rgx = new Regex(pattern2);
-                    foreach (Match m in regex.Matches(src))
+                    bool find = false;
+                    foreach (var it in nlist)
                     {
-                        Debug.Log(m);
-                        string s = m.ToString();
-                        if (rgx.IsMatch(s))
+                        if (it == items)
                         {
-                            string ns = "";
-                            for (int i = 6; i < s.Length; i++)
-                            {
-                                ns += s[i];
-                            }
-
-                            bool find = false;
-                            foreach (var VARIABLE in map)
-                            {
-                                if (ns == VARIABLE)
-                                {
-                                    find = true;
-                                    break;
-                                }
-                            }
-                            if (!find)
-                            {
-                               map.Add(ns); 
-                            }
+                            find = true;
                         }
                     }
-                    if (total == map.Count)
+
+                    if (!find)
                     {
-                        
-                    }
-                    else
-                    {
-                        
+                        nlist.Add(items);
                     }
                 }
-
-                return map;
             }
-            
         }
-        return map;
+        else
+        {
+            foreach (var e in list)
+            {
+                Request request = new Request(e.Item1, e.Item2, null, null);
+            
+                string domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
+                List<string> nnlist= moche(domain, $"http://{e.Item1}:{e.Item2}", 10);
+                foreach (var items in nnlist)
+                {
+                    bool find = false;
+                    foreach (var it in nlist)
+                    {
+                        if (it == items)
+                        {
+                            find = true;
+                        }
+                    }
+
+                    if (!find)
+                    {
+                        nlist.Add(items);
+                    }
+                }
+            }  
+        }
+        return nlist;
+    }
+
+    public static List<string> getlinks(string url, string domain)
+    {
+        List<string> nlist = new List<string>();
+            
+        string src = SourceCode(url);
+            
+        string pattern = "(href=\")+([%-z])+";
+            
+        string pattern2 = "("+domain+")";
+
+        string pattern3 = "([%-z])+(html)";
+            
+        Regex regex = new Regex(pattern);
+            
+        Regex rgx = new Regex(pattern2);
+
+        Regex rgx2 = new Regex(pattern3);
+            
+        foreach (Match m in regex.Matches(src))
+        {
+            string s = m.ToString();
+            if (rgx.IsMatch(s))
+            {
+                string ns = "";
+                for (int i = 6; i < s.Length; i++)
+                {
+                    ns += s[i];
+                }
+                bool find = false;
+                foreach (var VARIABLE in nlist)
+                {
+                    if (ns == VARIABLE)
+                    {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find)
+                {
+                    nlist.Add(ns); 
+                }
+            }
+            else if (rgx2.IsMatch(s))
+            {
+                string ns = "";
+                ns += $"http://{domain}";
+                for (int i = 6; i < s.Length; i++)
+                {
+                    ns += s[i];
+                }
+                bool find = false;
+                foreach (var VARIABLE in nlist)
+                {
+                    if (ns == VARIABLE)
+                    {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find)
+                {
+                    nlist.Add(ns); 
+                }
+            }
+        }
+        return nlist;
+    }
+    
+    public static List<string> moche(string domain, string url, int depth)
+    {
+        List<string> acc = getlinks(url, domain);
+        List<string> visited = getlinks(url, domain);
+        string url2;
+        while (acc.Count != 0)
+        {
+            url2 = acc[0];
+            acc.Remove(acc[0]);
+            List<string> acc2 = getlinks(url2, domain);
+            foreach (var VARIABLE in acc2)
+            {
+                bool find = false;
+                foreach (var it in visited)
+                {
+
+                    if (VARIABLE == it)
+                    {
+                        find = true;
+                    }
+                    
+                }
+                if (!find)
+                {
+                    acc.Add(VARIABLE);
+                    visited.Add(VARIABLE);
+                }
+                
+            }
+            depth--;
+        }
+        return visited;
     }
     
     public static String SourceCode(string url) //Retourne le code source du site à l'url

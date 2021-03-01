@@ -34,6 +34,9 @@
           </e>
           <e p="MenuManager.cs" t="Include" />
           <e p="Options.cs" t="Include" />
+          <e p="Rapport" t="Include">
+            <e p="rapport.cs" t="Include" />
+          </e>
           <e p="Scan" t="Include">
             <e p="Scan.cs" t="Include" />
             <e p="Web" t="Include">
