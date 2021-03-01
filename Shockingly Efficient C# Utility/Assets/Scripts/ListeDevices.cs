@@ -30,13 +30,13 @@ public class ListeDevices : MonoBehaviour
     {
         int nb_devices = 7; // TODO - prendre depuis le fichier
         Vector3 acc = content.transform.position;
-        acc += new Vector3(0,-2,0); //FIX position pb
+        
         for (int i = 0; i < nb_devices; i++)
         {
-            Instantiate(Device_Prefab, new Vector3(acc[0], -12, 0), Quaternion.identity,content.transform);
+            Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform);
  
             UnityEngine.Debug.Log("Ajouté");
-            acc += new Vector3(6,0,0); //Pour espacer les différents éléments
+            acc += new Vector3(5.5f,0,0); //Pour espacer les différents éléments
         }
 
     }
