@@ -54,22 +54,11 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Scan\ScanControl.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanIp.cs" />
-     <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\Machine\Shell.cs" />
-     <Compile Include="Assets\Scripts\Scan\Web\web.cs" />
-     <Compile Include="Assets\Scripts\Service\SSHService.cs" />
-     <Compile Include="Assets\Scripts\test\test.cs" />
-     <Compile Include="Assets\Scripts\Scan\Web\request.cs" />
-     <Compile Include="Assets\Scripts\Service\SMBService.cs" />
      <Compile Include="Assets\Scripts\Service\Exploit\ServiceResult.cs" />
-     <Compile Include="Assets\Scripts\Test.cs" />
      <Compile Include="Assets\Scripts\Scan\SaveScan.cs" />
-     <Compile Include="Assets\Scripts\Service\WebService.cs" />
      <Compile Include="Assets\Scripts\Service\Exploit\InputWebService.cs" />
-     <Compile Include="Assets\Scripts\Machine\Machine.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\tst.cs" />
-     <Compile Include="Assets\Scripts\Service\Service.cs" />
-     <Compile Include="Assets\Scripts\MenuManager.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanPort.cs" />
      <Compile Include="Assets\Scripts\Scan\Scan.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
@@ -756,6 +745,7 @@
  <HintPath>C:/Users/alois/OneDrive - EPITA/Personnel/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
  </Reference>
   </ItemGroup>
+
   <ItemGroup>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
