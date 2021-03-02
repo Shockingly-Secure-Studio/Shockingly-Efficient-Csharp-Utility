@@ -17,13 +17,9 @@ using Debug = UnityEngine.Debug;
 
 public class ScanIp
 {
-    public List<IPAddress> ipList=new List<IPAddress>();//tableau [ip,[port]] (list couple Ip, port)
-    public List<(IPAddress, List<int>)> results;
+    //si ip vide tt tout seul sinon scan a l'aide de l'ip
+    public List<(IPAddress, List<int>)> Results;
     
-    public ScanIp()
-    {
-    }
-
     public static string GETLocalIp()
     {
         IPHostEntry ipLocal = Dns.GetHostEntry("");//recherche la liste d'adrese ip associer a notre machine
@@ -32,16 +28,15 @@ public class ScanIp
             if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
             {
                 Debug.Log("My ip:" + ip);
-                //return ip.ToString();
-                return "127.0.0.1";//TODO effacer
+                return ip.ToString();
+                //return "127.0.0.1";
                 //TODO vérifier l'interface de l'adresse
             }
         }
         return ""; 
     }
-    public static (string,string) ReturnIpRange()
+    public static (string,string) ReturnIpRange(string ip)
     {
-        string ip = GETLocalIp();
         uint firstOctet = uint.Parse(ip.Split('.')[0]);
         switch (firstOctet)
         {
@@ -55,15 +50,22 @@ public class ScanIp
                 return ("127.0.0.1","127.0.0.1"); 
         }
     }
-    public async void makePing()
+    
+    public async void MakePing((string,string) ipRange,string scanType)
     {
         List<IPAddress> ipList=new List<IPAddress>();
-        (string,string) ipRange = ReturnIpRange();
         int[] ipStart = ipRange.Item1.Split('.').Select(int.Parse).ToArray();
         int[] ipEnd = ipRange.Item2.Split('.').Select(int.Parse).ToArray();
         IPAddress ip;
         var pingTaskList = new List<Task>();
         Debug.Log("start:"+ipRange.Item1+"end:"+ipRange.Item2);
+        
+        if (ipRange.Item1 == ipRange.Item2)//scan only on Device
+        {
+            ipList.Add(IPAddress.Parse(ipRange.Item1));
+            ScanPort.MakePortScan(ipList,scanType);
+            return;
+        }
         for (var i = ipStart[3]; i <= ipEnd[3]; i++)
         {
             for (var j = ipStart[2]; j <= ipEnd[2]; j++)
@@ -77,7 +79,7 @@ public class ScanIp
         }
         while (pingTaskList.Count > 0)
         {
-            Task<IPAddress> taskResult = await Task.WhenAny(pingTaskList) as Task<IPAddress>;
+            Task<IPAddress> taskResult = await Task.WhenAny(pingTaskList) as Task<IPAddress>;//atention peut attendre, task doit une erreur au bout d'un certin temps
             IPAddress newIp = await taskResult;
             pingTaskList.Remove(taskResult);
             if (newIp != null)
@@ -87,10 +89,8 @@ public class ScanIp
                 ipList.Add(newIp);//on peut aussi récuperer les adresse mac et nom NetBios
             }
         }
-
         Debug.Log("FIN DU SCAN IP");
-        results = await makePortScan(ipList);
-        new SaveScan().NewJson(results);
+        ScanPort.MakePortScan(ipList,scanType);
     }
     private  static async Task<IPAddress> PingAsync(IPAddress ip)
     {
@@ -98,7 +98,7 @@ public class ScanIp
         int timeout = 120;
         try
         {
-            PingReply reply = await pingSender.SendPingAsync(ip, timeout);
+            PingReply reply = await pingSender.SendPingAsync(ip, timeout);//TODO timeout
             if (reply !=null && reply.Status == IPStatus.Success)
             {
                 return ip;
@@ -110,38 +110,5 @@ public class ScanIp
             return null;
         }
     }
-
     //test pour le scan de port
-    public async static Task<List<(IPAddress, List<int>)>> makePortScan (List<IPAddress> ipList)
-    {
-        var portScanRange = (1, 10000);
-        var portScanTaskList = new List<Task>();
-        var data = new List<(IPAddress, List<int>)>();
-        Debug.Log("port start:");
-        foreach (var ip in ipList)
-        {
-            portScanTaskList.Add(ScanPort.scanTask(ip,(portScanRange.Item1,portScanRange.Item2)));
-        }
-        while (portScanTaskList.Count > 0)
-        {
-            Task<(IPAddress,List<int>)> taskResult = await Task.WhenAny(portScanTaskList) as Task<(IPAddress,List<int>)>;
-            (IPAddress ip,List<int> portList) = await taskResult;
-            portScanTaskList.Remove(taskResult);
-            if (portList.Count !=0)
-            {
-                UnityEngine.Debug.Log("ip:"+ip);
-                data.Add((ip,portList));
-                foreach (var p in portList)
-                {
-                    Debug.Log("New port found:"+p);
-                }
-                
-            }
-        }
-        Debug.Log("FIN DU SCAN Port");
-        return data;
-    }
-    
-
-
 }
