@@ -18,7 +18,7 @@ using Debug = UnityEngine.Debug;
 public class ScanIp
 {
     //si ip vide tt tout seul sinon scan a l'aide de l'ip
-    public List<(IPAddress, List<int>)> results;
+    public List<(IPAddress, List<int>)> Results;
     
     public static string GETLocalIp()
     {
@@ -28,16 +28,15 @@ public class ScanIp
             if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
             {
                 Debug.Log("My ip:" + ip);
-                //return ip.ToString();
-                return "127.0.0.1";//TODO effacer
+                return ip.ToString();
+                //return "127.0.0.1";
                 //TODO vérifier l'interface de l'adresse
             }
         }
         return ""; 
     }
-    public static (string,string) ReturnIpRange()
+    public static (string,string) ReturnIpRange(string ip)
     {
-        string ip = GETLocalIp();
         uint firstOctet = uint.Parse(ip.Split('.')[0]);
         switch (firstOctet)
         {
@@ -48,18 +47,25 @@ public class ScanIp
             case 192:
                 return ("192.168.1.0","192.168.255.255");//classe C,  192.168.1.0 à 192.168.255.255
             default:
-                return ("192.168.246.73","192.168.246.73"); 
+                return ("127.0.0.1","127.0.0.1"); 
         }
     }
-    public async void MakePing()
+    
+    public async void MakePing((string,string) ipRange,string scanType)
     {
         List<IPAddress> ipList=new List<IPAddress>();
-        (string,string) ipRange = ReturnIpRange();
         int[] ipStart = ipRange.Item1.Split('.').Select(int.Parse).ToArray();
         int[] ipEnd = ipRange.Item2.Split('.').Select(int.Parse).ToArray();
         IPAddress ip;
         var pingTaskList = new List<Task>();
         Debug.Log("start:"+ipRange.Item1+"end:"+ipRange.Item2);
+        
+        if (ipRange.Item1 == ipRange.Item2)//scan only on Device
+        {
+            ipList.Add(IPAddress.Parse(ipRange.Item1));
+            ScanPort.MakePortScan(ipList,scanType);
+            return;
+        }
         for (var i = ipStart[3]; i <= ipEnd[3]; i++)
         {
             for (var j = ipStart[2]; j <= ipEnd[2]; j++)
@@ -83,14 +89,8 @@ public class ScanIp
                 ipList.Add(newIp);//on peut aussi récuperer les adresse mac et nom NetBios
             }
         }
-
         Debug.Log("FIN DU SCAN IP");
-        //TODO ne pas push
-        //List<IPAddress> testnull = new List<IPAddress>();
-        //testnull.Add(IPAddress.Parse("192.168.246.73"));
-        
-        ScanPort.MakePortScan(ipList);
-        //ScanPort.MakePortScan(testnull);
+        ScanPort.MakePortScan(ipList,scanType);
     }
     private  static async Task<IPAddress> PingAsync(IPAddress ip)
     {
@@ -98,7 +98,7 @@ public class ScanIp
         int timeout = 120;
         try
         {
-            PingReply reply = await pingSender.SendPingAsync(ip, timeout);
+            PingReply reply = await pingSender.SendPingAsync(ip, timeout);//TODO timeout
             if (reply !=null && reply.Status == IPStatus.Success)
             {
                 return ip;
@@ -110,6 +110,5 @@ public class ScanIp
             return null;
         }
     }
-
     //test pour le scan de port
 }

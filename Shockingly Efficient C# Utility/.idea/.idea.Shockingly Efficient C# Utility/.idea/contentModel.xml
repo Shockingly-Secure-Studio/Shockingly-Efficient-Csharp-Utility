@@ -41,6 +41,7 @@
           <e p="MenuManager.cs" t="Include" />
           <e p="Scan" t="Include">
             <e p="SaveScan.cs" t="Include" />
+            <e p="ScanControl.cs" t="Include" />
             <e p="ScanIp.cs" t="Include" />
             <e p="ScanPort.cs" t="Include" />
             <e p="Web" t="Include">

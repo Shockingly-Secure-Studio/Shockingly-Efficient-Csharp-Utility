@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -26,19 +27,19 @@ namespace Scan
         }
         //liste port importatn les écrire rapidement
 
-        private static void ScanTask (IPAddress ip,(int,int) portRange)//mettre dans autre thread //10 par 10
+        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType)//mettre dans autre thread //10 par 10
         {
             Debug.Log("newScanTask");
             string fileName = "scan1";
+            List<int> portList = new List<int>();
             SaveScan.NewJson(fileName);
+            SaveScan.UpdatePortJson((ip,portList),fileName,"Underway");
             //on scan liste des port imporant
             int[] tabPorts =
             {
                 21, 22, 23, 25, 69, 80, 110, 115, 119, 123, 135, 139, 143, 194, 443, 445, 465, 554, 563, 587, 993, 995,
                 2869, 5357, 8080, 10000
             };
-            List<int> portList = new List<int>();
-            
             foreach (var port in tabPorts)
             {
                 var tcpClient = new TcpClient();
@@ -47,36 +48,27 @@ namespace Scan
                     portList.Add(port);
                 tcpClient.Close();
             }
-            SaveScan.UpdateJson((ip,portList),fileName);
+            SaveScan.UpdatePortJson((ip,portList),fileName,"MajorPortScanCompleted");
             Debug.Log("major port have been scanned and saved!");
-            bool NotAlreadyScan(int port)
+            if (scanType == "all")
             {
-                bool alreadyScan = false;
-                var i = 0;
-                while (!alreadyScan && i<tabPorts.Length)
+                for (var port = portRange.Item1; port < portRange.Item2; port++)
                 {
-                    if (port == tabPorts[i])
-                        alreadyScan = true;
-                    i++;
+                    if (!tabPorts.Contains(port))
+                    {
+                        var tcpClient = new TcpClient();
+                        IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port, ConnectCallback, tcpClient);
+                        if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected) //changer le timeout
+                            portList.Add(port);
+                        tcpClient.Close();
+                    }
                 }
-
-                return alreadyScan;
+                SaveScan.UpdatePortJson((ip,portList),fileName,"Completed");
             }
-            for (var port = portRange.Item1; port < portRange.Item2; port++)
-            {
-                if (NotAlreadyScan(port))
-                {
-                    var tcpClient = new TcpClient();
-                    IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port, ConnectCallback, tcpClient);
-                    if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected) //changer le timeout
-                        portList.Add(port);
-                    tcpClient.Close();
-                }
-            }
-            SaveScan.UpdateJson((ip,portList),fileName);
+            
         }
         
-        public static void MakePortScan (List<IPAddress> ipList)
+        public static void MakePortScan (List<IPAddress> ipList,string scanType)
         {
             var portScanRange = (1, 65536);
             var portScanTaskList = new List<Task>();
@@ -84,7 +76,7 @@ namespace Scan
             Debug.Log("port start:");
             foreach (var ip in ipList)
             {
-                Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange));
+                Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType));
                 scanPortIPThread.Start();
                 if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }

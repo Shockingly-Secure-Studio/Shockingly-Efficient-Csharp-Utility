@@ -14,8 +14,8 @@ public class test : MonoBehaviour
         
         ScanIp o = new ScanIp(); 
         //o.MakePing();
-        Thread t = new Thread(new ThreadStart( o.MakePing));
-        t.Start();
+        //Thread t = new Thread(new ThreadStart( o.MakePing));
+        //t.Start();
     }
 
     // Update is called once per frame

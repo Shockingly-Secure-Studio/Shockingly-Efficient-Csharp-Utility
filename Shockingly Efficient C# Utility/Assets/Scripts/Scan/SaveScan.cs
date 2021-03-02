@@ -16,7 +16,7 @@ namespace Scan
             string path = Path.Combine("Results", fileName+".json");
             File.WriteAllText(path, jsonSerializedObj);
         }
-        public static void UpdateJson((IPAddress ip,List<int> port) scanResult,string fileName)
+        public static void UpdatePortJson((IPAddress ip,List<int> port) scanResult,string fileName, string scanStatus)
         {
             Debug.Log("newSave");
             List<Device> devicesList = LoadJson();
@@ -29,12 +29,17 @@ namespace Scan
             }
             else
             {
-                devicesList.Add(new Device(){IP=ip.ToString(),Port=port});
+                devicesList.Add(new Device(){IP=ip.ToString(),Port=port, scanStatus = scanStatus});
             }
             string jsonSerializedObj = JsonConvert.SerializeObject(devicesList, Formatting.Indented);
             Directory.CreateDirectory("Results");
             string path = Path.Combine("Results", fileName+".json");
             File.WriteAllText(path, jsonSerializedObj);
+            
+        }
+
+        public static void UpdateFlawJson(string ip, int nbOfSFlaw, int severityLevel)
+        {
             
         }
 
@@ -52,7 +57,7 @@ namespace Scan
             return (newDevice,i);
         }
 
-        private static List<Device> LoadJson()
+        public static List<Device> LoadJson()
         {
             List<Device> devicesList = new List<Device>();
             if (File.Exists("Result/scan.json"))
@@ -62,7 +67,7 @@ namespace Scan
             }
             return devicesList;
         }
-        private class Device
+        public class Device
         {
             public string hostName { get; set; }
             public string IP { get; set; }
