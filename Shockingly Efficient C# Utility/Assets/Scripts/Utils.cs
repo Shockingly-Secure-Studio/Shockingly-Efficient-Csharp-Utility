@@ -81,7 +81,7 @@ public static class Utils
             // Prepend line numbers to each line of the output.
             if (!string.IsNullOrEmpty(e.Data))
             {
-                Debug.Log(escapedArgs + " : " + e.Data);
+                //Debug.Log(escapedArgs + " : " + e.Data);
                 result += e.Data;
             }
         };
@@ -94,9 +94,7 @@ public static class Utils
 
     public static string Exec(this string cmd)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            return Cmd(cmd);
-        return Bash(cmd);
+        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Cmd(cmd) : Bash(cmd);
     }
 
     public static bool IsProgrammInstalled(string programm)
