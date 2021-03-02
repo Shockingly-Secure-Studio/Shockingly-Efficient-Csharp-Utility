@@ -8,9 +8,16 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public GameObject menu;
+    public GameObject alertbox2;
     public Transform WedgeParent;
     public Image PieChartPrefab;
     public Color[] colors;
+
+    public Text[] vulns;
+
+    public Text IP;
+    public Toggle aggresif;
+    public Toggle[] ListOption;
     // Start is called before the first frame update
     void ExitAPP()
     {
@@ -19,11 +26,26 @@ public class MenuManager : MonoBehaviour
     }
     public void ChangeScene_(string sceanename)
     {
+
         SceneManager.LoadScene(sceanename);
 
     }
+     public void ScanStart(string sceanename)
+    {
+        if (IP.text == null || IP.text == "" )
+        {
+            alertbox2.SetActive(true);
+        }
+        else
+        {
+            SceneManager.LoadScene(sceanename);
+        }
 
-    public void Chart(){
+    }
+
+
+    public void Chart() //Permet de générer un Chart
+    {
         float total = 12f; // Mettre le nombre de failles découvertes ici
         float nbHard = 4f; // Mettre le nombre de failles "hard" découvertes ici
         float nbMedium = 3f; // Mettre le nombre de failles "medium" découvertes ici
@@ -42,7 +64,27 @@ public class MenuManager : MonoBehaviour
         }
 
     }
+
     
+
+
+
+    public void SetAttScan(){
+        string ip = IP.text;
+        if (ip.Contains("/"))
+        {
+            
+        }
+
+        string methode = "";
+        if (aggresif.isOn)
+            methode = "all";
+        else
+        {
+            methode = "fast"; 
+        }
+        
+    }
 
     // Update is called once per frame
     void Start()
