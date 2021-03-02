@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Scan;
 
 
 public class MenuManager : MonoBehaviour
@@ -32,7 +33,8 @@ public class MenuManager : MonoBehaviour
     }
      public void ScanStart(string sceanename)
     {
-        if (IP.text == null || IP.text == "" )
+        string ipText = IP.text;
+        if ( ipText == null || ipText == "" )
         {
             alertbox2.SetActive(true);
         }
@@ -40,6 +42,15 @@ public class MenuManager : MonoBehaviour
         {
             SceneManager.LoadScene(sceanename);
         }
+        string agg = "fast";
+        if (aggresif.isOn)
+            agg = "all";
+        if (!ipText.Contains("/"))
+        {
+            ipText += '/';
+        }
+        ScanControl Scan = new ScanControl(ipText,agg);
+        Scan.Scan();
 
     }
 
