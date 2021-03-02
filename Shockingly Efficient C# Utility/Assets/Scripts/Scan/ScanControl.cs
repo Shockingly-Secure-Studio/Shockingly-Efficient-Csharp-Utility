@@ -1,14 +1,15 @@
 
 using System.Linq;
 using System.Threading;
+using UnityEngine;
 
 namespace Scan
 {
-    public class ScanControl
+    public class ScanControl : MonoBehaviour
     {
         private (string,string) _ipRange;
         private string _portScanType;
-        ScanControl(string ipRangeI,string portScanType)
+        public ScanControl(string ipRangeI,string portScanType)
         {
             string[] input = ipRangeI.Split('/');//TODO vérifier avant
             if (input[0] == "")
