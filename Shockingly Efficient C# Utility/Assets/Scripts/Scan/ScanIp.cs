@@ -110,5 +110,8 @@ public class ScanIp
             return null;
         }
     }
-    //test pour le scan de port
+    public static string GETHostName(IPAddress ip)
+    {
+        return Dns.GetHostEntry(ip).HostName;
+    }
 }

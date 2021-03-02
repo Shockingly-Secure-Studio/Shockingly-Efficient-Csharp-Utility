@@ -19,7 +19,7 @@ namespace Scan
         public static void UpdatePortJson((IPAddress ip,List<int> port) scanResult,string fileName, string scanStatus)
         {
             Debug.Log("newSave");
-            List<Device> devicesList = LoadJson();
+            List<Device> devicesList = LoadJson(fileName);
             var (ip, port) = scanResult;
             var isNew = IsNewDevice(devicesList, ip);
             if (!isNew.Item1)
@@ -29,20 +29,43 @@ namespace Scan
             }
             else
             {
-                devicesList.Add(new Device(){IP=ip.ToString(),Port=port, scanStatus = scanStatus});
+                devicesList.Add(new Device(){IP=ip.ToString(),Port=port, scanStatus = scanStatus,hostName = ScanIp.GETHostName(ip)});
             }
+            SaveJson(devicesList, fileName);
+        }
+        public static void SaveJson(List<Device> devicesList, string fileName)
+        {
             string jsonSerializedObj = JsonConvert.SerializeObject(devicesList, Formatting.Indented);
             Directory.CreateDirectory("Results");
             string path = Path.Combine("Results", fileName+".json");
             File.WriteAllText(path, jsonSerializedObj);
-            
         }
 
-        public static void UpdateFlawJson(string ip, int nbOfSFlaw, int severityLevel)
+        public static void UpdateFlawJson(string ip, int nbOfSFlaw, int severityLevel,string fileName)
         {
-            
+            List<Device> devicesList = LoadJson(fileName);
+            int idDevice=FindeDevice(ip, devicesList);
+            devicesList[idDevice].severityLevel = severityLevel.ToString();
+            devicesList[idDevice].nbOfSFlaw = nbOfSFlaw.ToString();
+            SaveJson(devicesList,fileName);
         }
 
+        public static int FindeDevice(string ip,List<Device> devicesList)
+        {
+            var i = 0;
+            bool find = false;
+            while (!find & i<devicesList.Count)
+            {
+                if (devicesList[i].IP.Equals(ip))
+                {
+                    find = true;
+                }
+
+                i++;
+            }
+            return (i-1);
+        }
+        
         private static (bool,int) IsNewDevice(List<Device> devicesList, IPAddress ip)
         {
             var i = 0;
@@ -57,12 +80,12 @@ namespace Scan
             return (newDevice,i);
         }
 
-        public static List<Device> LoadJson()
+        public static List<Device> LoadJson(string fileName)
         {
             List<Device> devicesList = new List<Device>();
-            if (File.Exists("Result/scan.json"))
+            if (File.Exists("Result/"+fileName+".json"))
             {
-                string json = File.ReadAllText("Result/scan.json");
+                string json = File.ReadAllText("Result/"+fileName+".json");
                 devicesList = JsonConvert.DeserializeObject<List<Device>>(json);
             }
             return devicesList;
