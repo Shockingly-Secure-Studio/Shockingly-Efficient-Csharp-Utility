@@ -2,46 +2,187 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Text;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using VSCodeEditor;
+using UnityEditor;
+using UnityEditor.SceneTemplate;
 using Web;
 
 public class web : MonoBehaviour
 {
     
     // Start is called before the first frame update
-    async void Start()
+    void Start()
     {
-        List<(string, int)> list = new List<(string, int)>();
-        list.Add(("64.233.160.30",80));
-        await SiteMap(list);
+        
     }
-    public static async Task<List<string>> SiteMap (List<(string,int)> list)
+    public static List<string> map(List<(string, int)> list, List<string> url)
     {
-        List<string> map = new List<string>();
-        StreamReader sr = new StreamReader("./Assets/Scripts/Web/WordList.txt");
-        foreach (var e in list)
+        List<string> nlist = new List<string>();
+        if (list.Count == 0)
         {
-            while (sr.ReadLine() != null)
+            Request request = new Request("", -1, null, null);
+            foreach (var VARIABLE in url)
             {
-                string nUrl = sr.ReadLine();
-                Request request = new Request(e.Item1, e.Item2, null, nUrl);
                 
-                var trc = await request.Ping();
-                if (trc == HttpStatusCode.OK)
+                string domain = request.GetDomainName(VARIABLE);
+                List<string> nnlist= moche(domain, VARIABLE, 10);
+                foreach (var items in nnlist)
                 {
-                    map.Add($"http://{e.Item1}:{e.Item2}/${nUrl}");
+                    bool find = false;
+                    foreach (var it in nlist)
+                    {
+                        if (it == items)
+                        {
+                            find = true;
+                        }
+                    }
+
+                    if (!find)
+                    {
+                        nlist.Add(items);
+                    }
                 }
             }
         }
-        sr.Close();
+        else
+        {
+            foreach (var e in list)
+            {
+                Request request = new Request(e.Item1, e.Item2, null, null);
+            
+                string domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
+                List<string> nnlist= moche(domain, $"http://{e.Item1}:{e.Item2}", 10);
+                foreach (var items in nnlist)
+                {
+                    bool find = false;
+                    foreach (var it in nlist)
+                    {
+                        if (it == items)
+                        {
+                            find = true;
+                        }
+                    }
 
-        return map;
+                    if (!find)
+                    {
+                        nlist.Add(items);
+                    }
+                }
+            }  
+        }
+        return nlist;
     }
-    public static void SourceCode(string url) //Retourne le code source du site à l'url
+
+    public static List<string> getlinks(string url, string domain)
+    {
+        List<string> nlist = new List<string>();
+            
+        string src = SourceCode(url);
+            
+        string pattern = "(href=\")+([%-z])+";
+            
+        string pattern2 = "("+domain+")";
+
+        string pattern3 = "([%-z])+(html)";
+            
+        Regex regex = new Regex(pattern);
+            
+        Regex rgx = new Regex(pattern2);
+
+        Regex rgx2 = new Regex(pattern3);
+            
+        foreach (Match m in regex.Matches(src))
+        {
+            string s = m.ToString();
+            if (rgx.IsMatch(s))
+            {
+                string ns = "";
+                for (int i = 6; i < s.Length; i++)
+                {
+                    ns += s[i];
+                }
+                bool find = false;
+                foreach (var VARIABLE in nlist)
+                {
+                    if (ns == VARIABLE)
+                    {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find)
+                {
+                    nlist.Add(ns); 
+                }
+            }
+            else if (rgx2.IsMatch(s))
+            {
+                string ns = "";
+                ns += $"http://{domain}";
+                for (int i = 6; i < s.Length; i++)
+                {
+                    ns += s[i];
+                }
+                bool find = false;
+                foreach (var VARIABLE in nlist)
+                {
+                    if (ns == VARIABLE)
+                    {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find)
+                {
+                    nlist.Add(ns); 
+                }
+            }
+        }
+        return nlist;
+    }
+    
+    public static List<string> moche(string domain, string url, int depth)
+    {
+        List<string> acc = getlinks(url, domain);
+        List<string> visited = getlinks(url, domain);
+        string url2;
+        while (acc.Count != 0)
+        {
+            url2 = acc[0];
+            acc.Remove(acc[0]);
+            List<string> acc2 = getlinks(url2, domain);
+            foreach (var VARIABLE in acc2)
+            {
+                bool find = false;
+                foreach (var it in visited)
+                {
+
+                    if (VARIABLE == it)
+                    {
+                        find = true;
+                    }
+                    
+                }
+                if (!find)
+                {
+                    acc.Add(VARIABLE);
+                    visited.Add(VARIABLE);
+                }
+                
+            }
+            depth--;
+        }
+        return visited;
+    }
+    
+    public static String SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
         r.Method = "GET";
@@ -50,10 +191,10 @@ public class web : MonoBehaviour
         string result = sr.ReadToEnd();
         sr.Close();
         Response.Close();
-        GetCommentaire(result);
+        return result;
         
     }
-    public static void GetCommentaire(string sourceCode)
+    public static List<String> GetCommentaire(string sourceCode) // retourne une liste avec tout les commentaire pour après check si y'a des trucs intérréssant
     {
         List<String> commentaires = new List<String>();
         string accS = "";
@@ -65,6 +206,7 @@ public class web : MonoBehaviour
             {
                 while(sourceCode[i] != '>') //Jusqu'à la fin du commentaire on enregistre tout ça dans accS
                 {
+                    UnityEngine.Debug.Log(1);
                     accS += sourceCode[i];
                     i++;
                 }
@@ -74,11 +216,71 @@ public class web : MonoBehaviour
                 }
             }
         }
-        foreach(String e in commentaires){
-            UnityEngine.Debug.Log(e);
-        }
+        return commentaires;
         
     }
+    public static List<Cookie> GetCookies(string url) //retourne une liste d'objets cookies qui sont les cookies de la page 
+    {
+        List<Cookie> CookieList = new List<Cookie>();
+        HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
+        r.CookieContainer = new CookieContainer(); //Crée le container de cookies
+        r.Method = "GET";
+      
+        using (var response = (HttpWebResponse) r.GetResponse())
+        {
+                foreach (Cookie cook in response.Cookies){
+                    CookieList.Add(cook);
+                }
+        }
+        return CookieList;
+    }
+
+    
+    public static void JwtToken(string url)
+    {
+        List<Cookie> cookies = GetCookies(url);
+        List<Cookie> Exploited_cookies = new List<Cookie>();
+
+        //string pattern = "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$";
+        //Regex rgx = new Regex(pattern2);
+        List<Cookie> JWT_list = new List<Cookie>(); // Liste de JWT
+        
+        // Find JWT token
+        foreach (Cookie c in cookies)
+        {
+            if ( c.Name == "jwt") //rgx.IsMatch(c.Value) ||
+                JWT_list.Add(c);
+
+        }
+        foreach (Cookie token in JWT_list)
+        {
+            string header = "";
+            string payloads = "";
+            string signature = "";
+            string Value = token.Value;
+            string[] Part = Value.Split('.');
+            if (Part[0] != null)
+                header = Encoding.UTF8.GetString(Convert.FromBase64String(Part[0]));
+            if (Part[1] != null){
+                try //Il peut y avoir une exeception chiante sur la longueur 
+                {
+                    payloads = Encoding.UTF8.GetString(Convert.FromBase64String(Part[1]));
+                }
+                catch (System.Exception)
+                {
+                    payloads = Encoding.UTF8.GetString(Convert.FromBase64String(Part[1]+"=")); //ça regle le problème
+                }
+            }
+            if (payloads.Contains("username"))
+                payloads = "{\"username\" : \" admin\"}" ;
+
+
+            //Manque des tests + l'encodage
+            string argus = header+"."+payloads+"."+signature; //Reformer le payload
+            
+        }
+    }
+
 
     
     // Update is called once per frame
