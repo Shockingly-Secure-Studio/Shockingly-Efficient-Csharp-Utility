@@ -41,8 +41,8 @@ namespace Service
 
         public static PrivateKeyFile GenerateKey()
         {
-            Utils.Exec("ssh-keygen -f ssh_key -t rsa -P");
-            PrivateKeyFile keyFile = new PrivateKeyFile(".ssh_key");
+            Utils.Exec("ssh-keygen -f ssh_key -t rsa -P \"\"");
+            PrivateKeyFile keyFile = new PrivateKeyFile("ssh_key");
             return keyFile;
         }
         

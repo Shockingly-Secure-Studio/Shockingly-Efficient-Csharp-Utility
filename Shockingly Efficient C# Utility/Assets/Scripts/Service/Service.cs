@@ -1,7 +1,11 @@
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Service.Exploit;
 
 namespace Service
 {
@@ -9,11 +13,16 @@ namespace Service
     {
         private readonly IPAddress _ip;
         private readonly int _port;
+        protected readonly string WorkingDirectory;
         
         public Service(string ip, int port)
         {
             _ip = IPAddress.Parse(ip);
             _port = port;
+
+            WorkingDirectory = Path.Combine("Results", ip, port.ToString());
+
+            Directory.CreateDirectory(WorkingDirectory);
         }
         
 
@@ -58,5 +67,32 @@ namespace Service
         
 
         public abstract Task<bool> IsOnline();
+
+        public void Log(AccessPoint accessPoint)
+        {
+            string path = Path.Combine(WorkingDirectory, "output.json");
+            bool exists = File.Exists(path);
+            ServiceResult result;
+            if (exists)
+            {
+                StreamReader sr = new StreamReader(path);
+                result = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
+                sr.Close();
+            }
+            else
+            {
+                result = new ServiceResult(_ip.ToString(), _port);
+            }
+            
+            result.AccessPoints.Add(accessPoint);
+            
+            string jsonSerializedObj = JsonConvert.SerializeObject(result, Formatting.Indented);
+            
+            byte[] toWrite = new UTF8Encoding(true).GetBytes(jsonSerializedObj);
+            
+            FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
+            fs.Write(toWrite, 0, toWrite.Length);
+            fs.Close();
+        }
     }
 }
