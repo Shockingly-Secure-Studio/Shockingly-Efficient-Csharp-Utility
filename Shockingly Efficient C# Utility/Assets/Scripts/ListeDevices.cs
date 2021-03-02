@@ -22,12 +22,14 @@ public class ListeDevices : MonoBehaviour
         
     }
     public void Spawn_( bool spawn)
-    {
+    {   
+        UnityEngine.Debug.Log("spawn");
         Device_HTB.SetActive(spawn) ;  
 
     }
     public void SetDevices() //Pour display les carrés rouges
     {
+        
         int nb_devices = 7; // TODO - prendre depuis le fichier
         Vector3 acc = content.transform.position;
         
@@ -35,27 +37,26 @@ public class ListeDevices : MonoBehaviour
         {
             Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform);
  
-            UnityEngine.Debug.Log("Ajouté");
             acc += new Vector3(5.5f,0,0); //Pour espacer les différents éléments
         }
 
     }
-    public void SetAttribut() //Pour les carrés rouges
+    private void SetAttribut(string name, string ip, string Score) //Pour les carrés rouges
     {
         for (int i = 0; i< display.transform.childCount; i++)
         {
             GameObject tmp = display.transform.GetChild(i).gameObject;
             if (tmp.name == "Name") 
             {
-                //Mettre le Nom ici
+                //tmp.text = name; 
             }
             if (tmp.name == "Score") 
             {
-                //Mettre le Score ici
+                //tmp.text = Score; 
             }
             if (tmp.name == "IP") 
             {
-                //Mettre l'IP ici
+                //tmp.text = ip;
             }
         }
     }
