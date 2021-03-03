@@ -87,6 +87,7 @@ namespace Scan
             List<Device> devicesList = new List<Device>();
             if (File.Exists("Result/"+fileName+".json"))
             {
+                UnityEngine.Debug.Log("file Exist");
                 string json = File.ReadAllText("Result/"+fileName+".json");
                 devicesList = JsonConvert.DeserializeObject<List<Device>>(json);
             }
