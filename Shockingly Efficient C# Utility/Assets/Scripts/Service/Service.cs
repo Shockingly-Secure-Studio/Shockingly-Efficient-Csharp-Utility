@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Scan;
 using Service.Exploit;
 
 namespace Service
@@ -14,9 +15,11 @@ namespace Service
         private readonly IPAddress _ip;
         private readonly int _port;
         protected readonly string WorkingDirectory;
+        private Machine.Machine host;
         
-        public Service(string ip, int port)
+        public Service(Machine.Machine machine, string ip, int port)
         {
+            host = machine;
             _ip = IPAddress.Parse(ip);
             _port = port;
 
@@ -87,12 +90,13 @@ namespace Service
             result.AccessPoints.Add(accessPoint);
             
             string jsonSerializedObj = JsonConvert.SerializeObject(result, Formatting.Indented);
-            
             byte[] toWrite = new UTF8Encoding(true).GetBytes(jsonSerializedObj);
             
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
             fs.Write(toWrite, 0, toWrite.Length);
             fs.Close();
+            
+            host.UpdateFlaws();
         }
     }
 }
