@@ -59,7 +59,6 @@ namespace Web
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
             url.Add("http://secu.studio");
-            url.Add("http://challenge01.root-me.org:59039");
             url.Add("http://challenge01.root-me.org/web-serveur/ch19/");
             List<string> map = web.map(list,url);
             foreach (var VARIABLE in map)

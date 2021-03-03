@@ -78,7 +78,7 @@ public class web : MonoBehaviour
         return nlist;
     }
 
-    public static (List<string>,List<string>) getlinks(string url, string domain,List<string> patterns)
+    public static List<string>getlinks(string url, string domain)
     {
         List<string> nlist = new List<string>();
 
@@ -89,7 +89,9 @@ public class web : MonoBehaviour
         string pattern2 = "("+domain+")"; // https://domain/truc/tuturu
 
         string pattern3 = "([%-z])+((html)|(php))"; // /truc.html
-        string pattern4 = "([.][/]([&-z]+))"; // ./?truc    
+
+        string pattern4 = "([.][/]([&-z]+))"; // ./?truc  
+
         Regex regex = new Regex(pattern);
             
         Regex rgx = new Regex(pattern2);
@@ -102,9 +104,42 @@ public class web : MonoBehaviour
         {
             string s = m.ToString();
             bool find = false;
-            foreach (var VARIABLE in patterns)
+            foreach (var VARIABLE in nlist)
             {
-                if (s == VARIABLE)
+                //prétraitement
+                string nurl = "";
+                int i = 7;
+                if (VARIABLE[5] == 's')
+                {
+                    i++;
+                }
+                for (; i < VARIABLE.Length; i++)
+                {
+                    nurl += VARIABLE[i];
+                }
+
+                //prétraitement2
+                string nmatch = "";
+                int j = 6;
+                if (rgx3.IsMatch(s))
+                {
+                    j = 9;
+                }
+                for (; j < s.Length; j++)
+                {
+                    nmatch += s[j];
+                }
+                string[] urlsplit = VARIABLE.Split('/');
+                if (urlsplit.Contains(nmatch))
+                {
+                    find = true;
+                }
+                string[] nurlsplit = VARIABLE.Split('?');
+                // foreach (var str in nurlsplit)
+                // {
+                //     Debug.Log(str);
+                // }
+                if (nurlsplit.Contains(nmatch))
                 {
                     find = true;
                 }
@@ -116,7 +151,6 @@ public class web : MonoBehaviour
                 {
                     ns += s[i];
                 }
-                patterns.Add(s);
                 nlist.Add(ns);
             }
             else if (rgx2.IsMatch(s) && !find)
@@ -127,7 +161,6 @@ public class web : MonoBehaviour
                 {
                     ns += s[i];
                 }
-                patterns.Add(s);
                 nlist.Add(ns);
             }
             else if (rgx3.IsMatch(s) && !find)
@@ -140,29 +173,27 @@ public class web : MonoBehaviour
                     {
                         ns += s[i];
                     }
-                    patterns.Add(s);
                     nlist.Add(ns); 
                 }
             }
         }
-        return (nlist,patterns);
+        return nlist;
     }
     
     public static List<string> moche(string domain, string url, int depth)
     {
-        List<string> recurent = new List<string>();
-        (List<string>,List<string>) acc = getlinks(url, domain,recurent);
-        (List<string>,List<string>) visited = getlinks(url, domain, recurent);
+        List<string> acc = getlinks(url, domain);
+        List<string> visited = getlinks(url, domain);
         string url2;
-        while (acc.Item1.Count != 0 && depth > 0)
+        while (acc.Count != 0 && depth > 0)
         {
-            url2 = acc.Item1[0];
-            acc.Item1.Remove(acc.Item1[0]);
-            (List<string>,List<string>) acc2 = getlinks(url2, domain,visited.Item2);
-            foreach (var VARIABLE in acc2.Item1)
+            url2 = acc[0];
+            acc.Remove(acc[0]);
+            List<string> acc2 = getlinks(url2, domain);
+            foreach (var VARIABLE in acc2)
             {
                 bool find = false;
-                foreach (var it in visited.Item1)
+                foreach (var it in visited)
                 {
 
                     if (VARIABLE == it)
@@ -173,32 +204,14 @@ public class web : MonoBehaviour
                 }
                 if (!find)
                 {
-                    acc.Item1.Add(VARIABLE);
-                    visited.Item1.Add(VARIABLE);
-                }
-                
-            }
-            foreach (var VARIABLE in acc2.Item2)
-            {
-                bool find = false;
-                foreach (var it in visited.Item2)
-                {
-
-                    if (VARIABLE == it)
-                    {
-                        find = true;
-                    }
-                    
-                }
-                if (!find)
-                {
-                    visited.Item2.Add(VARIABLE);
+                    acc.Add(VARIABLE);
+                    visited.Add(VARIABLE);
                 }
                 
             }
             depth--;
         }
-        return visited.Item1;
+        return visited;
     }
 
     public static List<string> GetInUrl(List<string> list)
