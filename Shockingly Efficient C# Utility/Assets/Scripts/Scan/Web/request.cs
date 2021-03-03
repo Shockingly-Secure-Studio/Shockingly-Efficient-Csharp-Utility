@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Web
@@ -58,7 +59,17 @@ namespace Web
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
             url.Add("http://secu.studio");
+            url.Add("http://challenge01.root-me.org/web-serveur/ch19/");
             List<string> map = web.map(list,url);
+            foreach (var VARIABLE in map)
+            {
+                Debug.Log(VARIABLE);
+            }
+            List<string> listurl = web.GetInUrl(map);
+            List<string> input = web.GetText(map);
+            Debug.Log(map.Count);
+            Debug.Log(listurl.Count);
+            Debug.Log(input.Count);
         }
         public string GetDomainName(string url)
         {
@@ -67,9 +78,10 @@ namespace Web
             WebResponse response = r.GetResponse();
             Uri s = response.ResponseUri;
             string ns = s.ToString();
-            ns = ns.Remove(0, 7);
-            ns = ns.Remove(ns.Length - 1, 1);
-            return ns;
+            string pattern = "([a-zA-Z0-9]+[.]+[-a-zA-Z]*[.]*[a-zA-Z]+)";
+            Regex regex = new Regex(pattern);
+            string nns = regex.Match(ns).ToString();
+            return nns;
         }
         
     }
