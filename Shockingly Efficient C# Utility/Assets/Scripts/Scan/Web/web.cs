@@ -30,7 +30,8 @@ public class web : MonoBehaviour
             Request request = new Request("", -1, null, null);
             foreach (var VARIABLE in url)
             {
-                
+                Debug.Log(VARIABLE);
+                nlist.Add(VARIABLE);
                 string domain = request.GetDomainName(VARIABLE);
                 List<string> nnlist= moche(domain, VARIABLE, 10);
                 foreach (var items in nnlist)
@@ -43,7 +44,6 @@ public class web : MonoBehaviour
                             find = true;
                         }
                     }
-
                     if (!find)
                     {
                         nlist.Add(items);
@@ -56,7 +56,7 @@ public class web : MonoBehaviour
             foreach (var e in list)
             {
                 Request request = new Request(e.Item1, e.Item2, null, null);
-            
+                nlist.Add($"http://{e.Item1}:{e.Item2}");
                 string domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
                 List<string> nnlist= moche(domain, $"http://{e.Item1}:{e.Item2}", 10);
                 foreach (var items in nnlist)
@@ -80,49 +80,50 @@ public class web : MonoBehaviour
         return nlist;
     }
 
-    public static List<string> getlinks(string url, string domain)
+    public static (List<string>,List<string>) getlinks(string url, string domain,List<string> patterns)
     {
         List<string> nlist = new List<string>();
-            
+
         string src = SourceCode(url);
             
-        string pattern = "(href=\")+([%-z])+";
+        string pattern = "(href=\")+([%-z])+"; // href="fqsdfsqdfsdqfsdqf/QSFDsqdfsqdf/sfdsqdfsqdfsdd
             
-        string pattern2 = "("+domain+")";
+        string pattern2 = "("+domain+")"; // https://domain/truc/tuturu
 
-        string pattern3 = "([%-z])+(html)";
-            
+        string pattern3 = "([%-z])+(html)"; // /truc.html
+
+        string pattern4 = "([.][/]([&-z]+))"; // ./?truc
+        
         Regex regex = new Regex(pattern);
             
         Regex rgx = new Regex(pattern2);
 
         Regex rgx2 = new Regex(pattern3);
-            
+
+        Regex rgx3 = new Regex(pattern4);
+        
         foreach (Match m in regex.Matches(src))
         {
             string s = m.ToString();
-            if (rgx.IsMatch(s))
+            bool find = false;
+            foreach (var VARIABLE in patterns)
+            {
+                if (s == VARIABLE)
+                {
+                    find = true;
+                }
+            }
+            if (rgx.IsMatch(s) && !find)
             {
                 string ns = "";
                 for (int i = 6; i < s.Length; i++)
                 {
                     ns += s[i];
                 }
-                bool find = false;
-                foreach (var VARIABLE in nlist)
-                {
-                    if (ns == VARIABLE)
-                    {
-                        find = true;
-                        break;
-                    }
-                }
-                if (!find)
-                {
-                    nlist.Add(ns); 
-                }
+                patterns.Add(s);
+                nlist.Add(ns);
             }
-            else if (rgx2.IsMatch(s))
+            else if (rgx2.IsMatch(s) && !find)
             {
                 string ns = "";
                 ns += $"http://{domain}";
@@ -130,38 +131,42 @@ public class web : MonoBehaviour
                 {
                     ns += s[i];
                 }
-                bool find = false;
-                foreach (var VARIABLE in nlist)
-                {
-                    if (ns == VARIABLE)
-                    {
-                        find = true;
-                        break;
-                    }
-                }
+                patterns.Add(s);
+                nlist.Add(ns);
+            }
+            else if (rgx3.IsMatch(s) && !find)
+            {
+                string ns = "";
                 if (!find)
                 {
+                    ns += url;
+                    for (int i = 8; i < s.Length; i++)
+                    {
+                        ns += s[i];
+                    }
+                    patterns.Add(s);
                     nlist.Add(ns); 
                 }
             }
         }
-        return nlist;
+        return (nlist,patterns);
     }
     
     public static List<string> moche(string domain, string url, int depth)
     {
-        List<string> acc = getlinks(url, domain);
-        List<string> visited = getlinks(url, domain);
+        List<string> recurent = new List<string>();
+        (List<string>,List<string>) acc = getlinks(url, domain,recurent);
+        (List<string>,List<string>) visited = getlinks(url, domain, recurent);
         string url2;
-        while (acc.Count != 0)
+        while (acc.Item1.Count != 0 && depth > 0)
         {
-            url2 = acc[0];
-            acc.Remove(acc[0]);
-            List<string> acc2 = getlinks(url2, domain);
-            foreach (var VARIABLE in acc2)
+            url2 = acc.Item1[0];
+            acc.Item1.Remove(acc.Item1[0]);
+            (List<string>,List<string>) acc2 = getlinks(url2, domain,visited.Item2);
+            foreach (var VARIABLE in acc2.Item1)
             {
                 bool find = false;
-                foreach (var it in visited)
+                foreach (var it in visited.Item1)
                 {
 
                     if (VARIABLE == it)
@@ -172,16 +177,65 @@ public class web : MonoBehaviour
                 }
                 if (!find)
                 {
-                    acc.Add(VARIABLE);
-                    visited.Add(VARIABLE);
+                    acc.Item1.Add(VARIABLE);
+                    visited.Item1.Add(VARIABLE);
+                }
+                
+            }
+            foreach (var VARIABLE in acc2.Item2)
+            {
+                bool find = false;
+                foreach (var it in visited.Item2)
+                {
+
+                    if (VARIABLE == it)
+                    {
+                        find = true;
+                    }
+                    
+                }
+                if (!find)
+                {
+                    visited.Item2.Add(VARIABLE);
                 }
                 
             }
             depth--;
         }
-        return visited;
+        return visited.Item1;
     }
-    
+
+    public static List<string> GetInUrl(List<string> list)
+    {
+        List<string> nlist = new List<string>();
+        string urlPattern = "([?])([a-z]|[A-Z])+(=)+";
+        Regex rgx = new Regex(urlPattern);
+        foreach (var item in list)
+        {
+            if (rgx.IsMatch(item))
+            {
+                nlist.Add(item);
+            }
+        }
+
+        return nlist;
+    }
+
+    public static List<string> GetText(List<string> list)
+    {
+        string pattern = "(<input)+";
+        Regex regex = new Regex(pattern);
+        List<string> nlist = new List<string>();
+        foreach (var item in list)
+        {
+            if (regex.IsMatch(item))
+            {
+                nlist.Add(item);
+            }
+        }
+
+        return nlist;
+    }
     public static String SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
