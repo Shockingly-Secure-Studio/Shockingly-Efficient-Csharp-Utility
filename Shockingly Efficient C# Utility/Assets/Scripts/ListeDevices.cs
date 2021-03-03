@@ -39,7 +39,7 @@ public class ListeDevices : MonoBehaviour
         List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
         int nb_devices = devicesList.Count;
         UnityEngine.Debug.Log("Nb of device:" + nb_devices.ToString());
-        Vector3 acc = content.transform.position;
+        Vector3 acc = content.transform.position +new Vector3(15,0,0);
         
         for (int i = 0; i < nb_devices; i++)
         {

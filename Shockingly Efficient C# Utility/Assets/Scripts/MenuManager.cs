@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Scan;
 using System.Globalization;
+using System;
+
 
 
 public class MenuManager : MonoBehaviour
@@ -58,10 +60,31 @@ public class MenuManager : MonoBehaviour
 
     public void Chart() //Permet de générer un Chart
     {
-        float total = 12f; // Mettre le nombre de failles découvertes ici
-        float nbHard = 4f; // Mettre le nombre de failles "hard" découvertes ici
-        float nbMedium = 3f; // Mettre le nombre de failles "medium" découvertes ici
-        float nbEasy = 8f; // Mettre le nombre de failles "easy" découvertes ici
+        List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
+        int nb_devices = devicesList.Count;
+        
+        float total = 0f; // Mettre le nombre de failles découvertes ici
+        float nbHard = 0f; // Mettre le nombre de failles "hard" découvertes ici
+        float nbMedium = 0f; // Mettre le nombre de failles "medium" découvertes ici
+        float nbEasy = 0f; // Mettre le nombre de failles "easy" découvertes ici
+
+        foreach (var device in devicesList)
+        {
+            if(Int32.Parse(device.severityLevel) <= 4){
+                total += 1f;
+                nbEasy += 1f;
+            }
+            if(Int32.Parse(device.severityLevel) <= 8 && Int32.Parse(device.severityLevel) > 4){
+                total += 1f;
+                nbMedium += 1f;
+            }
+            if(Int32.Parse(device.severityLevel) > 8){
+                total += 1f;
+                nbHard += 1f;
+            }
+                
+        } 
+
         float[] nbfailles = new float[] {nbEasy,nbMedium,nbHard};
         float zRot = 0f;
 
