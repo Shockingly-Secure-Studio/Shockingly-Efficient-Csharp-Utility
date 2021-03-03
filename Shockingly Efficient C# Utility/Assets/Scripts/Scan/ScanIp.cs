@@ -15,7 +15,9 @@ using Scan;
 using UnityEditor.Experimental.GraphView;
 using Debug = UnityEngine.Debug;
 
-public class ScanIp
+namespace Scan
+{
+    public class ScanIp : MonoBehaviour
 {
     //si ip vide tt tout seul sinon scan a l'aide de l'ip
     public List<(IPAddress, List<int>)> Results;
@@ -110,5 +112,10 @@ public class ScanIp
             return null;
         }
     }
-    //test pour le scan de port
+    public static string GETHostName(IPAddress ip)
+    {
+        return Dns.GetHostEntry(ip).HostName;
+    }
+}
+
 }

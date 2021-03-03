@@ -1,14 +1,15 @@
 
 using System.Linq;
 using System.Threading;
+using UnityEngine;
 
 namespace Scan
 {
-    public class ScanControl
+    public class ScanControl : MonoBehaviour
     {
         private (string,string) _ipRange;
         private string _portScanType;
-        ScanControl(string ipRangeI,string portScanType)
+        public ScanControl(string ipRangeI,string portScanType)
         {
             string[] input = ipRangeI.Split('/');//TODO vérifier avant
             if (input[0] == "")
@@ -47,6 +48,8 @@ namespace Scan
         }
         public static bool CheckIp (string ip)
         {
+            if (ip == "127.0.0.1")
+                return true;
             uint[] Octet = ip.Split('.').Select(uint.Parse).ToArray();
             bool status = true;
             switch (Octet[0])

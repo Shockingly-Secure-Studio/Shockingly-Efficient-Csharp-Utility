@@ -1,6 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UI;
+using Scan;
 
 public class ListeDevices : MonoBehaviour
 {
@@ -27,39 +33,55 @@ public class ListeDevices : MonoBehaviour
         Device_HTB.SetActive(spawn) ;  
 
     }
+    
     public void SetDevices() //Pour display les carrés rouges
     {
-        
-        int nb_devices = 7; // TODO - prendre depuis le fichier
+        List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
+        int nb_devices = devicesList.Count;
+        UnityEngine.Debug.Log("Nb of device:" + nb_devices.ToString());
         Vector3 acc = content.transform.position;
         
         for (int i = 0; i < nb_devices; i++)
         {
-            Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform);
- 
+            GameObject DeviceScan = Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform) as GameObject;
+            for (int j = 0; j < DeviceScan.transform.childCount; j++)
+            {
+                GameObject tmp = DeviceScan.transform.GetChild(j).gameObject;
+                try
+                {
+                    Text Nametxt = GameObject.Find("Name").GetComponent<Text>();
+                    Nametxt.text = devicesList[j].hostName;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                try
+                {
+                    Text IPtxt = GameObject.Find("IP").GetComponent<Text>();
+                    IPtxt.text = devicesList[j].IP;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                try
+                {
+                    Text Scoretxt = GameObject.Find("Score").GetComponent<Text>();
+                    Scoretxt.text = devicesList[j].severityLevel;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+            }
+
             acc += new Vector3(5.5f,0,0); //Pour espacer les différents éléments
         }
 
     }
-    private void SetAttribut(string name, string ip, string Score) //Pour les carrés rouges
-    {
-        for (int i = 0; i< display.transform.childCount; i++)
-        {
-            GameObject tmp = display.transform.GetChild(i).gameObject;
-            if (tmp.name == "Name") 
-            {
-                //tmp.text = name; 
-            }
-            if (tmp.name == "Score") 
-            {
-                //tmp.text = Score; 
-            }
-            if (tmp.name == "IP") 
-            {
-                //tmp.text = ip;
-            }
-        }
-    }
+ 
     // Update is called once per frame
     void Update()
     {
