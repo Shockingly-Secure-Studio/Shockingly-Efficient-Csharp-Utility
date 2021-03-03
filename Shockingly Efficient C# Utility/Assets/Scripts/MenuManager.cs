@@ -113,7 +113,7 @@ public class MenuManager : MonoBehaviour
 
 
     // Update is called once per frame
-    void Start()
+    void Awake()
     {
         Chart();
         TextSet();
