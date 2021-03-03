@@ -22,6 +22,7 @@ public class web : MonoBehaviour
     {
         
     }
+    
     public static List<string> map(List<(string, int)> list, List<string> url)
     {
         List<string> nlist = new List<string>();
@@ -30,9 +31,8 @@ public class web : MonoBehaviour
             Request request = new Request("", -1, null, null);
             foreach (var VARIABLE in url)
             {
-                
                 string domain = request.GetDomainName(VARIABLE);
-                List<string> nnlist= moche(domain, VARIABLE, 10);
+                    List<string> nnlist= moche(domain, VARIABLE, 10);
                 foreach (var items in nnlist)
                 {
                     bool find = false;
@@ -90,7 +90,7 @@ public class web : MonoBehaviour
             
         string pattern2 = "("+domain+")";
 
-        string pattern3 = "([%-z])+(html)";
+        string pattern3 = "([%-z])+((html)|(php))";
             
         Regex regex = new Regex(pattern);
             
@@ -125,7 +125,7 @@ public class web : MonoBehaviour
             else if (rgx2.IsMatch(s))
             {
                 string ns = "";
-                ns += $"http://{domain}";
+                ns += $"http://{domain}/";
                 for (int i = 6; i < s.Length; i++)
                 {
                     ns += s[i];

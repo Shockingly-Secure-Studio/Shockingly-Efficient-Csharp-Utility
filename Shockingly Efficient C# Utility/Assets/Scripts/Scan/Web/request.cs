@@ -67,7 +67,7 @@ namespace Web
             WebResponse response = r.GetResponse();
             Uri s = response.ResponseUri;
             string ns = s.ToString();
-            ns = ns.Remove(0, 8);
+            ns = ns.Remove(0, 7);
             ns = ns.Remove(ns.Length - 1, 1);
             return ns;
         }

@@ -33,12 +33,12 @@ namespace Machine
 
         public void UpdateFlaws()
         {
-            var FlawsByServices =
+            var flawsByServices =
                 Directory.EnumerateFiles(WorkingDirectory, "output.json", SearchOption.AllDirectories);
 
             int nbFlaws = 0;
             int severity = 0;
-            foreach (string outputjson in FlawsByServices)
+            foreach (string outputjson in flawsByServices)
             {
                 StreamReader sr = new StreamReader(outputjson);
                 ServiceResult result = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
