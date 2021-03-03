@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Scan;
+using System.Globalization;
 
 
 public class MenuManager : MonoBehaviour
@@ -32,7 +34,8 @@ public class MenuManager : MonoBehaviour
     }
      public void ScanStart(string sceanename)
     {
-        if (IP.text == null || IP.text == "" )
+        string ipText = IP.text;
+        if ( ipText == null || ipText == "" )
         {
             alertbox2.SetActive(true);
         }
@@ -40,6 +43,15 @@ public class MenuManager : MonoBehaviour
         {
             SceneManager.LoadScene(sceanename);
         }
+        string agg = "fast";
+        if (aggresif.isOn)
+            agg = "all";
+        if (!ipText.Contains("/"))
+        {
+            ipText += '/';
+        }
+        ScanControl Scan = new ScanControl(ipText,agg);
+        Scan.Scan();
 
     }
 
@@ -64,31 +76,23 @@ public class MenuManager : MonoBehaviour
         }
 
     }
+    public void TextSet()
+    {
+        int[] nbvulns = new int[] { 2, 4, 6 };
+        string[] puissance = new string[] { "faibles", "moyennes", "critiques" };
+        for (int i = 0; i < vulns.Length  ; i++)
+        {
+            vulns[i].text = nbvulns[i].ToString() + " vulnérabilité " + puissance[i];
+        }
+    }
 
     
 
-
-
-    public void SetAttScan(){
-        string ip = IP.text;
-        if (ip.Contains("/"))
-        {
-            
-        }
-
-        string methode = "";
-        if (aggresif.isOn)
-            methode = "all";
-        else
-        {
-            methode = "fast"; 
-        }
-        
-    }
 
     // Update is called once per frame
     void Start()
     {
         Chart();
+        TextSet();
     }
 }

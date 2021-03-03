@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
@@ -33,7 +34,7 @@ namespace Machine
         public void UpdateFlaws()
         {
             var FlawsByServices =
-                Directory.EnumerateDirectories(WorkingDirectory, "output.json", SearchOption.AllDirectories);
+                Directory.EnumerateFiles(WorkingDirectory, "output.json", SearchOption.AllDirectories);
 
             int nbFlaws = 0;
             int severity = 0;

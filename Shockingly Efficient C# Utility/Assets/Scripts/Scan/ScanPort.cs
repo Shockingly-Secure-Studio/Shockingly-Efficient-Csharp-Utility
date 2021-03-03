@@ -28,12 +28,10 @@ namespace Scan
         }
         //liste port importatn les écrire rapidement
 
-        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType)//mettre dans autre thread //10 par 10
+        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType,string fileName)//mettre dans autre thread //10 par 10
         {
             Debug.Log("newScanTask");
-            string fileName = "scan1";
             List<int> portList = new List<int>();
-            SaveScan.NewJson(fileName);
             SaveScan.UpdatePortJson((ip,portList),fileName,"Underway");
             //on scan liste des port imporant
             int[] tabPorts =
@@ -49,7 +47,7 @@ namespace Scan
                     portList.Add(port);
                 tcpClient.Close();
             }
-            SaveScan.UpdatePortJson((ip,portList),fileName,"MajorPortScanCompleted");
+            SaveScan.UpdatePortJson((ip,portList),fileName,"MajorPortsScanCompleted");
             Debug.Log("major port have been scanned and saved!");
             if (scanType == "all")
             {
@@ -75,9 +73,11 @@ namespace Scan
             var portScanTaskList = new List<Task>();
             var data = new List<(IPAddress, List<int>)>();
             Debug.Log("port start:");
+            string fileName = "scan1";
+            SaveScan.NewJson(fileName);
             foreach (var ip in ipList)
             {
-                Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType));
+                Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType,fileName));
                 scanPortIPThread.Start();
                 if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }

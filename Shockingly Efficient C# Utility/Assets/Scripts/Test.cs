@@ -10,13 +10,15 @@ public class Test : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        InputWebService inputWebService = new InputWebService("localhost", "127.0.0.1", 8181, "/", Utils.WebMethod.GET, "name");
+        Machine.Machine machine = new Machine.Machine("127.0.0.1");
+        
+        InputWebService inputWebService = new InputWebService(machine, "localhost", "127.0.0.1", 8181, "/", Utils.WebMethod.GET, "name");
         await inputWebService.Exploit(true);
         
         Debug.Log("============== PART 2 ===============");
         
-        inputWebService = new InputWebService("localhost", "127.0.0.1", 8181, "command.php", Utils.WebMethod.GET, "ip");
-        await inputWebService.Exploit(true);
+        inputWebService = new InputWebService(machine, "localhost", "127.0.0.1", 8181, "command.php", Utils.WebMethod.GET, "ip");
+        await inputWebService.Exploit(false);
     }
 
     // Update is called once per frame
