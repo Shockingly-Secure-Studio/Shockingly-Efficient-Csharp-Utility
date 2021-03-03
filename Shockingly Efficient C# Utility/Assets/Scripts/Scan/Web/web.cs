@@ -30,8 +30,6 @@ public class web : MonoBehaviour
             Request request = new Request("", -1, null, null);
             foreach (var VARIABLE in url)
             {
-                Debug.Log(VARIABLE);
-                nlist.Add(VARIABLE);
                 string domain = request.GetDomainName(VARIABLE);
                 List<string> nnlist= moche(domain, VARIABLE, 10);
                 foreach (var items in nnlist)
@@ -90,10 +88,8 @@ public class web : MonoBehaviour
             
         string pattern2 = "("+domain+")"; // https://domain/truc/tuturu
 
-        string pattern3 = "([%-z])+(html)"; // /truc.html
-
-        string pattern4 = "([.][/]([&-z]+))"; // ./?truc
-        
+        string pattern3 = "([%-z])+((html)|(php))"; // /truc.html
+        string pattern4 = "([.][/]([&-z]+))"; // ./?truc    
         Regex regex = new Regex(pattern);
             
         Regex rgx = new Regex(pattern2);
@@ -126,7 +122,7 @@ public class web : MonoBehaviour
             else if (rgx2.IsMatch(s) && !find)
             {
                 string ns = "";
-                ns += $"http://{domain}";
+                ns += $"http://{domain}/";
                 for (int i = 6; i < s.Length; i++)
                 {
                     ns += s[i];
