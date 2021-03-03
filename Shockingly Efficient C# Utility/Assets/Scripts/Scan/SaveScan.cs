@@ -22,7 +22,15 @@ namespace Scan
             Debug.Log("newSave");
             List<Device> devicesList = LoadJson(fileName);
             var (ip, port) = scanResult;
-            var isNew = IsNewDevice(devicesList, ip);
+            var isNew=(true,0);
+            if (devicesList == null)
+            {
+                devicesList = new List<Device>();
+            }
+            else
+            {
+                isNew = IsNewDevice(devicesList, ip);
+            }
             if (!isNew.Item1)
             {
                 List<int> portList= devicesList[isNew.Item2].Port;
