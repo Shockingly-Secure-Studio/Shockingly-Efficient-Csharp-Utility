@@ -14,7 +14,8 @@ namespace Scan
             string jsonSerializedObj = "";
             Directory.CreateDirectory("Results");
             string path = Path.Combine("Results", fileName+".json");
-            File.WriteAllText(path, jsonSerializedObj);
+            //File.Create(path);
+            File.WriteAllText(path, jsonSerializedObj);//crée un nouveaux ficher
         }
         public static void UpdatePortJson((IPAddress ip,List<int> port) scanResult,string fileName, string scanStatus)
         {
@@ -85,12 +86,12 @@ namespace Scan
         public static List<Device> LoadJson(string fileName)
         {
             List<Device> devicesList = new List<Device>();
-            if (File.Exists("Result/"+fileName+".json"))
+            if (File.Exists("Results/"+fileName+".json"))
             {
                 UnityEngine.Debug.Log("file Exist");
-                string json = File.ReadAllText("Result/"+fileName+".json");
+                string json = File.ReadAllText("Results/"+fileName+".json");
                 devicesList = JsonConvert.DeserializeObject<List<Device>>(json);
-            }
+            } 
             return devicesList;
         }
         public class Device
