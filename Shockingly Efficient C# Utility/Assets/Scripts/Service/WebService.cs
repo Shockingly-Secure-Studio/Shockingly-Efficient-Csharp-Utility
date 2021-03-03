@@ -1,23 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
+using UnityEngine;
 
 namespace Service
 {
     public class WebService : Service
     {
         private readonly string _vHost;
-        private readonly HttpClient _httpClient = new HttpClient();
 
-        public WebService(string vhost, string ip, int port) : base(ip, port)
+        private static HttpClientHandler _handler = new HttpClientHandler()
+        {
+            Proxy = new WebProxy("127.0.0.1:8080", false),
+            UseProxy = true
+        };
+        private readonly HttpClient _httpClient = new HttpClient(_handler);
+
+        public WebService(Machine.Machine machine, string vhost, string ip, int port) : base(machine, ip, port)
         {
             _vHost = vhost;
         }
 
-        public async override Task<bool> IsOnline()
+        public override async Task<bool> IsOnline()
         {
-            Task<string> result = Get("/");
+            Task<string> result = Get("");
             return (await result) != "";
         }
         
@@ -26,9 +35,10 @@ namespace Service
             
             Dictionary<string, string> headers = null, Dictionary<string, string> content = null)
         {
+            Uri uri = new Uri($"http://{_vHost}:{GetPort()}/{url}");
             HttpRequestMessage requestMessage = new HttpRequestMessage()
             {
-                RequestUri = new Uri(_vHost),
+                RequestUri = uri,
                 Method = method
             };
 
@@ -53,6 +63,7 @@ namespace Service
             if (content != null)
                 requestMessage.Content = new FormUrlEncodedContent(content);
 
+            // Debug.Log(requestMessage.ToString());
             HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
             responseMessage.EnsureSuccessStatusCode();
             string responseContent = await responseMessage.Content.ReadAsStringAsync();
@@ -80,6 +91,11 @@ namespace Service
             Dictionary<string, string> headers = null, Dictionary<string, string> content = null)
         {
             return await MakeHttpRequest(url, HttpMethod.Post, cookies, headers, content);
+        }
+
+        public string GetVhost()
+        {
+            return _vHost;
         }
     }
 }
