@@ -47,7 +47,7 @@ namespace Scan
                     portList.Add(port);
                 tcpClient.Close();
             }
-            SaveScan.UpdatePortJson((ip,portList),fileName,"MajorPortScanCompleted");
+            SaveScan.UpdatePortJson((ip,portList),fileName,"MajorPortsScanCompleted");
             Debug.Log("major port have been scanned and saved!");
             if (scanType == "all")
             {

@@ -48,6 +48,8 @@ namespace Scan
         }
         public static bool CheckIp (string ip)
         {
+            if (ip == "127.0.0.1")
+                return true;
             uint[] Octet = ip.Split('.').Select(uint.Parse).ToArray();
             bool status = true;
             switch (Octet[0])
