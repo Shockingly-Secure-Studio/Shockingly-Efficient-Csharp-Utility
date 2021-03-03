@@ -107,24 +107,8 @@ public class web : MonoBehaviour
             foreach (var VARIABLE in nlist)
             {
                 //prétraitement
-                string nurl = "";
-                int i = 7;
-                if (VARIABLE[5] == 's')
-                {
-                    i++;
-                }
-                for (; i < VARIABLE.Length; i++)
-                {
-                    nurl += VARIABLE[i];
-                }
-
-                //prétraitement2
                 string nmatch = "";
                 int j = 6;
-                if (rgx3.IsMatch(s))
-                {
-                    j = 9;
-                }
                 for (; j < s.Length; j++)
                 {
                     nmatch += s[j];
@@ -134,15 +118,7 @@ public class web : MonoBehaviour
                 {
                     find = true;
                 }
-                string[] nurlsplit = VARIABLE.Split('?');
-                // foreach (var str in nurlsplit)
-                // {
-                //     Debug.Log(str);
-                // }
-                if (nurlsplit.Contains(nmatch))
-                {
-                    find = true;
-                }
+                
             }
             if (rgx.IsMatch(s) && !find)
             {
@@ -200,6 +176,11 @@ public class web : MonoBehaviour
                     {
                         find = true;
                     }
+
+                    if (VARIABLE.Split('?').Length >2)
+                    {
+                        find = true;
+                    }
                     
                 }
                 if (!find)
@@ -232,12 +213,13 @@ public class web : MonoBehaviour
 
     public static List<string> GetText(List<string> list)
     {
-        string pattern = "(<input)+";
+        string pattern = "(<input)";
         Regex regex = new Regex(pattern);
         List<string> nlist = new List<string>();
         foreach (var item in list)
         {
-            if (regex.IsMatch(item))
+            string s = SourceCode(item);
+            if (regex.IsMatch(s))
             {
                 nlist.Add(item);
             }
@@ -269,7 +251,6 @@ public class web : MonoBehaviour
             {
                 while(sourceCode[i] != '>') //Jusqu'à la fin du commentaire on enregistre tout ça dans accS
                 {
-                    UnityEngine.Debug.Log(1);
                     accS += sourceCode[i];
                     i++;
                 }
