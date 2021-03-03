@@ -61,15 +61,8 @@ namespace Web
             url.Add("http://secu.studio");
             url.Add("http://challenge01.root-me.org/web-serveur/ch19/");
             List<string> map = web.map(list,url);
-            foreach (var VARIABLE in map)
-            {
-                Debug.Log(VARIABLE);
-            }
             List<string> listurl = web.GetInUrl(map);
             List<string> input = web.GetText(map);
-            Debug.Log(map.Count);
-            Debug.Log(listurl.Count);
-            Debug.Log(input.Count);
         }
         public string GetDomainName(string url)
         {
