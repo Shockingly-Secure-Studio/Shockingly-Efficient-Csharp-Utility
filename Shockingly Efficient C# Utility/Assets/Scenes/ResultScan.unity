@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 484948233}
   - component: {fileID: 484948232}
   m_Layer: 5
-  m_Name: faible (2)
+  m_Name: critique
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -408,7 +408,10 @@ MonoBehaviour:
   - {r: 0.5882353, g: 0.73333335, b: 0.4862745, a: 1}
   - {r: 0.9843137, g: 0.45490196, b: 0.24313726, a: 1}
   - {r: 0.9254902, g: 0.27450982, b: 0.27450982, a: 1}
-  vulns: []
+  vulns:
+  - {fileID: 1963214333}
+  - {fileID: 1192874710}
+  - {fileID: 484948232}
   IP: {fileID: 0}
   aggresif: {fileID: 0}
   ListOption: []
@@ -1328,7 +1331,7 @@ GameObject:
   - component: {fileID: 1192874711}
   - component: {fileID: 1192874710}
   m_Layer: 5
-  m_Name: faible (1)
+  m_Name: moyen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
