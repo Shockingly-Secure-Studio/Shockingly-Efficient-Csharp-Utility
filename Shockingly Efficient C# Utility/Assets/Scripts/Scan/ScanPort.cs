@@ -49,7 +49,7 @@ namespace Scan
                     //changer le timeout
                     if(port == 80){
                         Machine.Machine mach = new Machine.Machine(ip.ToString());
-                        WebService newWebService = new WebService(mach,ip.ToString(),ip.ToString(),port);
+                        WebService newWebService = new WebService(mach,"localhost",ip.ToString(),port);
                         Thread tr = new Thread(newWebService.Exploit);
                         tr.Start();
                     }
