@@ -124,10 +124,10 @@ public class MenuManager : MonoBehaviour
         List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
         int nb_devices = devicesList.Count;
         
-        float total = 10f; // Mettre le nombre de failles découvertes ici
-        float nbHard = 3f; // Mettre le nombre de failles "hard" découvertes ici
-        float nbMedium = 2f; // Mettre le nombre de failles "medium" découvertes ici
-        float nbEasy = 5f; // Mettre le nombre de failles "easy" découvertes ici
+        float total = 0f; // Mettre le nombre de failles découvertes ici
+        float nbHard = 0f; // Mettre le nombre de failles "hard" découvertes ici
+        float nbMedium = 0f; // Mettre le nombre de failles "medium" découvertes ici
+        float nbEasy = 0f; // Mettre le nombre de failles "easy" découvertes ici
 
         foreach (var device in devicesList)
         {
