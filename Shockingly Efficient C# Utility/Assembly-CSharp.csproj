@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\Service\SSHService.cs" />
      <Compile Include="Assets\Scripts\test\test.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\request.cs" />
+     <Compile Include="Assets\Scripts\Service\Exploit\Vulnerability.cs" />
      <Compile Include="Assets\Scripts\Service\SMBService.cs" />
      <Compile Include="Assets\Scripts\Service\Exploit\ServiceResult.cs" />
      <Compile Include="Assets\Scripts\Test.cs" />
