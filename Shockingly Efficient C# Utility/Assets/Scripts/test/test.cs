@@ -16,7 +16,7 @@ public class test : MonoBehaviour
         //Scan test = new Scan();
         //Request test = new Request("haha",70,null,"fqsdf");
         //test.test();
-        
+        //
         //ScanIp o = new ScanIp(); 
         //o.MakePing();
         //Thread t = new Thread(new ThreadStart( o.MakePing));

@@ -84,3 +84,5 @@ crashlytics-build.properties
 */UserSettings
 */obj
 
+.DS_Store
+Shockingly Efficient C# Utility/.DS_Store

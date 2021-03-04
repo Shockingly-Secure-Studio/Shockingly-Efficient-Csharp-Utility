@@ -5,22 +5,38 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Scan;
 using System.Globalization;
+using System;
+
 
 
 public class MenuManager : MonoBehaviour
 {
-    public GameObject menu;
-    public GameObject alertbox2;
-    public Transform WedgeParent;
-    public Image PieChartPrefab;
-    public Color[] colors;
+    public GameObject menu; 
+    public GameObject alertbox2; // L'alert box pour le check IP
+    public Transform WedgeParent; // Les cercles pour le graphique
+    public Image PieChartPrefab;// Le prefab du graphique
+    public Color[] colors; // Les couleurs du graphique
 
-    public Text[] vulns;
+    public Text[] vulns; // Les textes au dessus du graphique
 
     public Text IP;
     public Toggle aggresif;
     public Toggle[] ListOption;
+
+    public GameObject[] listVulns; // Les lignes pour les vulns
     // Start is called before the first frame update
+    public bool isResultScan;
+    void Start()
+    {
+        UnityEngine.Debug.Log("START");
+        if (isResultScan)
+        {
+            SetVulns();
+            Chart();
+            TextSet();
+            
+        }
+    }
     void ExitAPP()
     {
         Debug.Log("Exit App");
@@ -55,13 +71,80 @@ public class MenuManager : MonoBehaviour
 
     }
 
+    public void SetVulns()
+    {
+        // Il me faudrait une liste Vulns d'une classe Vulns
+        int nbVulns = 0; //int nbVulns = Vulns.Count
+        
+        for (int i = 0; i < nbVulns; i++)
+        {
+            for (int j = 0; j < listVulns[i].transform.childCount; j++)
+            {
+                
+                GameObject tmp = listVulns[i] as GameObject;
+                try
+                {
+                    Text Nametxt = tmp.transform.Find("Name").GetComponent<Text>() as Text;
+                    //Nametxt.text = Vulns[i].Name;
+
+                }
+                catch (Exception)
+                {
+                    UnityEngine.Debug.Log(" [+] NAME PROBLEM");
+                }
+                try
+                {
+                    Text Nametxt = tmp.transform.Find("Access point").GetComponent<Text>() as Text;
+                    //Nametxt.text = Vulns[i].AccessPoint;
+                }
+                catch (Exception)
+                {
+                    UnityEngine.Debug.Log(" [+] Access PROBLEM ");
+                }
+                try
+                {
+                    Text Nametxt = tmp.transform.Find("IP").GetComponent<Text>() as Text;
+                    //Nametxt.text = Vulns[i].IP;
+                    Nametxt.text = "Vulns[i].IP";
+                }
+                catch (Exception)
+                {
+                    UnityEngine.Debug.Log(" [+] IP PROBLEM");
+                }
+            }
+        }
+        
+
+    }
+
 
     public void Chart() //Permet de générer un Chart
     {
-        float total = 12f; // Mettre le nombre de failles découvertes ici
-        float nbHard = 4f; // Mettre le nombre de failles "hard" découvertes ici
-        float nbMedium = 3f; // Mettre le nombre de failles "medium" découvertes ici
-        float nbEasy = 8f; // Mettre le nombre de failles "easy" découvertes ici
+        List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
+        int nb_devices = devicesList.Count;
+        
+        float total = 10f; // Mettre le nombre de failles découvertes ici
+        float nbHard = 3f; // Mettre le nombre de failles "hard" découvertes ici
+        float nbMedium = 2f; // Mettre le nombre de failles "medium" découvertes ici
+        float nbEasy = 5f; // Mettre le nombre de failles "easy" découvertes ici
+
+        foreach (var device in devicesList)
+        {
+            if(Int32.Parse(device.severityLevel) <= 4){
+                total += 1f;
+                nbEasy += 1f;
+            }
+            if(Int32.Parse(device.severityLevel) <= 8 && Int32.Parse(device.severityLevel) > 4){
+                total += 1f;
+                nbMedium += 1f;
+            }
+            if(Int32.Parse(device.severityLevel) > 8){
+                total += 1f;
+                nbHard += 1f;
+            }
+                
+        } 
+
         float[] nbfailles = new float[] {nbEasy,nbMedium,nbHard};
         float zRot = 0f;
 
@@ -90,9 +173,5 @@ public class MenuManager : MonoBehaviour
 
 
     // Update is called once per frame
-    void Start()
-    {
-        Chart();
-        TextSet();
-    }
+    
 }
