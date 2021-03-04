@@ -386,9 +386,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 1249286182}
+  alertbox2: {fileID: 0}
   WedgeParent: {fileID: 0}
   PieChartPrefab: {fileID: 0}
   colors: []
+  vulns: []
+  IP: {fileID: 0}
+  aggresif: {fileID: 0}
+  ListOption: []
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -954,7 +959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -24, y: 0}
+  m_AnchoredPosition: {x: -24, y: 617.9001}
   m_SizeDelta: {x: 577.68, y: 617.9}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1249286182 stripped
@@ -1473,8 +1478,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 449.47998}
-  m_SizeDelta: {x: 0, y: -898.95}
+  m_AnchoredPosition: {x: 0.010070801, y: -507.74}
+  m_SizeDelta: {x: 0, y: -1015.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2004117319
 MonoBehaviour:
@@ -1488,7 +1493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: c1fd5e8f84b8bb34488ab442b0209fd5, type: 3}
   m_Color: {r: 1, g: 0.26666668, b: 0.3019608, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
