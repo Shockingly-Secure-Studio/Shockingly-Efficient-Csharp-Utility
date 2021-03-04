@@ -66,6 +66,8 @@ namespace Web
         }
         public string GetDomainName(string url)
         {
+            if (url.Contains("localhost"))
+                return "localhost";
             HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
             r.Method = "GET";
             WebResponse response = r.GetResponse();
