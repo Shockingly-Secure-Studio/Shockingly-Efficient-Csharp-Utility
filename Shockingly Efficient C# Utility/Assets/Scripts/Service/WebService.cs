@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using Service.Exploit;
 using UnityEngine;
 
 namespace Service
@@ -96,6 +97,36 @@ namespace Service
         public string GetVhost()
         {
             return _vHost;
+        }
+
+        public async void Exploit()
+        {
+            List<(string, int)> list = new List<(string, int)>();
+            List<string> url = new List<string>();
+            url.Add($"http://{_vHost}:{GetPort()}/");
+            List<string> map = web.map(list,url);
+            List<InputWebService> total = new List<InputWebService>();
+        
+            map.Add($"http://{_vHost}:{GetPort()}/");
+        
+            
+            foreach (var link in map)
+            {
+                Debug.Log(link);
+                foreach (var inputWebService in await InputWebService.FromLink(GetIP().ToString(), GetPort(), link))
+                {
+                    total.Add(inputWebService);
+                }
+            }
+
+            
+            foreach (InputWebService inputWebService in total)
+            {
+                await inputWebService.Exploit(true);
+            }
+
+            
+            new global::Machine.Machine(GetIP().ToString()).GetVulnerabilities();
         }
     }
 }

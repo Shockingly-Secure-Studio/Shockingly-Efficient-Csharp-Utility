@@ -19,7 +19,7 @@ namespace Machine
             WorkingDirectory = Path.Combine("Results", ip);
         }
 
-        private int MaxSeverity(List<AccessPoint> accessPoints)
+        private static int MaxSeverity(List<AccessPoint> accessPoints)
         {
             int max = accessPoints[0].Severity;
             for (int i = 1; i < accessPoints.Count; ++i)
@@ -45,12 +45,35 @@ namespace Machine
                 sr.Close();
 
                 nbFlaws += result.AccessPoints.Count;
-                int LocalMax = MaxSeverity(result.AccessPoints);
-                if (LocalMax > severity)
-                    severity = LocalMax;
+                int localMax = MaxSeverity(result.AccessPoints);
+                if (localMax > severity)
+                    severity = localMax;
             }
             
             SaveScan.UpdateFlawJson(IPAdress,nbFlaws, severity, "scan1");
+        }
+
+        public List<Vulnerability> GetVulnerabilities()
+        {
+            List<Vulnerability> result = new List<Vulnerability>();
+            
+            var flawsByServices =
+                Directory.EnumerateFiles(WorkingDirectory, "output.json", SearchOption.AllDirectories);
+
+            foreach (string outputjson in flawsByServices)
+            {
+                StreamReader sr = new StreamReader(outputjson);
+                ServiceResult serviceResult = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
+                sr.Close();
+
+                foreach (AccessPoint vuln in serviceResult.AccessPoints)
+                {
+                    Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, IPAdress);
+                    result.Add(vulnerability);
+                }
+            }
+
+            return result;
         }
     }
 }
