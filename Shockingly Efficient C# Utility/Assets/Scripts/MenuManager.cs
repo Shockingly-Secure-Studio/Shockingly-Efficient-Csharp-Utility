@@ -28,7 +28,7 @@ public class MenuManager : MonoBehaviour
     public GameObject[] listVulns; // Les lignes pour les vulns
     // Start is called before the first frame update
     public bool isResultScan;
-    void Start()
+    void Update()
     {
         UnityEngine.Debug.Log("START");
         if (isResultScan)
@@ -70,7 +70,6 @@ public class MenuManager : MonoBehaviour
         }
         ScanControl Scan = new ScanControl(ipText,agg);
         Scan.Scan();
-
     }
 
     public void SetVulns()
@@ -171,9 +170,5 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    
-
-
-    // Update is called once per frame
     
 }
