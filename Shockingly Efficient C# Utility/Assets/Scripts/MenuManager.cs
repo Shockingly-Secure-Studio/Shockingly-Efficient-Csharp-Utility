@@ -121,31 +121,32 @@ public class MenuManager : MonoBehaviour
 
     public void Chart() //Permet de générer un Chart
     {
-        List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
-        int nb_devices = devicesList.Count;
-        
-        float total = 10f; // Mettre le nombre de failles découvertes ici
-        float nbHard = 3f; // Mettre le nombre de failles "hard" découvertes ici
-        float nbMedium = 2f; // Mettre le nombre de failles "medium" découvertes ici
-        float nbEasy = 5f; // Mettre le nombre de failles "easy" découvertes ici
+        Machine.Machine mach = new Machine.Machine("127.0.0.1");
+        List<Service.Exploit.Vulnerability> Vulns = mach.GetVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
 
-        foreach (var device in devicesList)
+        
+        float total = 0f; 
+        float nbHard = 0f; 
+        float nbMedium = 0f; 
+        float nbEasy = 0f; 
+        foreach (var vulnerability in Vulns)
         {
-            if(Int32.Parse(device.severityLevel) <= 4){
-                total += 1f;
-                nbEasy += 1f;
-            }
-            if(Int32.Parse(device.severityLevel) <= 8 && Int32.Parse(device.severityLevel) > 4){
-                total += 1f;
-                nbMedium += 1f;
-            }
-            if(Int32.Parse(device.severityLevel) > 8){
-                total += 1f;
-                nbHard += 1f;
+            if (vulnerability.Severity > 7){
+                total += 1;
+                nbHard += 1;
             }
                 
-        } 
-
+            if (vulnerability.Severity < 8 && vulnerability.Severity > 4){
+                total += 1;
+                nbMedium += 1;
+            }
+                
+            if (vulnerability.Severity < 5){
+                total += 1;
+                nbEasy += 1;
+            }
+                
+        }
         float[] nbfailles = new float[] {nbEasy,nbMedium,nbHard};
         float zRot = 0f;
 
@@ -162,11 +163,26 @@ public class MenuManager : MonoBehaviour
     }
     public void TextSet()
     {
-        int[] nbvulns = new int[] { 2, 4, 6 };
+        Machine.Machine mach = new Machine.Machine("127.0.0.1");
+        List<Service.Exploit.Vulnerability> Vulns = mach.GetVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
+        int low = 0;
+        int med = 0;
+        int crit = 0;
+
+        foreach (var vulnerability in Vulns)
+        {
+            if (vulnerability.Severity > 7)
+                crit++;
+            if (vulnerability.Severity < 8 && vulnerability.Severity > 4)
+                med++;
+            if (vulnerability.Severity < 5)
+                low++;
+        }
+        int[] nbvulns = new int[] { low, med, crit };
         string[] puissance = new string[] { "faibles", "moyennes", "critiques" };
         for (int i = 0; i < vulns.Length  ; i++)
         {
-            vulns[i].text = nbvulns[i].ToString() + " vulnérabilité " + puissance[i];
+            vulns[i].text = nbvulns[i].ToString() + " vulnérabilités " + puissance[i];
         }
     }
 
