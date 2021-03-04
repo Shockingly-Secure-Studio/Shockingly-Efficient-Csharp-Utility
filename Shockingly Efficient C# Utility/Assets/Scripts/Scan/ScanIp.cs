@@ -12,7 +12,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using Scan;
-using UnityEditor.Experimental.GraphView;
 using Debug = UnityEngine.Debug;
 
 namespace Scan

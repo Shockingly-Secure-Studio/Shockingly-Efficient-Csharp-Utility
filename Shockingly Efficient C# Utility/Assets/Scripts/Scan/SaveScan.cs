@@ -34,6 +34,7 @@ namespace Scan
             if (!isNew.Item1)
             {
                 List<int> portList= devicesList[isNew.Item2].Port;
+                devicesList[isNew.Item2].scanStatus = scanStatus;
                 portList.AddRange(port);
             }
             else

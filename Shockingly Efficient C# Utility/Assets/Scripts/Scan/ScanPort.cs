@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Threading;
-using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
