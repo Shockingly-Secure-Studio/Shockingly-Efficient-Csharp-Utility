@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Scan;
+using Machine;
+using Service.Exploit;
 using System.Globalization;
 using System;
 
@@ -73,8 +75,9 @@ public class MenuManager : MonoBehaviour
 
     public void SetVulns()
     {
-        // Il me faudrait une liste Vulns d'une classe Vulns
-        int nbVulns = 0; //int nbVulns = Vulns.Count
+        Machine.Machine mach = new Machine.Machine("127.0.0.1");
+        List<Service.Exploit.Vulnerability> Vulns = mach.GetVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
+        int nbVulns = Vulns.Count;
         
         for (int i = 0; i < nbVulns; i++)
         {
@@ -85,7 +88,7 @@ public class MenuManager : MonoBehaviour
                 try
                 {
                     Text Nametxt = tmp.transform.Find("Name").GetComponent<Text>() as Text;
-                    //Nametxt.text = Vulns[i].Name;
+                    Nametxt.text = Vulns[i].Name;
 
                 }
                 catch (Exception)
@@ -95,7 +98,7 @@ public class MenuManager : MonoBehaviour
                 try
                 {
                     Text Nametxt = tmp.transform.Find("Access point").GetComponent<Text>() as Text;
-                    //Nametxt.text = Vulns[i].AccessPoint;
+                    Nametxt.text = Vulns[i].AccessPoint;
                 }
                 catch (Exception)
                 {
@@ -104,8 +107,7 @@ public class MenuManager : MonoBehaviour
                 try
                 {
                     Text Nametxt = tmp.transform.Find("IP").GetComponent<Text>() as Text;
-                    //Nametxt.text = Vulns[i].IP;
-                    Nametxt.text = "Vulns[i].IP";
+                    Nametxt.text = Vulns[i].IP;
                 }
                 catch (Exception)
                 {
