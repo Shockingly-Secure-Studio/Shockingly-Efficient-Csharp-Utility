@@ -39,7 +39,7 @@ public class ListeDevices : MonoBehaviour
         List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
         int nb_devices = devicesList.Count;
         UnityEngine.Debug.Log("Nb of device:" + nb_devices.ToString());
-        Vector3 acc = content.transform.position +new Vector3(15,0,0);
+        Vector3 acc = content.transform.position +new Vector3(3,0,0);
         
         for (int i = 0; i < nb_devices; i++)
         {
@@ -59,7 +59,7 @@ public class ListeDevices : MonoBehaviour
                 try
                 {
                     Text IPtxt = GameObject.Find("IP").GetComponent<Text>();
-                    IPtxt.text = devicesList[j].IP;
+                    IPtxt.text = "IP: " + devicesList[j].IP;
                 }
                 catch (Exception)
                 {
@@ -68,7 +68,16 @@ public class ListeDevices : MonoBehaviour
                 try
                 {
                     Text Scoretxt = GameObject.Find("Score").GetComponent<Text>();
-                    Scoretxt.text = devicesList[j].severityLevel;
+                    Scoretxt.text = "score: " + devicesList[j].severityLevel;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                try
+                {
+                    Text Scoretxt = GameObject.Find("Ports").GetComponent<Text>();
+                    Scoretxt.text = devicesList[j].Port.Count.ToString() + " ports ouverts";
                 }
                 catch (Exception)
                 {
