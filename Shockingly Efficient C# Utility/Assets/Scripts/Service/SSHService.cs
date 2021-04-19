@@ -14,7 +14,7 @@ namespace Service
         private SshClient _sshClient = null;
         private PrivateKeyFile KeyFile;
         
-        public SSHService(string ip, int port, string version = "") : base(ip, port)
+        public SSHService(Machine.Machine machine, int port, string version = "") : base(machine, port)
         {
             _version = version;
             KeyFile = GenerateKey();

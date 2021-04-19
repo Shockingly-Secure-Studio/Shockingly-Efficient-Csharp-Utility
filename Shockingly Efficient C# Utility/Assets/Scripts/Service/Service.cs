@@ -11,16 +11,17 @@ namespace Service
 {
     public abstract class Service
     {
+        private readonly Machine.Machine _machine;
         private readonly IPAddress _ip;
         private readonly int _port;
         protected readonly string WorkingDirectory;
         
-        public Service(string ip, int port)
+        public Service(Machine.Machine machine, int port)
         {
-            _ip = IPAddress.Parse(ip);
+            _ip = IPAddress.Parse(machine.IPAdress);
             _port = port;
 
-            WorkingDirectory = Path.Combine("Results", ip, port.ToString());
+            WorkingDirectory = Path.Combine("Results", machine.IPAdress, port.ToString());
 
             Directory.CreateDirectory(WorkingDirectory);
         }
