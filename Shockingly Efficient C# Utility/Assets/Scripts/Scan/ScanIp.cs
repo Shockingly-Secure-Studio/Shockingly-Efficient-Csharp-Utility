@@ -11,6 +11,7 @@ using Ping = System.Net.NetworkInformation.Ping;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading;
 using Scan;
 using Debug = UnityEngine.Debug;
 
@@ -61,12 +62,12 @@ namespace Scan
         var pingTaskList = new List<Task>();
         Debug.Log("start:"+ipRange.Item1+"end:"+ipRange.Item2);
         
-        if (ipRange.Item1 == ipRange.Item2)//scan only on Device
+        /*if (ipRange.Item1 == ipRange.Item2)//scan only on Device
         {
             ipList.Add(IPAddress.Parse(ipRange.Item1));
             ScanPort.MakePortScan(ipList,scanType);
             return;
-        }
+        }*/
         for (var i = ipStart[3]; i <= ipEnd[3]; i++)
         {
             for (var j = ipStart[2]; j <= ipEnd[2]; j++)
@@ -80,35 +81,35 @@ namespace Scan
         }
         while (pingTaskList.Count > 0)
         {
-            Task<IPAddress> taskResult = await Task.WhenAny(pingTaskList) as Task<IPAddress>;//atention peut attendre, task doit une erreur au bout d'un certin temps
-            IPAddress newIp = await taskResult;
+            Task<(IPAddress,bool)> taskResult = await Task.WhenAny(pingTaskList) as Task<(IPAddress,bool)>;//atention peut attendre, task doit une erreur au bout d'un certin temps
+            (IPAddress,bool) newIp=taskResult.Result;
             pingTaskList.Remove(taskResult);
-            if (newIp != null)
+            if (newIp.Item2)
             {
-                UnityEngine.Debug.Log("New ip found"+newIp);
-                Debug.Log("Host name:"+Dns.GetHostEntry(newIp).HostName);
-                ipList.Add(newIp);//on peut aussi récuperer les adresse mac et nom NetBios
+                UnityEngine.Debug.Log("New ip found"+newIp.Item1);
+                Debug.Log("Host name:"+Dns.GetHostEntry(newIp.Item1).HostName);
+                ipList.Add(newIp.Item1);//on peut aussi récuperer les adresse mac et nom NetBios
             }
         }
         Debug.Log("FIN DU SCAN IP");
         ScanPort.MakePortScan(ipList,scanType);
     }
-    private  static async Task<IPAddress> PingAsync(IPAddress ip)
+    private  static async Task<(IPAddress,bool)> PingAsync(IPAddress ip)
     {
         Ping pingSender = new Ping ();
-        int timeout = 120;
+        int timeout = 128;
         try
         {
-            PingReply reply = await pingSender.SendPingAsync(ip, timeout);//TODO timeout
+            PingReply reply = await pingSender.SendPingAsync(ip, timeout);
             if (reply !=null && reply.Status == IPStatus.Success)
             {
-                return ip;
+                return (ip,true);
             }
-            return null;
+            return (ip, false);
         }
         catch
         {
-            return null;
+            return (ip,false);
         }
     }
     public static string GETHostName(IPAddress ip)
