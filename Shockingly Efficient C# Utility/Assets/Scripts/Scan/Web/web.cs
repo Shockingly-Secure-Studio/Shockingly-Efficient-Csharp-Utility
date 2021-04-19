@@ -30,7 +30,7 @@ public class web : MonoBehaviour
             foreach (var VARIABLE in url)
             {
                 string domain = request.GetDomainName(VARIABLE);
-                List<string> nnlist= moche(domain, VARIABLE, 10);
+                List<string> nnlist= WebDiscover(domain, VARIABLE, 10);
                 foreach (var items in nnlist)
                 {
                     bool find = false;
@@ -55,7 +55,7 @@ public class web : MonoBehaviour
                 Request request = new Request(e.Item1, e.Item2, null, null);
                 nlist.Add($"http://{e.Item1}:{e.Item2}");
                 string domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
-                List<string> nnlist= moche(domain, $"http://{e.Item1}:{e.Item2}", 10);
+                List<string> nnlist= WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
                 foreach (var items in nnlist)
                 {
                     bool find = false;
@@ -77,9 +77,9 @@ public class web : MonoBehaviour
         return nlist;
     }
 
-    public static List<string>getlinks(string url, string domain)
+    public static List<string> getlinks(string url, string domain)
     {
-        List<string> nlist = new List<string>();
+        List<string> res = new List<string>();
 
         string src = SourceCode(url);
             
@@ -103,7 +103,7 @@ public class web : MonoBehaviour
         {
             string s = m.ToString();
             bool find = false;
-            foreach (var VARIABLE in nlist)
+            foreach (var VARIABLE in res)
             {
                 //prétraitement
                 string nmatch = "";
@@ -126,7 +126,7 @@ public class web : MonoBehaviour
                 {
                     ns += s[i];
                 }
-                nlist.Add(ns);
+                res.Add(ns);
             }
             else if (rgx2.IsMatch(s) && !find)
             {
@@ -136,64 +136,105 @@ public class web : MonoBehaviour
                 {
                     ns += s[i];
                 }
-                nlist.Add(ns);
+                res.Add(ns);
             }
             else if (rgx3.IsMatch(s) && !find)
             {
                 string ns = "";
-                if (!find)
-                {
-                    ns += url;
+                ns += url;
                     for (int i = 8; i < s.Length; i++)
                     {
                         ns += s[i];
                     }
-                    nlist.Add(ns); 
-                }
+
+                    res.Add(ns);
             }
         }
-        return nlist;
+        return res;
     }
     
-    public static List<string> moche(string domain, string url, int depth)
+    public static List<string> WebDiscover(string domain, string url, int depth) // will detect all the pages from a website
     {
         List<string> acc = getlinks(url, domain);
+        acc.Add(null);
         List<string> visited = getlinks(url, domain);
         string url2;
         while (acc.Count != 0 && depth > 0)
         {
             url2 = acc[0];
             acc.Remove(acc[0]);
-            List<string> acc2 = getlinks(url2, domain);
-            foreach (var VARIABLE in acc2)
+            if (url2 == null)
             {
-                bool find = false;
-                foreach (var it in visited)
+                depth--;
+                if (depth != 0 && acc.Count != 0)
                 {
-
-                    if (VARIABLE == it)
-                    {
-                        find = true;
-                    }
-
-                    if (VARIABLE.Split('?').Length >2)
-                    {
-                        find = true;
-                    }
-                    
+                    acc.Add(null);
                 }
-                if (!find)
-                {
-                    acc.Add(VARIABLE);
-                    visited.Add(VARIABLE);
-                }
-                
             }
-            depth--;
+            else
+            {
+                List<string> acc2 = getlinks(url2, domain);
+                foreach (var VARIABLE in acc2)
+                {
+                    bool find = false;
+                    foreach (var it in visited)
+                    {
+
+                        if (VARIABLE == it)
+                        {
+                            find = true;
+                        }
+
+                        if (VARIABLE.Split('?').Length >2)
+                        {
+                            find = true;
+                        }
+                    
+                    }
+                    if (!find)
+                    {
+                        acc.Add(VARIABLE);
+                        visited.Add(VARIABLE);
+                    }
+                
+                }   
+            }
+        }
+
+        List<string> url_hidden = new List<string>();
+        Gobuster(url,url_hidden);
+        foreach (var hidden in url_hidden)
+        {
+            bool found = false;
+            foreach (var visit in visited)
+            {
+                if (hidden != visit)
+                {
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                visited.Add(hidden);
+            }
         }
         return visited;
     }
 
+    public static async void Gobuster(string url, List<string> list)
+    {
+        StreamReader sr = new StreamReader("Assets\\Scripts\\Scan\\Web\\Wordlist.txt");
+        string s;
+        var res = await Request.Ping(url);
+        while ((s = sr.ReadLine()) != null)
+        { 
+            if (await Request.Ping(url+'/'+s) == HttpStatusCode.OK)
+            {
+               list.Add(url + s);
+            }
+        }
+    }
     public static List<string> GetInUrl(List<string> list)
     {
         List<string> nlist = new List<string>();

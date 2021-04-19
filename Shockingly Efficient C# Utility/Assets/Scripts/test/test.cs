@@ -21,6 +21,9 @@ public class test : MonoBehaviour
         //o.MakePing();
         //Thread t = new Thread(new ThreadStart( o.MakePing));
         //t.Start();
+        Request request = new Request("",-1,null,"");
+        request.test();
+        Debug.Log("========================== Test Begin =============");
     }
 
     // Update is called once per frame

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.NetworkInformation;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -45,13 +46,12 @@ namespace Web
             }
         }
 
-        public async Task<HttpStatusCode> Ping()
+        public static async Task<HttpStatusCode> Ping(string url)
         {
             using var client = new HttpClient();
 
-            var result = await client.GetAsync(this._url);
+            var result = await client.GetAsync(url);
             return result.StatusCode;
-            
         }
 
         public void test()
