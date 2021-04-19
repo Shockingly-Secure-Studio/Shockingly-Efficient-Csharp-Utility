@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using WebService;
+//using WebService;
 
 namespace Editor
 {
     // This file test the Service class and it's children (WebService, InputWebService, SSHService...)
+    /*
     public class ServicesTest
     {
 
@@ -23,4 +24,5 @@ namespace Editor
         }
         
     }
+    */
 }
