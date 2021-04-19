@@ -50,7 +50,7 @@ namespace Scan
                     if(port == 80){
                         Debug.Log("WEB start exploit");
                         Machine.Machine mach = new Machine.Machine(ip.ToString());
-                        WebService newWebService = new WebService(mach,"localhost",ip.ToString(),port);
+                        WebService newWebService = new WebService(mach, port, ip.ToString());
                         Thread tr = new Thread(newWebService.Exploit);
                         tr.Start();
                     }

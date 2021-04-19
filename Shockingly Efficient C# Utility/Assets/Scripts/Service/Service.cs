@@ -18,10 +18,10 @@ namespace Service
         protected readonly string WorkingDirectory;
         private Machine.Machine host;
         
-        public Service(Machine.Machine machine, string ip, int port)
+        public Service(Machine.Machine machine, int port)
         {
             host = machine;
-            _ip = IPAddress.Parse(ip);
+            _ip = IPAddress.Parse(machine.IPAdress);
             _port = port;
 
             WorkingDirectory = Path.Combine("Results", machine.IPAdress, port.ToString());

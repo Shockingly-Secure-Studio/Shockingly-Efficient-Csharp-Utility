@@ -20,7 +20,7 @@ namespace Service
         };
         private readonly HttpClient _httpClient = new HttpClient(_handler);
 
-        public WebService(Machine.Machine machine, string vhost, string ip, int port) : base(machine, ip, port)
+        public WebService(Machine.Machine machine, int port, string vhost) : base(machine, port)
         {
             _vHost = vhost;
         }
