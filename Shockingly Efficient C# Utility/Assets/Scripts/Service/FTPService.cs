@@ -221,18 +221,22 @@ namespace Service
             DumpFiles();
 
             bool hasWorked = _validatedCredentials.Count > 0;
-            if (hasWorked)
+            if (!hasWorked) return;
+            string creds = "";
+            foreach ((string, string) cred in _validatedCredentials)
             {
-                string username = _validatedCredentials[0].Item1;
-                string password = _validatedCredentials[0].Item2;
-                AccessPoint vuln = new AccessPoint(
-                    $"{username}:{password}@{_serverUri}",
-                    $"{username}:{password}@{_serverUri}",
-                    AccessPointType.InsecureAuthentication,
-                    4
-                );
-                Log(vuln);
+                creds += $"{cred.Item1}:{cred.Item2}\n";
             }
+            string username = _validatedCredentials[0].Item1;
+            string password = _validatedCredentials[0].Item2;
+            AccessPoint vuln = new AccessPoint(
+                $"{username}:{password}@{_serverUri}",
+                $"{username}:{password}@{_serverUri}",
+                AccessPointType.InsecureAuthentication,
+                4,
+                creds
+            );
+            Log(vuln);
             //return Directory.GetDirectories(Path.Combine(WorkingDirectory, "FTP_dump")).Length > 0;
         }
     }
