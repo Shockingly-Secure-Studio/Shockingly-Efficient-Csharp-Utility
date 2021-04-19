@@ -5,9 +5,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Threading;
-using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using Service;
+using Machine;
 
 namespace Scan
 {
@@ -28,12 +29,10 @@ namespace Scan
         }
         //liste port importatn les écrire rapidement
 
-        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType)//mettre dans autre thread //10 par 10
+        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType,string fileName)//mettre dans autre thread //10 par 10
         {
             Debug.Log("newScanTask");
-            string fileName = "scan1";
             List<int> portList = new List<int>();
-            SaveScan.NewJson(fileName);
             SaveScan.UpdatePortJson((ip,portList),fileName,"Underway");
             //on scan liste des port imporant
             int[] tabPorts =
@@ -43,13 +42,23 @@ namespace Scan
             };
             foreach (var port in tabPorts)
             {
+                
                 var tcpClient = new TcpClient();
                 IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port,ConnectCallback, tcpClient);
-                if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected)//changer le timeout
+                if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected){
+                    //changer le timeout
+                    if(port == 80){
+                        Debug.Log("WEB start exploit");
+                        Machine.Machine mach = new Machine.Machine(ip.ToString());
+                        WebService newWebService = new WebService(mach,"localhost",ip.ToString(),port);
+                        Thread tr = new Thread(newWebService.Exploit);
+                        tr.Start();
+                    }
                     portList.Add(port);
+                }
                 tcpClient.Close();
             }
-            SaveScan.UpdatePortJson((ip,portList),fileName,"MajorPortScanCompleted");
+            SaveScan.UpdatePortJson((ip,portList),fileName,"MajorPortsScanCompleted");
             Debug.Log("major port have been scanned and saved!");
             if (scanType == "all")
             {
@@ -75,9 +84,11 @@ namespace Scan
             var portScanTaskList = new List<Task>();
             var data = new List<(IPAddress, List<int>)>();
             Debug.Log("port start:");
+            string fileName = "scan1";
+            SaveScan.NewJson(fileName);
             foreach (var ip in ipList)
             {
-                Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType));
+                Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType,fileName));
                 scanPortIPThread.Start();
                 if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }

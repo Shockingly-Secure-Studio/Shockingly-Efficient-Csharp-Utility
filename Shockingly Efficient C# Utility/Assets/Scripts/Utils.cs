@@ -58,7 +58,7 @@ public static class Utils
         return result;
     }
     
-    public static string Cmd(this string cmd)
+    public static (string, int) Cmd(this string cmd)
     {
         var escapedArgs = cmd.Replace("\"", "\\\"");
 
@@ -81,7 +81,7 @@ public static class Utils
             // Prepend line numbers to each line of the output.
             if (!string.IsNullOrEmpty(e.Data))
             {
-                //Debug.Log(escapedArgs + " : " + e.Data);
+                Debug.Log(escapedArgs + " : " + e.Data);
                 result += e.Data;
             }
         };
@@ -89,19 +89,19 @@ public static class Utils
         process.Start();
         process.BeginOutputReadLine();
         process.WaitForExit();
-        return result;
+        return (result, process.ExitCode);
     }
 
     public static string Exec(this string cmd)
     {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Cmd(cmd) : Bash(cmd);
+        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Cmd(cmd).Item1 : Bash(cmd);
     }
 
     public static bool IsProgrammInstalled(string programm)
     {
         string res;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            res = Cmd($"where {programm}").Split('\n')[0].TrimEnd();
+            return Cmd($"where {programm} /Q").Item2 == 0;
         else
             res = Bash($"which {programm}").Split('\n')[0].TrimEnd();
 
