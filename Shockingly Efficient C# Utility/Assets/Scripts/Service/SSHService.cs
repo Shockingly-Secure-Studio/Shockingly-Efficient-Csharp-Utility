@@ -1,7 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Renci.SshNet;
-using TMPro;
 using UnityEngine;
 
 namespace Service
@@ -14,7 +13,7 @@ namespace Service
         private SshClient _sshClient = null;
         private PrivateKeyFile KeyFile;
         
-        public SSHService(Machine.Machine machine, int port, string version = "") : base(machine, port)
+        public SSHService(Machine.Machine machine, string ip, int port, string version = "") : base(machine, ip, port)
         {
             _version = version;
             KeyFile = GenerateKey();

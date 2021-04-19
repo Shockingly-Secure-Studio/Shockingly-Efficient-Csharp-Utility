@@ -7,7 +7,7 @@ namespace Service
     {
         private string _version;
 
-        public SMBService(Machine.Machine machine, int port, string version) : base(machine, port)
+        public SMBService(Machine.Machine machine, string ip, int port, string version) : base(machine, ip, port)
         {
             _version = version;
         }
