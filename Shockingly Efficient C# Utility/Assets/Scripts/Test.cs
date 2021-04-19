@@ -15,11 +15,9 @@ public class Test : MonoBehaviour
         Machine.Machine machine = new Machine.Machine("127.0.0.1");
 
         FTPService service = new FTPService(machine, 21);
-        List<string> files = service.ListFiles();
-        foreach (string file in files)
-        {
-            Debug.Log("[*] ListFiles: " + file);
-        }
+        Thread t = new Thread(service.Exploit);
+        t.Start();
+        t.Join();
     }
 
     // Update is called once per frame

@@ -48,7 +48,6 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Scan\ScanIp.cs" />
-     <Compile Include="Assets\Scripts\Service\FTPService.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanControl.cs" />
      <Compile Include="Assets\Scripts\Machine\Shell.cs" />
@@ -56,6 +55,7 @@
      <Compile Include="Assets\Scripts\Options.cs" />
      <Compile Include="Assets\Scripts\Service\SSHService.cs" />
      <Compile Include="Assets\Scripts\test\test.cs" />
+     <Compile Include="Assets\Scripts\Service\FTPService.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\request.cs" />
      <Compile Include="Assets\Scripts\Service\Exploit\Vulnerability.cs" />
      <Compile Include="Assets\Scripts\Service\SMBService.cs" />
@@ -306,9 +306,6 @@
  </Reference>
  <Reference Include="Newtonsoft.Json">
  <HintPath>C:/Users/Aloïs/OneDrive - EPITA/Personnel/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll</HintPath>
- </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>C:/Users/alois/OneDrive - EPITA/Personnel/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.2.2f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
