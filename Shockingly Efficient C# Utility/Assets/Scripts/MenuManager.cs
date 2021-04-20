@@ -28,6 +28,8 @@ public class MenuManager : MonoBehaviour
     public GameObject[] listVulns; // Les lignes pour les vulns
     // Start is called before the first frame update
     public bool isResultScan;
+    
+    
     void Update()
     {
         UnityEngine.Debug.Log("START");

@@ -7,6 +7,7 @@ using Service.Exploit;
 
 namespace Machine
 {
+    
     public class Machine
     {
         public string IPAdress;

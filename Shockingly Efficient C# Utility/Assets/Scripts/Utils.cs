@@ -8,6 +8,9 @@ using Debug = UnityEngine.Debug;
 
 public static class Utils
 {
+    // DEBUG mode, for local debugging when needed    
+    public static bool DEBUG = true;
+
         
     // https://docs.microsoft.com/fr-fr/dotnet/api/system.net.sockets.socket?view=net-5.0
     public static Socket ConnectSocket(IPAddress server, int port)
@@ -113,6 +116,24 @@ public static class Utils
         {
             return false;
         }
+    }
+
+    /// <summary>
+    /// Make a simple request to a foreign server, it is made to be simple so no POST params or cookies or things like this.
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    public static string MakeRequest(string url)
+    {
+        WebClient wc = new WebClient();
+        Stream data = wc.OpenRead(url);
+        StreamReader reader = new StreamReader(data);
+        string s = reader.ReadToEnd();
+        Console.WriteLine(s);
+        data.Close();
+        reader.Close();
+
+        return s;
     }
 
     public enum WebMethod
