@@ -67,6 +67,11 @@ namespace Service
         {
             return _port;
         }
+
+        public Machine.Machine GetMachine()
+        {
+            return _machine;
+        }
         
         
 

