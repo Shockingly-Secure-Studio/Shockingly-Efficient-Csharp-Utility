@@ -5,7 +5,7 @@ namespace Editor
 {
     public static class UtilsTest
     {
-
+/*
         [TestFixture]
         public class TestIsProgramInstalled
         {
@@ -27,7 +27,7 @@ namespace Editor
                     );
             }
         }
-        
+   */     
         
     }
 }
