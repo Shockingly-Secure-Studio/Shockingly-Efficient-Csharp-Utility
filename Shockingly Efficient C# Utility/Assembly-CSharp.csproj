@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\Service\WebService.cs" />
      <Compile Include="Assets\Scripts\Rapport\rapport.cs" />
      <Compile Include="Assets\Scripts\Service\Exploit\InputWebService.cs" />
+     <Compile Include="Assets\Scripts\Service\XSS.cs" />
      <Compile Include="Assets\Scripts\Machine\Machine.cs" />
      <Compile Include="Assets\Scripts\Service\Service.cs" />
      <Compile Include="Assets\Scripts\MenuManager.cs" />

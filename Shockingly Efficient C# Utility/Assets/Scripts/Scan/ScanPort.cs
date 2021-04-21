@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
@@ -27,9 +28,8 @@ namespace Scan
             }
 
         }
-        //liste port importatn les écrire rapidement
 
-        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType,string fileName)//mettre dans autre thread //10 par 10
+        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType,string fileName)
         {
             Debug.Log("newScanTask");
             List<int> portList = new List<int>();
@@ -42,7 +42,6 @@ namespace Scan
             };
             foreach (var port in tabPorts)
             {
-                
                 var tcpClient = new TcpClient();
                 IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port,ConnectCallback, tcpClient);
                 if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected){
@@ -68,7 +67,7 @@ namespace Scan
                     {
                         var tcpClient = new TcpClient();
                         IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port, ConnectCallback, tcpClient);
-                        if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected) //changer le timeout
+                        if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected)
                             portList.Add(port);
                         tcpClient.Close();
                     }
@@ -77,7 +76,42 @@ namespace Scan
             }
             
         }
-        
+        private static void SendCallback(IAsyncResult asyncResult)
+        {
+            UdpClient u = (UdpClient) asyncResult.AsyncState;
+
+            try
+            {
+                u.EndSend(asyncResult);
+            }
+            catch (Exception e)
+            {
+            }
+
+        }
+
+        private static (int,bool) UDPscan(IPAddress ip, int port)
+        {
+            
+            UdpClient u = new UdpClient();
+            try
+            {
+                u.Connect(ip,port);
+                byte[] sendBytes = Encoding.ASCII.GetBytes("test");
+                var asyncResult=u.BeginSend(sendBytes, sendBytes.Length, new AsyncCallback(SendCallback), u);
+                if (asyncResult.AsyncWaitHandle.WaitOne(300, false))//icmp error port ureachable=fermé, pas de réponse ouvert
+                {
+                    u.Close();
+                    return (port,true);
+                }
+                u.Close();
+                return (port,true);
+            }
+            catch
+            {
+                return (port,false);
+            }
+        }
         public static void MakePortScan (List<IPAddress> ipList,string scanType)
         {
             var portScanRange = (1, 65536);
