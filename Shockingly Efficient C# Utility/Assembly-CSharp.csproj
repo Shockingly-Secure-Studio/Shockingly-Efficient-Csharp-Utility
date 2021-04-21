@@ -59,7 +59,7 @@
      <Compile Include="Assets\Scripts\MenuManager.cs" />
      <Compile Include="Assets\Scripts\Scan\StartScan.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanPort.cs" />
-     <Compile Include="Assets\Scripts\Antivirus\ScanRegistry.cs" />
+     <Compile Include="Assets\Scripts\Antivirus\Scans.cs" />
      <None Include="Assets\Scripts\Scan\Web\WordList.txt" />
      <None Include="Assets\Fonts\roboto\NOTICE.txt" />
      <None Include="Assets\Packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.xml" />

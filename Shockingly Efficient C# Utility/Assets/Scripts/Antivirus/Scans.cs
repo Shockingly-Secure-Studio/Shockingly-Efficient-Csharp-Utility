@@ -9,8 +9,8 @@ using System.Net;
 using System.Text;
 using System.Net.NetworkInformation;
 using System.IO;
-
-public class ScanRegistry : MonoBehaviour
+using Newtonsoft.Json;
+public class Scans : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -45,8 +45,12 @@ public class ScanRegistry : MonoBehaviour
         httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
         HttpResponseMessage response = httpClient.GetAsync(url).Result;
         string content = string.Empty;
-        
-        UnityEngine.Debug.Log(response.Content);
+
+        string data = response.Content.ToString();
+
+    
+        UnityEngine.Debug.Log(data);
+
         return response.Content.ToString();
     }
     public void ExternalConnexion(){
