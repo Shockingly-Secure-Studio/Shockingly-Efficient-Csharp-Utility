@@ -40,37 +40,82 @@ public class Scans : MonoBehaviour
         };
         httpClient.DefaultRequestHeaders.Add("ContentType", "application/json");
         
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("CkyJOcTkBVswQKZg:6gJIDebITSgCJN6z");
-        string val = System.Convert.ToBase64String(plainTextBytes);
-        httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-        HttpResponseMessage response = httpClient.GetAsync(url).Result;
-        string content = string.Empty;
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("CkyJOcTkBVswQKZg:6gJIDebITSgCJN6z"); 
+        string val = System.Convert.ToBase64String(plainTextBytes); //Encode les autorisations
+        httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + val); //Ajoute les autorisations
+        
+        string result = httpClient.GetStringAsync(url).Result;
+        string[] infos = result.Split(',');
 
-        string data = response.Content.ToString();
-
+        string risk = "";
+        string asn_organization = "";
+        string latitude = "";
+        string longitude = "";
+        string country = "";
+        string threat = "";
+        foreach(var e in infos){
+            string[] acc = e.Split(',');
+            foreach(var tmp in acc){
+                if(e.Contains("risk")){     
+                    string[] tmp1 = tmp.Split(':');
+                    risk = tmp1[tmp1.Length -1].Replace('"',' ');
+                    risk = risk.Replace('}',' ');
+                }
+                if(e.Contains("asn_organization")){
+                    string[] tmp1 = tmp.Split(':');
+                    asn_organization = tmp1[tmp1.Length -1].Replace('"',' ');
+                }
+                if(e.Contains("country")){
+                    string[] tmp1 = tmp.Split(':');
+                    country = tmp1[tmp1.Length -1].Replace('"',' ');
+                }
+                if(e.Contains("threat")){
+                    string[] tmp1 = tmp.Split(':');
+                    threat = tmp1[tmp1.Length -1].Replace('"',' ');
+                }
+                if(e.Contains("latitude")){
+                    string[] tmp1 = tmp.Split(':');
+                    latitude = tmp1[tmp1.Length -1].Replace('"',' ');
+                }
+                if(e.Contains("longitude")){
+                    string[] tmp1 = tmp.Split(':');
+                    longitude = tmp1[tmp1.Length -1].Replace('"',' ');
+                }
+            } 
+        }
     
-        UnityEngine.Debug.Log(data);
-
-        return response.Content.ToString();
+        string localisation = latitude + ":" + longitude;
+        UnityEngine.Debug.Log("Risk:" + risk);
+        UnityEngine.Debug.Log("asn_organization:" + asn_organization);
+        UnityEngine.Debug.Log("localisation:" + localisation);
+        UnityEngine.Debug.Log("country:" + country);
+        UnityEngine.Debug.Log("threat:" + threat);
+        return risk+","+asn_organization+","+localisation+","+country+","+threat;
     }
-    public void ExternalConnexion(){
+    public List<string[]> ExternalConnexion(){
         IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
         TcpConnectionInformation[] tcpConnections = ipProperties.GetActiveTcpConnections();
 
-        List<string> UnknowConnexion = new List<string>();
+        List<string[]> UnknowConnexion = new List<string[]>();
 
         foreach (TcpConnectionInformation tcpInfo in tcpConnections){
             UnityEngine.Debug.Log("1 connexion from " + tcpInfo.LocalEndPoint.ToString() + " to "+ tcpInfo.RemoteEndPoint.ToString());
-            if(tcpInfo.State == TcpState.Established) // Si la connexion est établie
+            if(tcpInfo.State == TcpState.Established & tcpInfo) // If ESTABLISHED
             {
                 string ip = tcpInfo.LocalEndPoint.Address.ToString();
-                string ipinfo = checkIP(ip);
-                if(1 == 2) // Test to know if it's a dangerous IP
+                string ipinfo = checkIP(ip); //risk,asn_orga,localisation,country,threat
+                
+                string[] tmp = ipinfo.Split(',');
+                int check = Int32.Parse(tmp[1]);
+                if(check> 3) // Test to know if it's a dangerous IP
                 {
-                    UnknowConnexion.Add(tcpInfo.LocalEndPoint.Address.ToString()); 
+                    Array.Resize(ref tmp, tmp.Length + 1);
+                    tmp[tmp.Length -1] = ip;
+                    UnknowConnexion.Add(tmp); 
                 }
             }
         }
+        return UnknowConnexion;
     }
 
 
