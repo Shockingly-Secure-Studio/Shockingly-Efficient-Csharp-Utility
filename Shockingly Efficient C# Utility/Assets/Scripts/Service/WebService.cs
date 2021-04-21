@@ -127,8 +127,7 @@ namespace Service
 
             
             new global::Machine.Machine(GetIP().ToString()).GetVulnerabilities();
-            var xssResult=new XSS(total).TestPayload();
-            
+
         }
     }
 }

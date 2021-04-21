@@ -4,43 +4,40 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Service;
+using Service.Exploit;
+using TMPro;
 using UnityEngine;
 
 public class XSS
 {
-    private string path_payload;
-    private List<InputWebService> inputList;
+    private string _pathPayload;
+    private InputWebService _input;
+    private string _url;
 
-    public XSS(List<InputWebService> inputs)
+    public XSS(InputWebService inputs,string url)
     {
-        inputList = inputs;
-        path_payload=@"./xss_payloads";
+        _input = inputs;
+        _pathPayload=@".\Assets\Scripts\Service\xss_payloads";
+        _url = url;
     }
-    public async Task<(bool,InputWebService)> TestPayload()
+    public async Task TestPayload()
     {
-        if (File.Exists(path_payload))
+        if (File.Exists(_pathPayload))
         {
-            using var file = new System.IO.StreamReader(path_payload);
+            using var file = new System.IO.StreamReader(_pathPayload);
             string payload;
             while((payload = await file.ReadLineAsync()) != null)
             {
-                foreach (var input in inputList)
+                
+                string result=await _input.Submit(payload);
+                if (result.Contains(payload))
                 {
-                    string result=await input.Submit(payload);
-                    if (result.Contains(payload))
-                    {
-                        return (true,input);
-                    }
+                    AccessPoint accessPoint = new AccessPoint(_url, payload, AccessPointType.XSS, 6);
+                    _input.Log(accessPoint);
                 }
             }
         }
-        Debug.Log("XSS: file \""+path_payload+"\" not find");
-        return (false, null);
+        Debug.Log("XSS: file \""+_pathPayload+"\" not find");
     }
     
-   
-
-
-
-
 }
