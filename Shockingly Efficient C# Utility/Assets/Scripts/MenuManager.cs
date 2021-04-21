@@ -75,7 +75,7 @@ public class MenuManager : MonoBehaviour
     public void SetVulns()
     {
         Machine.Machine mach = new Machine.Machine("127.0.0.1");
-        List<Service.Exploit.Vulnerability> Vulns = mach.GetVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
+        List<Service.Exploit.Vulnerability> Vulns = mach.UpdateVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
         int nbVulns = Vulns.Count;
         
         for (int i = 0; i < nbVulns; i++)
@@ -122,7 +122,7 @@ public class MenuManager : MonoBehaviour
     public void Chart() //Permet de générer un Chart
     {
         Machine.Machine mach = new Machine.Machine("127.0.0.1");
-        List<Service.Exploit.Vulnerability> Vulns = mach.GetVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
+        List<Service.Exploit.Vulnerability> Vulns = mach.UpdateVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
 
         
         float total = 0f; 
@@ -164,7 +164,7 @@ public class MenuManager : MonoBehaviour
     public void TextSet()
     {
         Machine.Machine mach = new Machine.Machine("127.0.0.1");
-        List<Service.Exploit.Vulnerability> Vulns = mach.GetVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
+        List<Service.Exploit.Vulnerability> Vulns = mach.UpdateVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
         int low = 0;
         int med = 0;
         int crit = 0;

@@ -16,11 +16,11 @@ namespace Service
         private readonly IPAddress _ip;
         private readonly int _port;
         protected readonly string WorkingDirectory;
-        private Machine.Machine host;
+        protected readonly Machine.Machine Host;
         
         public Service(Machine.Machine machine, int port)
         {
-            host = machine;
+            Host = machine;
             _ip = IPAddress.Parse(machine.IPAdress);
             _port = port;
 
@@ -97,7 +97,7 @@ namespace Service
             fs.Write(toWrite, 0, toWrite.Length);
             fs.Close();
             
-            host.UpdateFlaws();
+            Host.UpdateFlaws();
         }
     }
 }

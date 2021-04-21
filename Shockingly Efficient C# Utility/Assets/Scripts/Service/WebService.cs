@@ -126,7 +126,7 @@ namespace Service
             }
 
             
-            new global::Machine.Machine(GetIP().ToString()).GetVulnerabilities();
+            Host.UpdateVulnerabilities();
         }
     }
 }

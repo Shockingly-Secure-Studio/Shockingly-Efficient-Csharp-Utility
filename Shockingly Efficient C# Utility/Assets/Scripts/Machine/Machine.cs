@@ -54,7 +54,7 @@ namespace Machine
             SaveScan.UpdateFlawJson(IPAdress,nbFlaws, severity, "scan1");
         }
 
-        public List<Vulnerability> GetVulnerabilities()
+        public List<Vulnerability> UpdateVulnerabilities()
         {
             List<Vulnerability> result = new List<Vulnerability>();
             
