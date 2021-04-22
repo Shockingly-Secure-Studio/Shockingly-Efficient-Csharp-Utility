@@ -82,22 +82,27 @@ public class web : MonoBehaviour
         List<string> res = new List<string>();
 
         string src = SourceCode(url);
-            
+        if (src == "")
+        {
+            return res;
+        }
+        
         string pattern = "(href=\")+([%-z])+"; // href="fqsdfsqdfsdqfsdqf/QSFDsqdfsqdf/sfdsqdfsqdfsdd
             
-        string pattern2 = "("+domain+")"; // https://domain/truc/tuturu
+        string pattern2 = @"[(http|https)]+:[/][/]+["+domain+"]+([/]+([A-Z|a-z]+))+"; // https://domain/truc/tuturu
 
-        string pattern3 = "([%-z])+((html)|(php))"; // /truc.html
+        string pattern3 = "([%-z])+((html)|(php)|(phtml))"; // /truc.html
 
         string pattern4 = "([.][/]([&-z]+))"; // ./?truc  
 
         Regex regex = new Regex(pattern);
-            
+        
         Regex rgx = new Regex(pattern2);
 
         Regex rgx2 = new Regex(pattern3);
 
         Regex rgx3 = new Regex(pattern4);
+        
         
         foreach (Match m in regex.Matches(src))
         {
@@ -117,7 +122,6 @@ public class web : MonoBehaviour
                 {
                     find = true;
                 }
-                
             }
             if (rgx.IsMatch(s) && !find)
             {
@@ -131,7 +135,7 @@ public class web : MonoBehaviour
             else if (rgx2.IsMatch(s) && !find)
             {
                 string ns = "";
-                ns += $"http://{domain}/";
+                ns += $"http://{domain}";
                 for (int i = 6; i < s.Length; i++)
                 {
                     ns += s[i];
@@ -156,23 +160,17 @@ public class web : MonoBehaviour
     public static List<string> WebDiscover(string domain, string url, int depth) // will detect all the pages from a website
     {
         List<string> acc = getlinks(url, domain);
-        acc.Add(null);
         List<string> visited = getlinks(url, domain);
         string url2;
         while (acc.Count != 0 && depth > 0)
         {
             url2 = acc[0];
             acc.Remove(acc[0]);
-            if (url2 == null)
-            {
-                depth--;
-                if (depth != 0 && acc.Count != 0)
-                {
-                    acc.Add(null);
-                }
-            }
-            else
-            {
+            //if (url2 == null)
+            //{
+            //}
+            //else
+            //{
                 List<string> acc2 = getlinks(url2, domain);
                 foreach (var VARIABLE in acc2)
                 {
@@ -197,28 +195,30 @@ public class web : MonoBehaviour
                         visited.Add(VARIABLE);
                     }
                 
-                }   
-            }
-        }
-
-        List<string> url_hidden = new List<string>();
-        Gobuster(url,url_hidden);
-        foreach (var hidden in url_hidden)
-        {
-            bool found = false;
-            foreach (var visit in visited)
-            {
-                if (hidden != visit)
-                {
-                    found = true;
                 }
-            }
 
-            if (!found)
-            {
-                visited.Add(hidden);
-            }
+                depth--;
+                //}
         }
+
+       // List<string> url_hidden = new List<string>();
+       //Gobuster(url,url_hidden);
+       //foreach (var hidden in url_hidden)
+       //{
+       //    bool found = false;
+       //    foreach (var visit in visited)
+       //    {
+       //        if (hidden != visit)
+       //        {
+       //            found = true;
+       //        }
+       //    }
+       //
+       //    if (!found)
+       //    {
+       //        visited.Add(hidden);
+       //    }
+       //}
         return visited;
     }
 
@@ -226,17 +226,18 @@ public class web : MonoBehaviour
     {
         StreamReader sr = new StreamReader("Assets\\Scripts\\Scan\\Web\\Wordlist.txt");
         string s;
-        var res = await Request.Ping(url);
         while ((s = sr.ReadLine()) != null)
-        { 
-            if (await Request.Ping(url+'/'+s) == HttpStatusCode.OK)
+        {
+            var ans = await Request.Ping(url + '/' + s);
+            if (ans == HttpStatusCode.OK)
             {
-               list.Add(url + s);
+                list.Add(url + s);
             }
         }
     }
     public static List<string> GetInUrl(List<string> list)
     {
+        
         List<string> nlist = new List<string>();
         string urlPattern = "([?])([a-z]|[A-Z])+(=)+";
         Regex rgx = new Regex(urlPattern);
@@ -258,8 +259,8 @@ public class web : MonoBehaviour
         List<string> nlist = new List<string>();
         foreach (var item in list)
         {
-            string s = SourceCode(item);
-            if (regex.IsMatch(s))
+            string s= SourceCode(item);
+            if (regex.IsMatch(s) && s != "")
             {
                 nlist.Add(item);
             }
@@ -267,17 +268,24 @@ public class web : MonoBehaviour
 
         return nlist;
     }
-    public static String SourceCode(string url) //Retourne le code source du site à l'url
+    public static string SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
         r.Method = "GET";
-        WebResponse Response = r.GetResponse();
-        StreamReader sr = new StreamReader(Response.GetResponseStream(), System.Text.Encoding.UTF8);
-        string result = sr.ReadToEnd();
-        sr.Close();
-        Response.Close();
-        return result;
-        
+        try
+        {
+            WebResponse Response = r.GetResponse();
+            StreamReader sr = new StreamReader(Response.GetResponseStream(), System.Text.Encoding.UTF8);
+            string res = sr.ReadToEnd();
+            sr.Close();
+            Response.Close();
+            return res;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return "";
+        }
     }
     public static List<String> GetCommentaire(string sourceCode) // retourne une liste avec tout les commentaire pour après check si y'a des trucs intérréssant
     {
