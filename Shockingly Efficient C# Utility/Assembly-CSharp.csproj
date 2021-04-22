@@ -312,6 +312,33 @@
  <Reference Include="Newtonsoft.Json">
  <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll</HintPath>
  </Reference>
+ <Reference Include="itext.kernel">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.kernel.dll</HintPath>
+ </Reference>
+ <Reference Include="itext.layout">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.layout.dll</HintPath>
+ </Reference>
+ <Reference Include="itext.styledxmlparser">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.styledxmlparser.dll</HintPath>
+ </Reference>
+ <Reference Include="itext.sign">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.sign.dll</HintPath>
+ </Reference>
+ <Reference Include="itext.barcodes">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.barcodes.dll</HintPath>
+ </Reference>
+ <Reference Include="itext.forms">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.forms.dll</HintPath>
+ </Reference>
+ <Reference Include="itext.pdfa">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.pdfa.dll</HintPath>
+ </Reference>
+ <Reference Include="itext.svg">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.svg.dll</HintPath>
+ </Reference>
+ <Reference Include="itext.io">
+ <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itext.io.dll</HintPath>
+ </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.2.2f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
  </Reference>
