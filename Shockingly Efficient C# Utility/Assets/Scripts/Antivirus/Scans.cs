@@ -10,12 +10,13 @@ using System.Text;
 using System.Net.NetworkInformation;
 using System.IO;
 using Newtonsoft.Json;
+using System.Linq;
 public class Scans : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        checkIP("163.5.73.7");
+        
     }
 
     // Update is called once per frame
@@ -100,7 +101,7 @@ public class Scans : MonoBehaviour
 
         foreach (TcpConnectionInformation tcpInfo in tcpConnections){
             UnityEngine.Debug.Log("1 connexion from " + tcpInfo.LocalEndPoint.ToString() + " to "+ tcpInfo.RemoteEndPoint.ToString());
-            if(tcpInfo.State == TcpState.Established & tcpInfo) // If ESTABLISHED
+            if(tcpInfo.State == TcpState.Established) // If ESTABLISHED
             {
                 string ip = tcpInfo.LocalEndPoint.Address.ToString();
                 string ipinfo = checkIP(ip); //risk,asn_orga,localisation,country,threat
@@ -118,6 +119,24 @@ public class Scans : MonoBehaviour
         return UnknowConnexion;
     }
 
+    public void FindRSA(){
+        var RSAKeys = from file in Directory.GetFiles("C:\\", "*.*", SearchOption.AllDirectories) where (file == "id_rsa" || file == "id_rsa.pub") select file;
+        foreach(var key in RSAKeys){
+            UnityEngine.Debug.Log(key); 
+            // Use RSACtfTools here
+        }
+    }
+
+    public void ScanAFile(string path){
+        string apiKey = "apikey=5b68b8d063fe1421b39ac7e8bfab8baee2b893200e1078b425045cfa09b2ae58";
+        string url = "https://www.virustotal.com/vtapi/v2/file/scan";
+        string file = "file=@"+path;
+        HttpWebRequest requestObj = (HttpWebRequest)WebRequest.Create(url);
+        requestObj.Method = "GET";
+        requestObj.PreAuthenticate = true;
+
+
+    }
 
     /* Bug The type name 'RegistryKey' could not be found in the namespace 'Microsoft.Win32'. 
     public void Registery(){
