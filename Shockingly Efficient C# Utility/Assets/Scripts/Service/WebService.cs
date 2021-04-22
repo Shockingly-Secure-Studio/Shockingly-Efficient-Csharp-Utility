@@ -105,10 +105,10 @@ namespace Service
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
             url.Add($"http://{_vHost}:{GetPort()}/");
-            string path = GetIP().ToString() + GetPort().ToString() + @"\mapSave";
+            string path = GetIP().ToString() +"\\"+ GetPort().ToString() + @"\mapSave";
             List<string> map;
             List<string> mapSave = SaveScan.LoadMap(path);
-            if (mapSave.Count == 0)
+            if (mapSave == null||mapSave.Count==0)
             {
                 map = web.map(list,url);
                 SaveScan.SaveMap(path,map);

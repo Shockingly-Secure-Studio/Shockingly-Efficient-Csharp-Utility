@@ -34,6 +34,7 @@ public class XSS
                 {
                     AccessPoint accessPoint = new AccessPoint(_url, payload, AccessPointType.XSS, 6);
                     _input.Log(accessPoint);
+                    return;
                 }
             }
         }

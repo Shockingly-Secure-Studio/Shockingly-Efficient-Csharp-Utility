@@ -105,11 +105,22 @@ namespace Scan
 
         public static void SaveIpScan(string fileName,List<IPAddress> ipList,string scanType)
         {
-            NewJson(fileName);
-            string jsonSerializedObj = JsonConvert.SerializeObject((scanType,ipList), Formatting.Indented);
-            Directory.CreateDirectory("Results");
+            if(!File.Exists(Path.Combine("Results", fileName+".json")))
+                NewJson(fileName);
+            var o = new IPSave();
+            List<string> ipList2=new List<string>();
+            ipList.ForEach(a => ipList2.Add(a.ToString()));
+            o.ipList = ipList2;
+            o.scanType = scanType;
+            string jsonSerializedObj = JsonConvert.SerializeObject(o, Formatting.Indented);
+            Directory.CreateDirectory(@".\Results");
             string path = Path.Combine("Results", fileName+".json");
             File.WriteAllText(path, jsonSerializedObj);
+        }
+        public class IPSave
+        {
+            public string scanType { get; set; }
+            public List<string> ipList { get; set; }
         }
         public static (string,List<IPAddress>) LoadIpScan(string fileName)
         {
@@ -119,7 +130,10 @@ namespace Scan
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
-                (scanType,ipList) = JsonConvert.DeserializeObject<(string,List<IPAddress>)>(json);
+                var o = JsonConvert.DeserializeObject<IPSave>(json);
+                List<string> ipList2=o.ipList;
+                ipList2.ForEach(a => ipList.Add(IPAddress.Parse(a)));
+                scanType = o.scanType.Split(',')[0];
             } 
             return (scanType,ipList);
         }

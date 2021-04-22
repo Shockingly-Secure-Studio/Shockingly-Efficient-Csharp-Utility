@@ -40,10 +40,8 @@ public class SessionSave
         List<IPAddress> remainingPortScan = new List<IPAddress>();
         foreach (var d in devices)
         {
-            if (!ipList.Contains(IPAddress.Parse(d.IP)))
-            {
+            if (!(ipList.Contains(IPAddress.Parse(d.IP))||d.scanStatus == "Underway"))
                 remainingPortScan.Add(IPAddress.Parse(d.IP));
-            }
         }
         ScanPort.MakePortScan(remainingPortScan,infos[0]);
         if (infos[1] != "completed")

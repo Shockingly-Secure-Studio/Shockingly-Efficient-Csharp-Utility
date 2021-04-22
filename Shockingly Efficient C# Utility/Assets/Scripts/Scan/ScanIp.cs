@@ -89,7 +89,7 @@ namespace Scan
                 UnityEngine.Debug.Log("New ip found"+newIp.Item1);
                 Debug.Log("Host name:"+Dns.GetHostEntry(newIp.Item1).HostName);
                 ipList.Add(newIp.Item1);
-                SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},Underway,{newIp.Item1},{ipEnd}");
+                SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},Underway,{newIp.Item1},{ipRange.Item2}");
             }
         }
         Debug.Log("FIN DU SCAN IP");
