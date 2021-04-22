@@ -123,6 +123,28 @@ namespace Scan
             } 
             return (scanType,ipList);
         }
+        public static void SaveMap(string path,List<string> map)
+        {
+            NewJson(path);
+            string jsonSerializedObj = JsonConvert.SerializeObject(map, Formatting.Indented);
+            path = Path.Combine("Results", path+".json");
+            File.WriteAllText(path, jsonSerializedObj);
+        }
+        public static List<string> LoadMap(string path)
+        {
+            List<string> map = new List<string>();
+            path = Path.Combine("Results", path+".json");
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                map = JsonConvert.DeserializeObject<List<string>>(json);
+            }
+            else
+            {
+                Debug.Log($"LoadMap: Result\\{path} does not exist or could not be found");
+            }
+            return map;
+        }
         public class Device
         {
             public string hostName { get; set; }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading;
 using Scan;
 using UnityEngine;
 
@@ -17,8 +18,10 @@ public class SessionSave
         string savePath = Path.Combine(_sessionSaveDir,saveName);
         DirectoryCopy( _sessionResultDir,savePath);
     }
-    public static void EndSession()
+    public static void EndSession(bool save,string saveName="")
     {
+        if(save)
+            SaveSession(saveName);
         Directory.Delete(_sessionResultDir);
     }
 
@@ -31,7 +34,8 @@ public class SessionSave
            return;
         }
         DirectoryCopy(loadPath,_sessionResultDir);
-        (string scanType,List<IPAddress> ipList) =SaveScan.LoadIpScan("ipList");
+        (string info,List<IPAddress> ipList) =SaveScan.LoadIpScan("ipList");
+        string[] infos = info.Split(','); 
         List<SaveScan.Device> devices = SaveScan.LoadJson("scanPort");
         List<IPAddress> remainingPortScan = new List<IPAddress>();
         foreach (var d in devices)
@@ -41,7 +45,15 @@ public class SessionSave
                 remainingPortScan.Add(IPAddress.Parse(d.IP));
             }
         }
-        ScanPort.MakePortScan(remainingPortScan,scanType);
+        ScanPort.MakePortScan(remainingPortScan,infos[0]);
+        if (infos[1] != "completed")
+        {
+            ScanIp o = new ScanIp(); 
+            Thread newScan = new Thread(new ThreadStart( () => o.MakePing((infos[2], infos[3]),infos[0])));
+            newScan.Start();
+        }
+        
+        
     }
     private static void DirectoryCopy(string sourceDirName, string destDirName)
     {

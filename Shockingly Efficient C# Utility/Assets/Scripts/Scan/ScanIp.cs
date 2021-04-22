@@ -17,7 +17,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Scan
 {
-    public class ScanIp : MonoBehaviour
+    public class ScanIp
 {
     //si ip vide tt tout seul sinon scan a l'aide de l'ip
     public List<(IPAddress, List<int>)> Results;
@@ -89,10 +89,11 @@ namespace Scan
                 UnityEngine.Debug.Log("New ip found"+newIp.Item1);
                 Debug.Log("Host name:"+Dns.GetHostEntry(newIp.Item1).HostName);
                 ipList.Add(newIp.Item1);
+                SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},Underway,{newIp.Item1},{ipEnd}");
             }
         }
         Debug.Log("FIN DU SCAN IP");
-        SaveScan.SaveIpScan("ipScan",ipList,scanType);
+        SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},completed");
         ScanPort.MakePortScan(ipList,scanType);
     }
     private  static async Task<(IPAddress,bool)> PingAsync(IPAddress ip)
