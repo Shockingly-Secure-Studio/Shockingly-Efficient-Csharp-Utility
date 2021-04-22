@@ -11,12 +11,17 @@ using System.Net.NetworkInformation;
 using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
+using UnityEngine.UI;
 public class Scans : MonoBehaviour
 {
+
+    public GameObject content;
+    public GameObject prefabCo;
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        setup(ExternalConnexion());
     }
 
     // Update is called once per frame
@@ -24,6 +29,33 @@ public class Scans : MonoBehaviour
     {
         
     }
+
+    private void setup(List<string[]> co){
+        float acc = 0;
+        for(int j=0; j<co.Count; j++){
+            var c = co[j];
+            
+            GameObject Connexion = Instantiate(prefabCo, new Vector3(-7.8f , -5f, 0), Quaternion.identity,content.transform) as GameObject;
+            Connexion.transform.position -= new Vector3(0,acc,0);
+            acc += 0.5f;
+            UnityEngine.Debug.Log("1 New COOOOO");
+            for(int i =0; i< Connexion.transform.childCount; i++){
+                Text tmp = Connexion.transform.GetChild(i).gameObject.GetComponent<Text>(); //risk,asn_organization,localisation,country,threat,ip 
+                if(tmp.name == "criticité")
+                    tmp.text = c[0];
+                if(tmp.name == "organisation")
+                    tmp.text = c[1];
+                if(tmp.name == "localisation")
+                    tmp.text = c[3];
+                if(tmp.name == "ip")
+                    tmp.text = c[c.Length -1 ];
+
+                
+            }
+        }
+       
+    }
+
 
 
     public string checkIP (string ip){
@@ -99,21 +131,34 @@ public class Scans : MonoBehaviour
 
         List<string[]> UnknowConnexion = new List<string[]>();
 
+        int protection = 0;
+
         foreach (TcpConnectionInformation tcpInfo in tcpConnections){
-            UnityEngine.Debug.Log("1 connexion from " + tcpInfo.LocalEndPoint.ToString() + " to "+ tcpInfo.RemoteEndPoint.ToString());
-            if(tcpInfo.State == TcpState.Established) // If ESTABLISHED
+            /*if(protection == 4){ // In order to avoid flooding API during test phase
+                return UnknowConnexion;
+            }*/
+            bool FromLocal = false;
+            string ipDest = tcpInfo.RemoteEndPoint.Address.ToString().Split(':')[0];
+            if(ipDest == "127.0.0.1" || ipDest == "0.0.0.0"){
+                FromLocal = true;
+            }
+
+            if(tcpInfo.State == TcpState.Established && !FromLocal  ) // If ESTABLISHED and not from local
             {
+                UnityEngine.Debug.Log("1 connexion from " + tcpInfo.LocalEndPoint.ToString() + " to "+ tcpInfo.RemoteEndPoint.ToString());
                 string ip = tcpInfo.LocalEndPoint.Address.ToString();
                 string ipinfo = checkIP(ip); //risk,asn_orga,localisation,country,threat
                 
                 string[] tmp = ipinfo.Split(',');
-                int check = Int32.Parse(tmp[1]);
-                if(check> 3) // Test to know if it's a dangerous IP
-                {
-                    Array.Resize(ref tmp, tmp.Length + 1);
-                    tmp[tmp.Length -1] = ip;
-                    UnknowConnexion.Add(tmp); 
-                }
+                UnityEngine.Debug.Log(tmp);
+                int check = 0;
+                bool succes = Int32.TryParse(tmp[1],out check);
+                UnityEngine.Debug.Log(succes);
+                Array.Resize(ref tmp, tmp.Length + 1);
+                tmp[tmp.Length -1] = ip;
+                UnknowConnexion.Add(tmp); 
+                //protection++;
+                
             }
         }
         return UnknowConnexion;
