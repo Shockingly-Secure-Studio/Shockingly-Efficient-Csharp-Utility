@@ -81,17 +81,18 @@ namespace Scan
         }
         while (pingTaskList.Count > 0)
         {
-            Task<(IPAddress,bool)> taskResult = await Task.WhenAny(pingTaskList) as Task<(IPAddress,bool)>;//atention peut attendre, task doit une erreur au bout d'un certin temps
+            Task<(IPAddress,bool)> taskResult = await Task.WhenAny(pingTaskList) as Task<(IPAddress,bool)>;
             (IPAddress,bool) newIp=taskResult.Result;
             pingTaskList.Remove(taskResult);
             if (newIp.Item2)
             {
                 UnityEngine.Debug.Log("New ip found"+newIp.Item1);
                 Debug.Log("Host name:"+Dns.GetHostEntry(newIp.Item1).HostName);
-                ipList.Add(newIp.Item1);//on peut aussi récuperer les adresse mac et nom NetBios
+                ipList.Add(newIp.Item1);
             }
         }
         Debug.Log("FIN DU SCAN IP");
+        SaveScan.SaveIpScan("ipScan",ipList,scanType);
         ScanPort.MakePortScan(ipList,scanType);
     }
     private  static async Task<(IPAddress,bool)> PingAsync(IPAddress ip)

@@ -118,7 +118,7 @@ namespace Scan
             var portScanTaskList = new List<Task>();
             var data = new List<(IPAddress, List<int>)>();
             Debug.Log("port start:");
-            string fileName = "scan1";
+            string fileName = "scanPort";
             SaveScan.NewJson(fileName);
             foreach (var ip in ipList)
             {

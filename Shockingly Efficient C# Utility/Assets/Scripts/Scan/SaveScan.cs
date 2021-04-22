@@ -14,8 +14,7 @@ namespace Scan
             string jsonSerializedObj = "";
             Directory.CreateDirectory("Results");
             string path = Path.Combine("Results", fileName+".json");
-            //File.Create(path);
-            File.WriteAllText(path, jsonSerializedObj);//crée un nouveaux ficher
+            File.WriteAllText(path, jsonSerializedObj);
         }
         public static void UpdatePortJson((IPAddress ip,List<int> port) scanResult,string fileName, string scanStatus)
         {
@@ -102,6 +101,27 @@ namespace Scan
                 devicesList = JsonConvert.DeserializeObject<List<Device>>(json);
             } 
             return devicesList;
+        }
+
+        public static void SaveIpScan(string fileName,List<IPAddress> ipList,string scanType)
+        {
+            NewJson(fileName);
+            string jsonSerializedObj = JsonConvert.SerializeObject((scanType,ipList), Formatting.Indented);
+            Directory.CreateDirectory("Results");
+            string path = Path.Combine("Results", fileName+".json");
+            File.WriteAllText(path, jsonSerializedObj);
+        }
+        public static (string,List<IPAddress>) LoadIpScan(string fileName)
+        {
+            List<IPAddress> ipList = new List<IPAddress>();
+            string scanType="";
+            string path = Path.Combine("Results", fileName+".json");
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                (scanType,ipList) = JsonConvert.DeserializeObject<(string,List<IPAddress>)>(json);
+            } 
+            return (scanType,ipList);
         }
         public class Device
         {
