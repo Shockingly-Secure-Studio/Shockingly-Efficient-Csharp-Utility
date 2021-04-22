@@ -14,10 +14,8 @@ public class Test : MonoBehaviour
     {
         Machine.Machine machine = new Machine.Machine("127.0.0.1");
 
-        FTPService service = new FTPService(machine, 21);
-        Thread t = new Thread(service.Exploit);
-        t.Start();
-        t.Join();
+        WebService service = new WebService(machine, 80, "127.0.0.1");
+        service.Exploit();
     }
 
     // Update is called once per frame
