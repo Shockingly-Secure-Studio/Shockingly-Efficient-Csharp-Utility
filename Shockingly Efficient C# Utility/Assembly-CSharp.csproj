@@ -52,6 +52,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\SessionSave.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanIp.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanControl.cs" />
