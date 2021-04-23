@@ -12,17 +12,18 @@ namespace Service
 {
     public abstract class Service
     {
-        private readonly Machine.Machine _machine;
         private readonly IPAddress _ip;
         private readonly int _port;
         protected readonly string WorkingDirectory;
-        private Machine.Machine host;
+        private readonly Machine.Machine _host;
         
         public Service(Machine.Machine machine, int port)
         {
-            host = machine;
+            _host = machine;
             _ip = IPAddress.Parse(machine.IPAdress);
             _port = port;
+                
+            machine.AddService(this);
 
             WorkingDirectory = Path.Combine("Results", machine.IPAdress, port.ToString());
 
@@ -67,6 +68,11 @@ namespace Service
         {
             return _port;
         }
+
+        public Machine.Machine GetHost()
+        {
+            return _host;
+        }
         
         
 
@@ -97,7 +103,7 @@ namespace Service
             fs.Write(toWrite, 0, toWrite.Length);
             fs.Close();
             
-            host.UpdateFlaws();
+            _host.UpdateFlaws();
         }
     }
 }
