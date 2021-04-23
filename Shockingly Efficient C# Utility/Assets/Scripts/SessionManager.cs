@@ -10,15 +10,19 @@ namespace DefaultNamespace
         public Text inputSaveName;
         public GameObject InvalidNameBox;
         public GameObject InfoBox;
+        private bool nameIsValid = true;
         public void SpawnBox(bool active){
             InvalidNameBox.SetActive(active);
         }
         public void SaveSession()
         {
-            bool result = SessionSave.SaveSession(inputSaveName.text);
-            if (!result)
+            if (nameIsValid)
             {
-                SpawnBox2(true);
+                bool result = SessionSave.SaveSession(inputSaveName.text);
+                if (!result)
+                {
+                    SpawnBox2(true);
+                }
             }
         }
 
@@ -33,26 +37,33 @@ namespace DefaultNamespace
 
         public void LoadSession()
         {
-            bool result=SessionSave.LoadSession(inputSaveName.text);
-            if(result)
-                SceneManager.LoadScene("ResultScan");
-            else
-                SpawnBox(true);
+            if (nameIsValid)
+            {
+                bool result=SessionSave.LoadSession(inputSaveName.text);
+                if(result)
+                    SceneManager.LoadScene("ResultScan");
+                else
+                    SpawnBox(true);
+            }
+            
         }
 
-        public void input()
+        public void Input()
         {
             string saveName = inputSaveName.text;
-            CheckName(saveName);
+            nameIsValid=CheckName(saveName);
 
         }
-        public void CheckName(string _name)
+        public bool CheckName(string _name)
         {
-            string regex = @"^[\w,-]+";
+            string regex = "^[A-Za-z0-9-_]+";//@"^[\w,-]+";
             Regex rgx = new Regex(regex);
-            if(!rgx.IsMatch(_name)||_name==""){
+            if(!rgx.IsMatch(_name)||_name=="")
+            {
                 SpawnBox(true);
+                return false;
             }
+            return true;
         }
     }
 }

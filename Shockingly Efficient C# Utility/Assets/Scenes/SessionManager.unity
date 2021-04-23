@@ -1490,8 +1490,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputSaveName: {fileID: 440248216}
-  InvalidNameBox: {fileID: 0}
-  InfoBox: {fileID: 0}
+  InvalidNameBox: {fileID: 1973702621935158698}
+  InfoBox: {fileID: 3915908949763722873}
 --- !u!1 &2027026365
 GameObject:
   m_ObjectHideFlags: 0
