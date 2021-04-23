@@ -56,7 +56,7 @@ namespace DefaultNamespace
         }
         public bool CheckName(string _name)
         {
-            string regex = "^[A-Za-z0-9-_]+";//@"^[\w,-]+";
+            string regex = "^[A-Za-z0-9-_]+";//@"^[\w-]+";
             Regex rgx = new Regex(regex);
             if(!rgx.IsMatch(_name)||_name=="")
             {

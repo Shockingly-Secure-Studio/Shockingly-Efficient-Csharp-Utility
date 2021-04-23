@@ -26,6 +26,11 @@ public class SessionSave
             else
                 return false;
         }
+        if (!Directory.Exists(_sessionResultDir))
+        {
+            Debug.Log("No results directory, nothing to save");
+            return false;
+        }
         DirectoryCopy( _sessionResultDir,savePath);
         return true;
     }
