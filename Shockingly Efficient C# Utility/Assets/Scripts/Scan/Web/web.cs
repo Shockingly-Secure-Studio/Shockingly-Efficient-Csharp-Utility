@@ -136,7 +136,11 @@ public class web : MonoBehaviour
             else if (rgx2.IsMatch(s) && !find)
             {
                 string ns = "";
-                ns += $"http://{domain}/";//TODO
+                ns += $"http://{domain}";
+                if (s[6] != '/' )
+                {
+                    ns+= $"http://{domain}";
+                }
                 for (int i = 6; i < s.Length; i++)
                 {
                     ns += s[i];

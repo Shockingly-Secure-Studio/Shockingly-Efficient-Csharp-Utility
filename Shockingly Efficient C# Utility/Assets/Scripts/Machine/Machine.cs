@@ -50,7 +50,7 @@ namespace Machine
                     severity = localMax;
             }
             
-            SaveScan.UpdateFlawJson(IPAdress,nbFlaws, severity, "scan1");
+            SaveScan.UpdateFlawJson(IPAdress,nbFlaws, severity, "scanPort");
         }
 
         public List<Vulnerability> GetVulnerabilities()

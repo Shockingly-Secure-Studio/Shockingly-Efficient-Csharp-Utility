@@ -606,7 +606,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1508252352}
         m_TargetAssemblyTypeName: DefaultNamespace.SessionManager, Assembly-CSharp
-        m_MethodName: input
+        m_MethodName: Input
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
