@@ -541,9 +541,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
+  alertbox2: {fileID: 0}
   WedgeParent: {fileID: 0}
   PieChartPrefab: {fileID: 0}
   colors: []
+  vulns: []
+  IP: {fileID: 0}
+  aggresif: {fileID: 0}
+  ListOption: []
+  listVulns: []
+  isResultScan: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1465,7 +1472,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: SessionManager
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1656130702

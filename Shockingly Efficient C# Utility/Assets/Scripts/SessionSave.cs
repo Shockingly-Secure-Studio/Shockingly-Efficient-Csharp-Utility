@@ -43,20 +43,21 @@ public class SessionSave
         }
     }
 
-    public static void LoadSession(string saveName)
+    public static bool LoadSession(string saveName)
     {
         var loadPath = Path.Combine(_sessionSaveDir, saveName);
         if (!Directory.Exists(loadPath))
         {
            Debug.Log("Directory does not exist or could not be found:"+loadPath);
-           return;
+           return false;
         }
+        Directory.Delete(_sessionResultDir,true);
         DirectoryCopy(loadPath,_sessionResultDir);
         (string info,List<IPAddress> ipList) =SaveScan.LoadIpScan("ipScan");
         if (info == null)
         {
             Debug.Log("Error the session ipList is empty");
-            return;
+            return false;
         }
         string[] infos = info.Split(','); 
         List<SaveScan.Device> devices = SaveScan.LoadJson("scanPort");
@@ -76,8 +77,7 @@ public class SessionSave
             Thread newScan = new Thread(new ThreadStart( () => o.MakePing((infos[2], infos[3]),infos[0])));
             newScan.Start();
         }
-        
-        
+        return true;
     }
     private static void DirectoryCopy(string sourceDirName, string destDirName)
     {
