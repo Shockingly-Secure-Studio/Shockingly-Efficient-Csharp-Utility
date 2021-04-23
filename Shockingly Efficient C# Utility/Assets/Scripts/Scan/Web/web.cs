@@ -89,7 +89,7 @@ public class web : MonoBehaviour
         
         string pattern = "(href=\")+([%-z])+"; // href="fqsdfsqdfsdqfsdqf/QSFDsqdfsqdf/sfdsqdfsqdfsdd
             
-        string pattern2 = @"[(http|https)]+:[/][/]+["+domain+"]+([/]+([A-Z|a-z]+))+"; // https://domain/truc/tuturu
+        string pattern2 = "[(http|https)]+:[/][/]+["+domain+"]+([/]+([A-Z|a-z]+))+"; // https://domain/truc/tuturu
 
         string pattern3 = "([%-z])+((html)|(php)|(phtml))"; // /truc.html
 
@@ -136,6 +136,10 @@ public class web : MonoBehaviour
             {
                 string ns = "";
                 ns += $"http://{domain}";
+                if (s[6] != '/' )
+                {
+                    ns+= $"http://{domain}";
+                }
                 for (int i = 6; i < s.Length; i++)
                 {
                     ns += s[i];
