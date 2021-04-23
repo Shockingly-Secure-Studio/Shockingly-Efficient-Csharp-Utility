@@ -12,7 +12,6 @@ namespace Service
 {
     public abstract class Service
     {
-        private readonly Machine.Machine _machine;
         private readonly IPAddress _ip;
         private readonly int _port;
         protected readonly string WorkingDirectory;
@@ -23,6 +22,8 @@ namespace Service
             Host = machine;
             _ip = IPAddress.Parse(machine.IPAdress);
             _port = port;
+                
+            machine.AddService(this);
 
             WorkingDirectory = Path.Combine("Results", machine.IPAdress, port.ToString());
 
@@ -66,6 +67,11 @@ namespace Service
         public int GetPort()
         {
             return _port;
+        }
+
+        public Machine.Machine GetHost()
+        {
+            return Host;
         }
         
         

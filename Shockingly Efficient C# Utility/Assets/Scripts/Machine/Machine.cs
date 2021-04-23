@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using Renci.SshNet;
 using Scan;
+using Service;
 using Service.Exploit;
 
 namespace Machine
@@ -12,12 +14,14 @@ namespace Machine
         public string IPAdress;
         public string WorkingDirectory;
         public List<Service.Service> OpenServices;
+        public List<WebShell> AccessibleShells;
 
         public Machine(string ip)
         {
             IPAdress = ip;
             WorkingDirectory = Path.Combine("Results", ip);
             OpenServices = new List<Service.Service>();
+            AccessibleShells = new List<WebShell>();
         }
 
         private static int MaxSeverity(List<AccessPoint> accessPoints)
@@ -80,6 +84,16 @@ namespace Machine
         public void AddService(Service.Service service)
         {
             OpenServices.Add(service);
+        }
+
+        public void AddShell(WebShell webShell)
+        {
+            AccessibleShells.Add(webShell);
+        }
+
+        public WebShell GetShell()
+        {
+            return AccessibleShells.Count == 0 ? null : AccessibleShells[0];
         }
     }
 }

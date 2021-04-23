@@ -108,6 +108,7 @@ public class web : MonoBehaviour
                 //prétraitement
                 string nmatch = "";
                 int j = 6;
+                Debug.Log($"tested with : {s}\nWorks with rgx : {rgx.IsMatch(s)}\nWorks with rgx : {rgx2.IsMatch(s)}\nWorks with rgx : {rgx3.IsMatch(s)}");
                 for (; j < s.Length; j++)
                 {
                     nmatch += s[j];

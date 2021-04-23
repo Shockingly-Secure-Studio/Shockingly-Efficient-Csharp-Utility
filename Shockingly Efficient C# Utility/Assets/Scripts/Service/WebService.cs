@@ -99,7 +99,7 @@ namespace Service
             return _vHost;
         }
 
-        public async void Exploit()
+        public async Task Exploit()
         {
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
@@ -113,7 +113,7 @@ namespace Service
             foreach (var link in map)
             {
                 Debug.Log(link);
-                foreach (var inputWebService in await InputWebService.FromLink(GetIP().ToString(), GetPort(), link))
+                foreach (var inputWebService in await InputWebService.FromLink(GetHost(), GetPort(), link))
                 {
                     total.Add(inputWebService);
                 }

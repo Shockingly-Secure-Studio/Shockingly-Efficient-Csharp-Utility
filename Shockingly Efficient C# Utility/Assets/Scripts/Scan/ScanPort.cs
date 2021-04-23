@@ -51,7 +51,7 @@ namespace Scan
                         Debug.Log("WEB start exploit");
                         Machine.Machine mach = new Machine.Machine(ip.ToString());
                         WebService newWebService = new WebService(mach, port, ip.ToString());
-                        Thread tr = new Thread(newWebService.Exploit);
+                        Thread tr = new Thread((async () => await newWebService.Exploit()));
                         tr.Start();
                     }
                     portList.Add(port);
@@ -138,7 +138,7 @@ namespace Scan
             /*s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
             s.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 
-            ip_header  = b'\x45\x00\x00\x28'  # Version, IHL, Type of Service | Total Length
+            ip_header  = b'\x45\x00\x00\x28'  # Type, IHL, Type of Service | Total Length
             ip_header += b'\xab\xcd\x00\x00'  # Identification | Flags, Fragment Offset
             ip_header += b'\x40\x06\xa6\xec'  # TTL, Protocol | Header Checksum
             ip_header += b'\x0a\x0a\x0a\x02'  # Source Address
