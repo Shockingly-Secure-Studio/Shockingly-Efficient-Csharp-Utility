@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class rapport: MonoBehaviour
 {
-    List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
+    List<SaveScan.Device> devicesList = SaveScan.LoadJson("scanPort");
     public void test()
     {
 

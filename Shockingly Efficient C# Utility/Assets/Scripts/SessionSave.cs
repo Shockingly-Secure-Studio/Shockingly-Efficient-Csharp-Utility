@@ -9,20 +9,38 @@ public class SessionSave
 {
     private static string _sessionResultDir = "Results";
     private static string _sessionSaveDir = "Saves";
-    public static void SaveSession(string saveName)
+    public static bool SaveSession(string saveName,bool overwrite=false)
     {
+        string savePath = Path.Combine(_sessionSaveDir,saveName);
         if (!Directory.Exists(_sessionSaveDir))
         {
             Directory.CreateDirectory(_sessionSaveDir);
         }
-        string savePath = Path.Combine(_sessionSaveDir,saveName);
+        if(Directory.Exists(savePath))
+        {
+            Debug.Log($"A save have already the same name, overwrite:{overwrite}");
+            if (overwrite)
+            {
+                Directory.Delete(savePath,true);
+            }
+            else
+                return false;
+        }
         DirectoryCopy( _sessionResultDir,savePath);
+        return true;
     }
     public static void EndSession(bool save,string saveName="")
     {
-        if(save)
-            SaveSession(saveName);
-        Directory.Delete(_sessionResultDir);
+        if (Directory.Exists(_sessionResultDir))
+        {
+            if(save)
+                SaveSession(saveName,true);
+            Directory.Delete(_sessionResultDir,true);
+        }
+        else
+        {
+            Debug.Log("No results directory, nothing to save");
+        }
     }
 
     public static void LoadSession(string saveName)
@@ -34,16 +52,24 @@ public class SessionSave
            return;
         }
         DirectoryCopy(loadPath,_sessionResultDir);
-        (string info,List<IPAddress> ipList) =SaveScan.LoadIpScan("ipList");
+        (string info,List<IPAddress> ipList) =SaveScan.LoadIpScan("ipScan");
+        if (info == null)
+        {
+            Debug.Log("Error the session ipList is empty");
+            return;
+        }
         string[] infos = info.Split(','); 
         List<SaveScan.Device> devices = SaveScan.LoadJson("scanPort");
         List<IPAddress> remainingPortScan = new List<IPAddress>();
-        foreach (var d in devices)
+        if (devices != null)
         {
-            if (!(ipList.Contains(IPAddress.Parse(d.IP))||d.scanStatus == "Underway"))
-                remainingPortScan.Add(IPAddress.Parse(d.IP));
+            foreach (var d in devices)
+            {
+                if (!(ipList.Contains(IPAddress.Parse(d.IP))||d.scanStatus == "Underway"))
+                    remainingPortScan.Add(IPAddress.Parse(d.IP));
+            }
+            ScanPort.MakePortScan(remainingPortScan,infos[0]);
         }
-        ScanPort.MakePortScan(remainingPortScan,infos[0]);
         if (infos[1] != "completed")
         {
             ScanIp o = new ScanIp(); 

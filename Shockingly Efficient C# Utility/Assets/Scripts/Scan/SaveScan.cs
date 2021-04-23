@@ -133,7 +133,7 @@ namespace Scan
                 var o = JsonConvert.DeserializeObject<IPSave>(json);
                 List<string> ipList2=o.ipList;
                 ipList2.ForEach(a => ipList.Add(IPAddress.Parse(a)));
-                scanType = o.scanType.Split(',')[0];
+                scanType = o.scanType;
             } 
             return (scanType,ipList);
         }

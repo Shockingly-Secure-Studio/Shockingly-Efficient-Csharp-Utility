@@ -74,7 +74,7 @@ public class MenuManager : MonoBehaviour
 
     public void SetVulns()
     {
-        Machine.Machine mach = new Machine.Machine("127.0.0.1");
+        Machine.Machine mach = new Machine.Machine("127.0.0.1");//TODO généraliser
         List<Service.Exploit.Vulnerability> Vulns = mach.GetVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
         int nbVulns = Vulns.Count;
         

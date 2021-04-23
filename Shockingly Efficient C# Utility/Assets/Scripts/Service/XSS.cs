@@ -22,23 +22,27 @@ public class XSS
     }
     public async Task TestPayload()
     {
+        Debug.Log($"XSS start, {_url}");
         if (File.Exists(_pathPayload))
         {
             using var file = new System.IO.StreamReader(_pathPayload);
             string payload;
             while((payload = await file.ReadLineAsync()) != null)
             {
-                
+                Debug.Log($"XSS test payload{payload}, url ={_url}");
                 string result=await _input.Submit(payload);
                 if (result.Contains(payload))
                 {
                     AccessPoint accessPoint = new AccessPoint(_url, payload, AccessPointType.XSS, 6);
                     _input.Log(accessPoint);
+                    Debug.Log($"XSS flaw find with {payload}");
                     return;
                 }
             }
+            Debug.Log($"XSS no flaws found, url={_url} ");
         }
-        Debug.Log("XSS: file \""+_pathPayload+"\" not find");
+        else
+            Debug.Log("XSS: file \""+_pathPayload+"\" not find");
     }
     
 }

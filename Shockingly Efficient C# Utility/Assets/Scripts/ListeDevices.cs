@@ -36,7 +36,7 @@ public class ListeDevices : MonoBehaviour
     
     public void SetDevices() //Pour display les carrés rouges
     {
-        List<SaveScan.Device> devicesList = SaveScan.LoadJson("scan1");
+        List<SaveScan.Device> devicesList = SaveScan.LoadJson("scanPort");
         int nb_devices = devicesList.Count;
         UnityEngine.Debug.Log("Nb of device:" + nb_devices.ToString());
         Vector3 acc = content.transform.position +new Vector3(3,0,0);
