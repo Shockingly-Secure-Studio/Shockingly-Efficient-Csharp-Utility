@@ -88,7 +88,7 @@ public class web : MonoBehaviour
         }
         
         string pattern = "(href=\")+([%-z])+"; // href="fqsdfsqdfsdqfsdqf/QSFDsqdfsqdf/sfdsqdfsqdfsdd
-        
+            
         string pattern2 = "[(http|https)]+:[/][/]+["+domain+"]+([/]+([A-Z|a-z]+))+"; // https://domain/truc/tuturu
 
         string pattern3 = "([%-z])+((html)|(php)|(phtml))"; // /truc.html
