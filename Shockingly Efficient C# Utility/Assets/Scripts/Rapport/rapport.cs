@@ -51,9 +51,10 @@ public class rapport: MonoBehaviour
         img.SpacingAfter = 1f;
         img.Alignment = Element.ALIGN_CENTER;
         document.Add(img);
+        List<AccessPointType> flaws = new List<AccessPointType>(); 
         foreach (var device in devicesList)
         {
-            string info = "The machine " + device.hostName + "(" + device.IP + ")" + "has been scaned and we found " +
+            string info = "The machine " + device.hostName + "(" + device.IP + ")" + "has been scanned and we found " +
                           device.nbOfSFlaw
                           + " flaws, the security level is " + device.severityLevel+".\n";
             DirectoryInfo deviceDirectoryInfo = new DirectoryInfo(@".\Results\"+device.IP+@"\");
@@ -68,10 +69,27 @@ public class rapport: MonoBehaviour
                     for(var i=0;i<accessPoints.Count;i++)
                     {
                         info += "\tFlaw "+i+": "+accessPoints[i].Type.ToString()+".\n";
+                        flaws.Add(accessPoints[i].Type);
                     }
                 }
             }
             document.Add(new Paragraph(info,new iTextSharp.text.Font(font,12)));
+        }
+
+        foreach (var flaw in flaws)
+        {
+            switch (flaw)
+            {
+                case AccessPointType.RCE:
+                    document.Add(new Paragraph("", new iTextSharp.text.Font(font, 12)));
+                    break;
+                case AccessPointType.SQLi:
+                    document.Add(new Paragraph("Voici une ressource pour vous documenter sur les injection sql\nhttps://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html", new iTextSharp.text.Font(font, 12)));
+                    break;
+                case AccessPointType.XSS:
+                    document.Add(new Paragraph("Voici une ressouce pour vous documenter contre les XSS\nhttps://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html#defense-against-xss", new iTextSharp.text.Font(font, 12)));
+                    break;
+            }
         }
         
         document.Close(); 
