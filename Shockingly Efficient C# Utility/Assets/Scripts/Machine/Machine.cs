@@ -17,6 +17,10 @@ namespace Machine
         {
             IPAdress = ip;
             WorkingDirectory = Path.Combine("Results", ip);
+            if (!Directory.Exists(WorkingDirectory))
+            {
+                Directory.CreateDirectory(WorkingDirectory);
+            }
         }
 
         private static int MaxSeverity(List<AccessPoint> accessPoints)

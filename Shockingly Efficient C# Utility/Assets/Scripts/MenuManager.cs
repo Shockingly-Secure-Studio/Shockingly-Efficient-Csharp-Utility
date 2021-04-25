@@ -8,7 +8,7 @@ using Machine;
 using Service.Exploit;
 using System.Globalization;
 using System;
-
+using System.IO;
 
 
 public class MenuManager : MonoBehaviour
@@ -30,13 +30,12 @@ public class MenuManager : MonoBehaviour
     public bool isResultScan;
     void Update()
     {
-        UnityEngine.Debug.Log("START");
-        if (isResultScan)
+        UnityEngine.Debug.Log("MenuManager running");
+        if (SceneManager.GetActiveScene().name=="ResultScan"||isResultScan)
         {
             SetVulns();
             Chart();
             TextSet();
-            
         }
     }
     void ExitAPP()
@@ -69,6 +68,8 @@ public class MenuManager : MonoBehaviour
             ipText += '/';
         }
         ScanControl Scan = new ScanControl(ipText,agg);
+        if (!Directory.Exists("Results"))
+            Directory.CreateDirectory("Results");
         Scan.Scan();
     }
 

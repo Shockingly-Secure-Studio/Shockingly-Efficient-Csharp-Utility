@@ -17,7 +17,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Scan
 {
-    public class ScanIp
+    public class ScanIp: MonoBehaviour
 {
     //si ip vide tt tout seul sinon scan a l'aide de l'ip
     public List<(IPAddress, List<int>)> Results;
