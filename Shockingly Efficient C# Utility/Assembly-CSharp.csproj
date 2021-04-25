@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\test\test.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\request.cs" />
      <Compile Include="Assets\Scripts\Service\Exploit\Vulnerability.cs" />
+     <Compile Include="Assets\Scripts\SessionManager.cs" />
      <Compile Include="Assets\Scripts\Service\SMBService.cs" />
      <Compile Include="Assets\Scripts\Service\Exploit\ServiceResult.cs" />
      <Compile Include="Assets\Scripts\Test.cs" />
@@ -72,7 +73,6 @@
      <Compile Include="Assets\Scripts\MenuManager.cs" />
      <Compile Include="Assets\Scripts\Scan\StartScan.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanPort.cs" />
-     <Compile Include="Assets\Scripts\SessionManager.cs" />
      <None Include="Assets\Scripts\Scan\Web\WordList.txt" />
      <None Include="Assets\Fonts\roboto\NOTICE.txt" />
      <None Include="Assets\Packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.xml" />
@@ -307,10 +307,10 @@
  <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/SshNet.Security.Cryptography.1.3.0/lib/netstandard2.0/SshNet.Security.Cryptography.dll</HintPath>
  </Reference>
  <Reference Include="BouncyCastle.Crypto">
- <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/BouncyCastle.Crypto.dll</HintPath>
+ <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/BouncyCastle.Crypto.dll</HintPath>
  </Reference>
  <Reference Include="itextsharp">
- <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itextsharp.dll</HintPath>
+ <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itextsharp.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
  <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll</HintPath>

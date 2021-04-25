@@ -139,7 +139,7 @@ public class web : MonoBehaviour
                 ns += $"http://{domain}";
                 if (s[6] != '/' )
                 {
-                    ns+= $"http://{domain}";
+                    ns+= '/';
                 }
                 for (int i = 6; i < s.Length; i++)
                 {

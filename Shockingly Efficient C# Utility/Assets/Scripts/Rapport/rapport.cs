@@ -51,7 +51,6 @@ public class rapport: MonoBehaviour
         img.SpacingAfter = 1f;
         img.Alignment = Element.ALIGN_CENTER;
         document.Add(img);
-            
         foreach (var device in devicesList)
         {
             string info = "The machine " + device.hostName + "(" + device.IP + ")" + "has been scaned and we found " +
