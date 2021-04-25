@@ -73,7 +73,7 @@ public class Scans : MonoBehaviour
         };
         httpClient.DefaultRequestHeaders.Add("ContentType", "application/json");
         
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("CkyJOcTkBVswQKZg:6gJIDebITSgCJN6z"); 
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("CkyJOcTkBVswQKZg:6gJIDebITSgCJN6z"); //Jxc10JkiyGKM30mg:KXb7CZ8K0LLtq2ts : Autre APIkey
         string val = System.Convert.ToBase64String(plainTextBytes); //Encode les autorisations
         httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + val); //Ajoute les autorisations
         
