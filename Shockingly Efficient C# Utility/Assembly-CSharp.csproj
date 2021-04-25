@@ -312,10 +312,10 @@
  <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/SshNet.Security.Cryptography.1.3.0/lib/netstandard2.0/SshNet.Security.Cryptography.dll</HintPath>
  </Reference>
  <Reference Include="BouncyCastle.Crypto">
- <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/BouncyCastle.Crypto.dll</HintPath>
+ <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/BouncyCastle.Crypto.dll</HintPath>
  </Reference>
  <Reference Include="itextsharp">
- <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itextsharp.dll</HintPath>
+ <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itextsharp.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
  <HintPath>C:/Users/tudual/Desktop/Projet_S2/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll</HintPath>

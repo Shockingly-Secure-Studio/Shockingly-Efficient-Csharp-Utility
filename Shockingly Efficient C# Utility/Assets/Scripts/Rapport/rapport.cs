@@ -38,20 +38,20 @@ public class rapport: MonoBehaviour
             page.Height - document.TopMargin + head.TotalHeight + 20,
             writer.DirectContent 
         );
-        //titre
+
         var font = iTextSharp.text.Font.FontFamily.TIMES_ROMAN;
         phrase = new Phrase("Rapport de l'analyse",new iTextSharp.text.Font(font,30));
         var title = new Paragraph(phrase);
         title.Alignment = Element.ALIGN_CENTER;
         document.Add(title);
-        //image
+
         iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(@"./img.png");
         img.ScaleToFit(140f, 120f);
         img.SpacingBefore = 10f;
         img.SpacingAfter = 1f;
         img.Alignment = Element.ALIGN_CENTER;
         document.Add(img);
-        //écrire pour chaque machine
+            
         foreach (var device in devicesList)
         {
             string info = "The machine " + device.hostName + "(" + device.IP + ")" + "has been scaned and we found " +
