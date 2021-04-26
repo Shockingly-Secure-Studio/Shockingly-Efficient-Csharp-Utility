@@ -36,7 +36,7 @@ public class MenuManager : MonoBehaviour
 
     List<Vulnerability> vulnsFound = new List<Vulnerability>();
     
-    void Update()
+    void Awake()
     {
         UnityEngine.Debug.Log("MenuManager running");
         if (SceneManager.GetActiveScene().name=="ResultScan"||isResultScan)
@@ -100,17 +100,18 @@ public class MenuManager : MonoBehaviour
         }
         return vulnerabilities;
     }
+
     public void SetVulns()
     {
         Machine.Machine mach = new Machine.Machine("127.0.0.1");//TODO généraliser
+
+        // 
         List<Vulnerability> Vulns = mach.UpdateVulnerabilities(); 
         int nbVulns = Vulns.Count;
         for (int i = 0; i < nbVulns; i++)
         {
-            if(vulnsFound.Contains(Vulns[i])){
-                continue;
-            }
-            vulnsFound.Add(Vulns[i]);
+            
+            
             for (int j = 0; j < listVulns[i].transform.childCount; j++)
             {
                 
@@ -144,10 +145,12 @@ public class MenuManager : MonoBehaviour
                     UnityEngine.Debug.Log(" [+] IP PROBLEM");
                 }
             }
-        }
-        
 
+
+        }
+             
     }
+    
 
    /////            SETUP GRAPHICS                 //////
 
@@ -166,19 +169,19 @@ public class MenuManager : MonoBehaviour
             if (vulnerability.Severity > 7){
                 total ++;
                 nbHard ++;
-                nbCrit++;
+                
             }
                 
             if (vulnerability.Severity < 8 && vulnerability.Severity > 4){
                 total ++;
                 nbMedium ++;
-                nbMoy++;
+                
             }
                 
             if (vulnerability.Severity < 5){
                 total ++;
                 nbEasy ++;
-                nbFaible++;
+                
             }
                 
         }

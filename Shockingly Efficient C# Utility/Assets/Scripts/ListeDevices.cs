@@ -39,6 +39,7 @@ public class ListeDevices : MonoBehaviour
     public void SetDevices() //Pour display les carrés rouges
     {
         List<SaveScan.Device> devicesList = SaveScan.LoadJson("scanPort");
+        UnityEngine.Debug.Log(devicesList);
         int nb_devices = devicesList.Count;
         UnityEngine.Debug.Log("Nb of device:" + nb_devices.ToString());
         Vector3 acc = content.transform.position +new Vector3(3,0,0);
@@ -47,32 +48,59 @@ public class ListeDevices : MonoBehaviour
         {
             GameObject DeviceScan = null;
             GameObject Fiche = null;
+            GameObject FicheHolder = null;
+
             if(devicesList[i].hostName == "127.0.0.1"){
                 DeviceScan = Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform) as GameObject;
                 Fiche = Instantiate(Local_Fiche, new Vector3(acc[0], -13, 0), Quaternion.identity,contentFiche.transform) as GameObject;
                 Fiche.SetActive(false);
             }
-                
             else{
                 DeviceScan = Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform) as GameObject;
-                Fiche = Instantiate(Device_Fiche, new Vector3(acc[0], -13, 0), Quaternion.identity,contentFiche.transform) as GameObject;
-                for(int k = 0; k < Fiche.transform.childCount; k++){
-                    Text tmp = Fiche.transform.GetChild(k).gameObject.GetComponent<Text>(); //risk,asn_organization,localisation,country,threat,ip 
-                    try
-                    {
+                
+                ///// SETUP RED SQUARE /////
+                for(int k = 0; k < DeviceScan.transform.childCount; k++){
+                    if(DeviceScan.transform.GetChild(k).gameObject.name == "FichePlace")
+                        FicheHolder = DeviceScan.transform.GetChild(k).gameObject;
+                    try{
+                        UnityEngine.Debug.Log("YEPPP");
+                        Text tmp = DeviceScan.transform.GetChild(k).gameObject.GetComponent<Text>(); //risk,asn_organization,localisation,country,threat,ip 
                         if(tmp.name == "Ports")
                             tmp.text = "Ports: "+devicesList[i].Port.Count.ToString() + " ports ouverts";
+                        if(tmp.name == "IP")
+                            tmp.text = "IP: "+devicesList[i].IP;
+                        if(tmp.name == "Score")
+                            tmp.text = "score: " + devicesList[i].severityLevel;
+                    }
+                    catch{
+                        continue;
+                    } 
+                }
+
+                ///// SETUP FICHE /////
+                Fiche = Instantiate(Device_Fiche, new Vector3(acc[0], -13, 0), Quaternion.identity,FicheHolder.transform) as GameObject;
+                for(int k = 0; k < Fiche.transform.childCount; k++){
+                    if(Fiche.transform.GetChild(k).gameObject.name == "FichePlace")
+                        FicheHolder = Fiche.transform.GetChild(k).gameObject;
+                    try{
+                        UnityEngine.Debug.Log("YEPPP");
+                        Text tmp = Fiche.transform.GetChild(k).gameObject.GetComponent<Text>(); //risk,asn_organization,localisation,country,threat,ip 
+                        string ports = ",";
+                        foreach(int port in devicesList[i].Port){
+                            ports += port.ToString() + ",";
+                        }
+                        if(tmp.name == "Ports")
+                            tmp.text = "Ports ouverts: " + ports;
+                        if(tmp.name == "OS")
+                            tmp.text = "Nom: " + devicesList[i].hostName;
                         if(tmp.name == "ip")
                             tmp.text = "IP: "+devicesList[i].IP;
                         if(tmp.name == "Score")
                             tmp.text = "score: " + devicesList[i].severityLevel;
                     }
-                    catch (System.Exception)
-                    {
-                        
-                        break;
-                    }
-                    
+                    catch{
+                        continue;
+                    } 
                 }
                 Fiche.SetActive(false);
             }

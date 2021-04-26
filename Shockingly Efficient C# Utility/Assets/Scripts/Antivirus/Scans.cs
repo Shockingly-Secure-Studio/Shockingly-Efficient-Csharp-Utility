@@ -37,10 +37,7 @@ public class Scans : MonoBehaviour
 
     private void setup(List<string[]> co){
         float acc = 0;
-        
-
-
-
+    
         //Setup nbco
         nbco.text = co.Count.ToString()+" Connexions découvertes";
 
@@ -49,7 +46,7 @@ public class Scans : MonoBehaviour
         for(int j=0; j<co.Count; j++){
             var c = co[j];
             
-            GameObject Connexion = Instantiate(prefabCo, new Vector3(-8.5f , -5f, 0), Quaternion.identity,IPcontent.transform) as GameObject;
+            GameObject Connexion = Instantiate(prefabCo, new Vector3(-8.5f , -1f, 0), Quaternion.identity,IPcontent.transform) as GameObject;
             Connexion.transform.position -= new Vector3(0,acc,0);
             acc += 0.5f;
             for(int i =0; i< Connexion.transform.childCount; i++){

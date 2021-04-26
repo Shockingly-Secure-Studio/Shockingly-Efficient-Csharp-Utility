@@ -1402,7 +1402,14 @@ MonoBehaviour:
   - {r: 0.5882353, g: 0.73333335, b: 0.4862745, a: 1}
   - {r: 0.9843137, g: 0.45490196, b: 0.24313726, a: 1}
   - {r: 0.9254902, g: 0.27450982, b: 0.27450982, a: 1}
-  listvulns:
+  vulns:
+  - {fileID: 1963214333}
+  - {fileID: 1192874710}
+  - {fileID: 0}
+  IP: {fileID: 0}
+  aggresif: {fileID: 0}
+  ListOption: []
+  listVulns:
   - {fileID: 948947546}
   - {fileID: 1774760371}
   - {fileID: 1750421158}
@@ -1424,16 +1431,7 @@ MonoBehaviour:
   - {fileID: 1470177301}
   - {fileID: 423746800}
   - {fileID: 1541767112}
-  prefabVulns: {fileID: 8588415716483801973, guid: 8731b1e5655b54e438ef0bc0c8cea50a, type: 3}
-  contentVulns: {fileID: 162120880}
-  IP: {fileID: 0}
-  aggresif: {fileID: 0}
-  ListOption: []
   isResultScan: 1
-  vulnNbText:
-  - {fileID: 1963214333}
-  - {fileID: 1192874710}
-  - {fileID: 484948232}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -5590,7 +5588,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8588415716483801973, guid: 8731b1e5655b54e438ef0bc0c8cea50a, type: 3}
       propertyPath: m_Name
-      value: Vuln1 (1)
+      value: Vuln8
       objectReference: {fileID: 0}
     - target: {fileID: 8588415716483801974, guid: 8731b1e5655b54e438ef0bc0c8cea50a, type: 3}
       propertyPath: m_Pivot.x
