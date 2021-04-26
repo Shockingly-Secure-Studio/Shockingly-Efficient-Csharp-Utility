@@ -30,7 +30,7 @@ public class web : MonoBehaviour
             foreach (var VARIABLE in url)
             {
                 string domain = request.GetDomainName(VARIABLE);
-                List<string> nnlist= moche(domain, VARIABLE, 10);
+                List<string> nnlist= WebDiscover(domain, VARIABLE, 10);
                 foreach (var items in nnlist)
                 {
                     bool find = false;
@@ -55,7 +55,7 @@ public class web : MonoBehaviour
                 Request request = new Request(e.Item1, e.Item2, null, null);
                 nlist.Add($"http://{e.Item1}:{e.Item2}");
                 string domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
-                List<string> nnlist= moche(domain, $"http://{e.Item1}:{e.Item2}", 10);
+                List<string> nnlist= WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
                 foreach (var items in nnlist)
                 {
                     bool find = false;
@@ -77,33 +77,39 @@ public class web : MonoBehaviour
         return nlist;
     }
 
-    public static List<string>getlinks(string url, string domain)
+    public static List<string> getlinks(string url, string domain)
     {
-        List<string> nlist = new List<string>();
+        List<string> res = new List<string>();
 
         string src = SourceCode(url);
-            
+        if (src == "")
+        {
+            return res;
+        }
+        
         string pattern = "(href=\")+([%-z])+"; // href="fqsdfsqdfsdqfsdqf/QSFDsqdfsqdf/sfdsqdfsqdfsdd
             
-        string pattern2 = "("+domain+")"; // https://domain/truc/tuturu
+        string pattern2 = "[(http|https)]+:[/][/]+["+domain+"]+([/]+([A-Z|a-z]+))+"; // https://domain/truc/tuturu
 
-        string pattern3 = "([%-z])+((html)|(php))"; // /truc.html
+        string pattern3 = "([%-z])+((html)|(php)|(phtml))"; // /truc.html
 
         string pattern4 = "([.][/]([&-z]+))"; // ./?truc  
 
         Regex regex = new Regex(pattern);
-            
+        
         Regex rgx = new Regex(pattern2);
+        
 
         Regex rgx2 = new Regex(pattern3);
 
         Regex rgx3 = new Regex(pattern4);
         
+        
         foreach (Match m in regex.Matches(src))
         {
             string s = m.ToString();
             bool find = false;
-            foreach (var VARIABLE in nlist)
+            foreach (var VARIABLE in res)
             {
                 //prétraitement
                 string nmatch = "";
@@ -118,7 +124,6 @@ public class web : MonoBehaviour
                 {
                     find = true;
                 }
-                
             }
             if (rgx.IsMatch(s) && !find)
             {
@@ -127,36 +132,38 @@ public class web : MonoBehaviour
                 {
                     ns += s[i];
                 }
-                nlist.Add(ns);
+                res.Add(ns);
             }
             else if (rgx2.IsMatch(s) && !find)
             {
                 string ns = "";
-                ns += $"http://{domain}/";
+                ns += $"http://{domain}";
+                if (s[6] != '/' )
+                {
+                    ns+= '/';
+                }
                 for (int i = 6; i < s.Length; i++)
                 {
                     ns += s[i];
                 }
-                nlist.Add(ns);
+                res.Add(ns);
             }
             else if (rgx3.IsMatch(s) && !find)
             {
                 string ns = "";
-                if (!find)
-                {
-                    ns += url;
+                ns += url;
                     for (int i = 8; i < s.Length; i++)
                     {
                         ns += s[i];
                     }
-                    nlist.Add(ns); 
-                }
+
+                    res.Add(ns);
             }
         }
-        return nlist;
+        return res;
     }
     
-    public static List<string> moche(string domain, string url, int depth)
+    public static List<string> WebDiscover(string domain, string url, int depth) // will detect all the pages from a website
     {
         List<string> acc = getlinks(url, domain);
         List<string> visited = getlinks(url, domain);
@@ -165,38 +172,78 @@ public class web : MonoBehaviour
         {
             url2 = acc[0];
             acc.Remove(acc[0]);
-            List<string> acc2 = getlinks(url2, domain);
-            foreach (var VARIABLE in acc2)
-            {
-                bool find = false;
-                foreach (var it in visited)
+            //if (url2 == null)
+            //{
+            //}
+            //else
+            //{
+                List<string> acc2 = getlinks(url2, domain);
+                foreach (var VARIABLE in acc2)
                 {
-
-                    if (VARIABLE == it)
+                    bool find = false;
+                    foreach (var it in visited)
                     {
-                        find = true;
-                    }
 
-                    if (VARIABLE.Split('?').Length >2)
-                    {
-                        find = true;
-                    }
+                        if (VARIABLE == it)
+                        {
+                            find = true;
+                        }
+
+                        if (VARIABLE.Split('?').Length >2)
+                        {
+                            find = true;
+                        }
                     
-                }
-                if (!find)
-                {
-                    acc.Add(VARIABLE);
-                    visited.Add(VARIABLE);
-                }
+                    }
+                    if (!find)
+                    {
+                        acc.Add(VARIABLE);
+                        visited.Add(VARIABLE);
+                    }
                 
-            }
-            depth--;
+                }
+
+                depth--;
+                //}
         }
+
+       // List<string> url_hidden = new List<string>();
+       //Gobuster(url,url_hidden);
+       //foreach (var hidden in url_hidden)
+       //{
+       //    bool found = false;
+       //    foreach (var visit in visited)
+       //    {
+       //        if (hidden != visit)
+       //        {
+       //            found = true;
+       //        }
+       //    }
+       //
+       //    if (!found)
+       //    {
+       //        visited.Add(hidden);
+       //    }
+       //}
         return visited;
     }
 
+    public static async void Gobuster(string url, List<string> list)
+    {
+        StreamReader sr = new StreamReader("Assets\\Scripts\\Scan\\Web\\Wordlist.txt");
+        string s;
+        while ((s = sr.ReadLine()) != null)
+        {
+            var ans = await Request.Ping(url + '/' + s);
+            if (ans == HttpStatusCode.OK)
+            {
+                list.Add(url + s);
+            }
+        }
+    }
     public static List<string> GetInUrl(List<string> list)
     {
+        
         List<string> nlist = new List<string>();
         string urlPattern = "([?])([a-z]|[A-Z])+(=)+";
         Regex rgx = new Regex(urlPattern);
@@ -218,8 +265,8 @@ public class web : MonoBehaviour
         List<string> nlist = new List<string>();
         foreach (var item in list)
         {
-            string s = SourceCode(item);
-            if (regex.IsMatch(s))
+            string s= SourceCode(item);
+            if (regex.IsMatch(s) && s != "")
             {
                 nlist.Add(item);
             }
@@ -227,17 +274,24 @@ public class web : MonoBehaviour
 
         return nlist;
     }
-    public static String SourceCode(string url) //Retourne le code source du site à l'url
+    public static string SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
         r.Method = "GET";
-        WebResponse Response = r.GetResponse();
-        StreamReader sr = new StreamReader(Response.GetResponseStream(), System.Text.Encoding.UTF8);
-        string result = sr.ReadToEnd();
-        sr.Close();
-        Response.Close();
-        return result;
-        
+        try
+        {
+            WebResponse Response = r.GetResponse();
+            StreamReader sr = new StreamReader(Response.GetResponseStream(), System.Text.Encoding.UTF8);
+            string res = sr.ReadToEnd();
+            sr.Close();
+            Response.Close();
+            return res;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return "";
+        }
     }
     public static List<String> GetCommentaire(string sourceCode) // retourne une liste avec tout les commentaire pour après check si y'a des trucs intérréssant
     {

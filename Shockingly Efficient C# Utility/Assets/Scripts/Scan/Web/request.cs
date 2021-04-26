@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.NetworkInformation;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -45,29 +46,32 @@ namespace Web
             }
         }
 
-        public async Task<HttpStatusCode> Ping()
+        public static async Task<HttpStatusCode> Ping(string url)
         {
             using var client = new HttpClient();
 
-            var result = await client.GetAsync(this._url);
+            var result = await client.GetAsync(url);
             return result.StatusCode;
-            
         }
-
+        
         public void test()
         {
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
             url.Add("http://secu.studio");
-            url.Add("http://challenge01.root-me.org/web-serveur/ch19/");
+            url.Add("https://www.epita.fr/");
             List<string> map = web.map(list,url);
+            foreach (var element in map)
+            {
+                Debug.Log(element);
+            }
             List<string> listurl = web.GetInUrl(map);
             List<string> input = web.GetText(map);
         }
         public string GetDomainName(string url)
         {
-            if(url.Contains("localhost") || url.Contains("127.0.0.1"))
-                return "127.0.0.1";
+            if (url.Contains("localhost") || this._ip != "")
+                return this._ip;
             HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
             r.Method = "GET";
             WebResponse response = r.GetResponse();

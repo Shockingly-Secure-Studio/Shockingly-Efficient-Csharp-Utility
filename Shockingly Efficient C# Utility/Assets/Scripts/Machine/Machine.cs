@@ -22,6 +22,10 @@ namespace Machine
             WorkingDirectory = Path.Combine("Results", ip);
             OpenServices = new List<Service.Service>();
             AccessibleShells = new List<WebShell>();
+            if (!Directory.Exists(WorkingDirectory))
+            {
+                Directory.CreateDirectory(WorkingDirectory);
+            }
         }
 
         private static int MaxSeverity(List<AccessPoint> accessPoints)
@@ -55,7 +59,7 @@ namespace Machine
                     severity = localMax;
             }
             
-            SaveScan.UpdateFlawJson(IPAdress,nbFlaws, severity, "scan1");
+            SaveScan.UpdateFlawJson(IPAdress,nbFlaws, severity, "scanPort");
         }
 
         public List<Vulnerability> UpdateVulnerabilities()

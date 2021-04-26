@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using Scan;
 using Service.Exploit;
 using UnityEngine;
 
@@ -104,7 +105,19 @@ namespace Service
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
             url.Add($"http://{_vHost}:{GetPort()}/");
-            List<string> map = web.map(list,url);
+            string path = GetIP().ToString() +"\\"+ GetPort().ToString() + @"\mapSave";
+            list.Add((GetIP().ToString(),GetPort()));//TODO vérifier
+            List<string> map;
+            List<string> mapSave = SaveScan.LoadMap(path);
+            if (mapSave == null||mapSave.Count==0)
+            {
+                map = web.map(list,url);
+                SaveScan.SaveMap(path,map);
+            }
+            else
+            {
+                map = mapSave;
+            }
             List<InputWebService> total = new List<InputWebService>();
         
             map.Add($"http://{_vHost}:{GetPort()}/");
