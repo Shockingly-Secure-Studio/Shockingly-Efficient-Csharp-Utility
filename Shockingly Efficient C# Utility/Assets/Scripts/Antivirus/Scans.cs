@@ -154,9 +154,9 @@ public class Scans : MonoBehaviour
         int protection = 0;
 
         foreach (TcpConnectionInformation tcpInfo in tcpConnections){
-            if(protection == 4){ // In order to avoid flooding API during test phase
+            /*if(protection == 4){ // In order to avoid flooding API during test phase
                 return UnknowConnexion;
-            }
+            }*/
             bool FromLocal = false;
             string ipDest = tcpInfo.RemoteEndPoint.Address.ToString().Split(':')[0];
             if(ipDest == "127.0.0.1" || ipDest == "0.0.0.0"){
@@ -177,7 +177,7 @@ public class Scans : MonoBehaviour
                 Array.Resize(ref tmp, tmp.Length + 1);
                 tmp[tmp.Length -1] = ip;
                 UnknowConnexion.Add(tmp); 
-                protection++;
+                //protection++;
                 
             }
         }

@@ -17,7 +17,6 @@ public class ListeDevices : MonoBehaviour
     public GameObject contentFiche;
     public GameObject Local_Fiche;
     public GameObject Device_Fiche;
-    public GameObject Local_Prefab;
     public GameObject Device_Prefab;
     
     void Start()
