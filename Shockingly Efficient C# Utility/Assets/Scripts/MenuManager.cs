@@ -86,11 +86,18 @@ public class MenuManager : MonoBehaviour
     /////            SETUP VULNS                 //////
 
 
-    public List<Vulnerability> GetVulns(string ip){
+    public List<Vulnerability> GetVulns(){
         // TODO : prends une ip en paramètre et renvoie la liste de ses vulns
         // Si c'est plus ismple autrement pas de soucis
         // Si tu peux faire List<Vulnerability> comme type de retour ça m'arrange encore + ok
         List<Vulnerability> vulnerabilities = new List<Vulnerability>();
+
+
+        // Il faudrait un truc du genre je pense:
+        // ScanPort scp = new ScanPort();
+        // var machines = scp.Machines;
+
+        // Le pb c'est que ScanPort.Machines est vide (je crois)
         foreach (var m in ScanPort.Machines)
         {
             foreach (var v in m.UpdateVulnerabilities())
@@ -103,10 +110,8 @@ public class MenuManager : MonoBehaviour
 
     public void SetVulns()
     {
-        Machine.Machine mach = new Machine.Machine("127.0.0.1");//TODO généraliser
 
-        // 
-        List<Vulnerability> Vulns = mach.UpdateVulnerabilities(); 
+        List<Vulnerability> Vulns = GetVulns(); 
         int nbVulns = Vulns.Count;
         for (int i = 0; i < nbVulns; i++)
         {
@@ -156,10 +161,8 @@ public class MenuManager : MonoBehaviour
 
     public void Chart() //Permet de générer un Chart
     {
-        Machine.Machine mach = new Machine.Machine("127.0.0.1");
-        List<Service.Exploit.Vulnerability> Vulns = mach.UpdateVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
+        List<Vulnerability> Vulns = GetVulns(); 
 
-        
         float total = 0f; 
         float nbHard = 0f; 
         float nbMedium = 0f; 
