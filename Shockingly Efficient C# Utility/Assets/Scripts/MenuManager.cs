@@ -28,6 +28,14 @@ public class MenuManager : MonoBehaviour
     public GameObject[] listVulns; // Les lignes pour les vulns
     // Start is called before the first frame update
     public bool isResultScan;
+    
+    /// Variables for vulns numbers ///
+    private int nbFaible = 0;
+    private int nbMoy = 0;
+    private int nbCrit = 0;
+
+    List<Vulnerability> vulnsFound = new List<Vulnerability>();
+    
     void Update()
     {
         UnityEngine.Debug.Log("MenuManager running");
@@ -43,13 +51,15 @@ public class MenuManager : MonoBehaviour
         Debug.Log("Exit App");
         Application.Quit();
     }
+
     public void ChangeScene_(string sceanename)
     {
 
         SceneManager.LoadScene(sceanename);
 
     }
-     public void ScanStart(string sceanename)
+
+    public void ScanStart(string sceanename)
     {
         string ipText = IP.text;
         if ( ipText == null || ipText == "" )
@@ -73,14 +83,24 @@ public class MenuManager : MonoBehaviour
         Scan.Scan();
     }
 
+    /////            SETUP VULNS                 //////
+
+
+    public string[] GetVulns(string ip){
+        // TODO : prends une ip en paramètre et renvoie la liste de ses vulns
+        // Si c'est plus ismple autrement pas de soucis
+    }
     public void SetVulns()
     {
         Machine.Machine mach = new Machine.Machine("127.0.0.1");//TODO généraliser
         List<Vulnerability> Vulns = mach.UpdateVulnerabilities(); 
         int nbVulns = Vulns.Count;
-        
         for (int i = 0; i < nbVulns; i++)
         {
+            if(vulnsFound.Contains(Vulns[i])){
+                continue;
+            }
+            vulnsFound.Add(Vulns[i]);
             for (int j = 0; j < listVulns[i].transform.childCount; j++)
             {
                 
@@ -119,9 +139,7 @@ public class MenuManager : MonoBehaviour
 
     }
 
-    /*
-                        TODO ICI Fonction qui renvoie les vulns
-    */
+   /////            SETUP GRAPHICS                 //////
 
     public void Chart() //Permet de générer un Chart
     {
@@ -136,18 +154,21 @@ public class MenuManager : MonoBehaviour
         foreach (var vulnerability in Vulns)
         {
             if (vulnerability.Severity > 7){
-                total += 1;
-                nbHard += 1;
+                total ++;
+                nbHard ++;
+                nbCrit++;
             }
                 
             if (vulnerability.Severity < 8 && vulnerability.Severity > 4){
-                total += 1;
-                nbMedium += 1;
+                total ++;
+                nbMedium ++;
+                nbMoy++;
             }
                 
             if (vulnerability.Severity < 5){
-                total += 1;
-                nbEasy += 1;
+                total ++;
+                nbEasy ++;
+                nbFaible++;
             }
                 
         }
@@ -167,24 +188,13 @@ public class MenuManager : MonoBehaviour
     }
     public void TextSet()
     {
-        Machine.Machine mach = new Machine.Machine("127.0.0.1");
-        List<Service.Exploit.Vulnerability> Vulns = mach.UpdateVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
-        int low = 0;
-        int med = 0;
-        int crit = 0;
-
-        foreach (var vulnerability in Vulns)
-        {
-            if (vulnerability.Severity > 7)
-                crit++;
-            if (vulnerability.Severity < 8 && vulnerability.Severity > 4)
-                med++;
-            if (vulnerability.Severity < 5)
-                low++;
-        }
+        
+        int low = nbFaible;
+        int med = nbMoy;
+        int crit = nbCrit;        
         int[] nbvulns = new int[] { low, med, crit };
         string[] puissance = new string[] { "faibles", "moyennes", "critiques" };
-        for (int i = 0; i < vulns.Length  ; i++)
+        for (int i = 0; i < 3; i++)
         {
             vulns[i].text = nbvulns[i].ToString() + " vulnérabilités " + puissance[i];
         }
