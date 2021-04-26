@@ -805,10 +805,9 @@ MonoBehaviour:
   menu: {fileID: 0}
   content: {fileID: 1178055923}
   display: {fileID: 751180702}
-  contentFiche: {fileID: 0}
-  Local_Fiche: {fileID: 0}
+  contentFiche: {fileID: 1984270267}
+  Local_Fiche: {fileID: 1684122798406371230, guid: 769f6c498382f5744841c6f882a2d3e1, type: 3}
   Device_Fiche: {fileID: 1684122798406371230, guid: efd7065ef75b54fc795bec749690a500, type: 3}
-  Local_Prefab: {fileID: 1684122798406371230, guid: 769f6c498382f5744841c6f882a2d3e1, type: 3}
   Device_Prefab: {fileID: 1268908806132449314, guid: f2cbdb1c4c06646cb825684965e18c8f, type: 3}
 --- !u!1 &719758029
 GameObject:
@@ -1282,7 +1281,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -24, y: 0.000030517578}
+  m_AnchoredPosition: {x: -24, y: 617.90015}
   m_SizeDelta: {x: 577.68, y: 617.9}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1289094454
@@ -1368,7 +1367,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 719758030}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
