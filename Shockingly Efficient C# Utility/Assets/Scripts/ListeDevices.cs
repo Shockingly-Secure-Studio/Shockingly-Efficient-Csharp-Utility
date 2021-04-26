@@ -58,12 +58,21 @@ public class ListeDevices : MonoBehaviour
                 Fiche = Instantiate(Device_Fiche, new Vector3(acc[0], -13, 0), Quaternion.identity,contentFiche.transform) as GameObject;
                 for(int k = 0; k < Fiche.transform.childCount; k++){
                     Text tmp = Fiche.transform.GetChild(k).gameObject.GetComponent<Text>(); //risk,asn_organization,localisation,country,threat,ip 
-                    if(tmp.name == "Ports")
-                        tmp.text = "Ports: "+devicesList[k].Port.Count.ToString() + " ports ouverts";
-                    if(tmp.name == "ip")
-                        tmp.text = "IP: "+devicesList[k].IP;
-                    if(tmp.name == "Score")
-                        tmp.text = "score: " + devicesList[k].severityLevel;
+                    try
+                    {
+                        if(tmp.name == "Ports")
+                            tmp.text = "Ports: "+devicesList[k].Port.Count.ToString() + " ports ouverts";
+                        if(tmp.name == "ip")
+                            tmp.text = "IP: "+devicesList[k].IP;
+                        if(tmp.name == "Score")
+                            tmp.text = "score: " + devicesList[k].severityLevel;
+                    }
+                    catch (System.Exception)
+                    {
+                        
+                        throw;
+                    }
+                    
                 }
                 Fiche.SetActive(false);
             }
