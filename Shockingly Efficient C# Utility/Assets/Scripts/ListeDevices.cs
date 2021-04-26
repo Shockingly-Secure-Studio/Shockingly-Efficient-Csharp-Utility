@@ -17,8 +17,8 @@ public class ListeDevices : MonoBehaviour
     public GameObject contentFiche;
     public GameObject Local_Fiche;
     public GameObject Device_Fiche;
+    public GameObject Local_Prefab;
     public GameObject Device_Prefab;
-    public GameObject Device_HTB;
     
     void Start()
     {
@@ -30,13 +30,13 @@ public class ListeDevices : MonoBehaviour
         SetDevices();
         
     }
-    public void Spawn_( bool spawn)
+    /*public void Spawn_( bool spawn)
     {   
         UnityEngine.Debug.Log("spawn");
         Device_HTB.SetActive(spawn) ;  
 
     }
-    
+    */
     public void SetDevices() //Pour display les carrés rouges
     {
         List<SaveScan.Device> devicesList = SaveScan.LoadJson("scanPort");
@@ -51,6 +51,7 @@ public class ListeDevices : MonoBehaviour
             if(devicesList[i].hostName == "127.0.0.1"){
                 DeviceScan = Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform) as GameObject;
                 Fiche = Instantiate(Local_Fiche, new Vector3(acc[0], -13, 0), Quaternion.identity,contentFiche.transform) as GameObject;
+                Fiche.SetActive(false);
             }
                 
             else{
@@ -65,6 +66,7 @@ public class ListeDevices : MonoBehaviour
                     if(tmp.name == "Score")
                         tmp.text = "score: " + devicesList[k].severityLevel;
                 }
+                Fiche.SetActive(false);
             }
                 
            
