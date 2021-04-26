@@ -13,7 +13,10 @@ public class ListeDevices : MonoBehaviour
     public GameObject menu;
     public GameObject content;
     public GameObject display;
-
+    
+    public GameObject contentFiche;
+    public GameObject Local_Fiche;
+    public GameObject Device_Fiche;
     public GameObject Device_Prefab;
     public GameObject Device_HTB;
     
@@ -43,7 +46,29 @@ public class ListeDevices : MonoBehaviour
         
         for (int i = 0; i < nb_devices; i++)
         {
-            GameObject DeviceScan = Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform) as GameObject;
+            GameObject DeviceScan = null;
+            GameObject Fiche = null;
+            if(devicesList[i].hostName == "127.0.0.1"){
+                DeviceScan = Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform) as GameObject;
+                Fiche = Instantiate(Local_Fiche, new Vector3(acc[0], -13, 0), Quaternion.identity,contentFiche.transform) as GameObject;
+            }
+                
+            else{
+                DeviceScan = Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform) as GameObject;
+                Fiche = Instantiate(Device_Fiche, new Vector3(acc[0], -13, 0), Quaternion.identity,contentFiche.transform) as GameObject;
+                for(int k = 0; k < Fiche.transform.childCount; k++){
+                    Text tmp = Fiche.transform.GetChild(k).gameObject.GetComponent<Text>(); //risk,asn_organization,localisation,country,threat,ip 
+                    if(tmp.name == "Ports")
+                        tmp.text = "Ports: "+devicesList[k].Port.Count.ToString() + " ports ouverts";
+                    if(tmp.name == "ip")
+                        tmp.text = "IP: "+devicesList[k].IP;
+                    if(tmp.name == "Score")
+                        tmp.text = "score: " + devicesList[k].severityLevel;
+                }
+            }
+                
+           
+            
             for (int j = 0; j < DeviceScan.transform.childCount; j++)
             {
                 GameObject tmp = DeviceScan.transform.GetChild(j).gameObject;
