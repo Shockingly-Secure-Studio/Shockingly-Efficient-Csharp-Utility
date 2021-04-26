@@ -89,6 +89,8 @@ public class MenuManager : MonoBehaviour
     public string[] GetVulns(string ip){
         // TODO : prends une ip en paramètre et renvoie la liste de ses vulns
         // Si c'est plus ismple autrement pas de soucis
+        // Si tu peux faire List<Vulnerability> comme type de retour ça m'arrange encore +
+        return new string[]{"yes"};
     }
     public void SetVulns()
     {
