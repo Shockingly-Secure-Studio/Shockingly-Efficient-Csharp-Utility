@@ -76,7 +76,7 @@ public class MenuManager : MonoBehaviour
     public void SetVulns()
     {
         Machine.Machine mach = new Machine.Machine("127.0.0.1");//TODO généraliser
-        List<Vulnerability> Vulns = mach.UpdateVulnerabilities(); // Il me faudrait une liste Vulns d'une classe Vulns
+        List<Vulnerability> Vulns = mach.UpdateVulnerabilities(); 
         int nbVulns = Vulns.Count;
         
         for (int i = 0; i < nbVulns; i++)
@@ -119,6 +119,9 @@ public class MenuManager : MonoBehaviour
 
     }
 
+    /*
+                        TODO ICI Fonction qui renvoie les vulns
+    */
 
     public void Chart() //Permet de générer un Chart
     {
