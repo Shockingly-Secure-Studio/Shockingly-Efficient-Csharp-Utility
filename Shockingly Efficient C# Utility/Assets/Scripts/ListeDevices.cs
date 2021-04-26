@@ -81,45 +81,25 @@ public class ListeDevices : MonoBehaviour
             
             for (int j = 0; j < DeviceScan.transform.childCount; j++)
             {
-                GameObject tmp = DeviceScan.transform.GetChild(j).gameObject;
-                try
-                {
-                    Text Nametxt = GameObject.Find("Name").GetComponent<Text>();
-                    Nametxt.text = devicesList[j].hostName;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                try
-                {
-                    Text IPtxt = GameObject.Find("IP").GetComponent<Text>();
-                    IPtxt.text = "IP: " + devicesList[j].IP;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                try
-                {
-                    Text Scoretxt = GameObject.Find("Score").GetComponent<Text>();
-                    Scoretxt.text = "score: " + devicesList[j].severityLevel;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                try
-                {
-                    Text Scoretxt = GameObject.Find("Ports").GetComponent<Text>();
-                    Scoretxt.text = devicesList[j].Port.Count.ToString() + " ports ouverts";
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-
+                Text tmp = DeviceScan.transform.GetChild(j).gameObject.GetComponent<Text>();
+                try{
+                        if(tmp.name == "Name")
+                            tmp.text = devicesList[j].hostName;
+                        if(tmp.name == "IP")
+                            tmp.text = "IP: " + devicesList[j].IP;
+                        if(tmp.name == "Score")
+                            tmp.text = "score: " + devicesList[j].severityLevel;
+                        if(tmp.name == "Ports")
+                            tmp.text = devicesList[j].Port.Count.ToString() + " ports ouverts";
+                    }
+                catch (System.Exception)
+                    {
+                        
+                        break;
+                    }
             }
+
+        
 
             acc += new Vector3(5.5f,0,0); //Pour espacer les différents éléments
         }
