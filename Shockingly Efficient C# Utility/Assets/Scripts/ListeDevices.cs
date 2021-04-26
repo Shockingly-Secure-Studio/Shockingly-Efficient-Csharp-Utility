@@ -61,11 +61,11 @@ public class ListeDevices : MonoBehaviour
                     try
                     {
                         if(tmp.name == "Ports")
-                            tmp.text = "Ports: "+devicesList[k].Port.Count.ToString() + " ports ouverts";
+                            tmp.text = "Ports: "+devicesList[i].Port.Count.ToString() + " ports ouverts";
                         if(tmp.name == "ip")
-                            tmp.text = "IP: "+devicesList[k].IP;
+                            tmp.text = "IP: "+devicesList[i].IP;
                         if(tmp.name == "Score")
-                            tmp.text = "score: " + devicesList[k].severityLevel;
+                            tmp.text = "score: " + devicesList[i].severityLevel;
                     }
                     catch (System.Exception)
                     {
@@ -79,18 +79,18 @@ public class ListeDevices : MonoBehaviour
                 
            
             
-            for (int j = 0; j < DeviceScan.transform.childCount; j++)
+            for (int j = 0; j < DeviceScan.transform.childCount ; j++)
             {
                 Text tmp = DeviceScan.transform.GetChild(j).gameObject.GetComponent<Text>();
                 try{
                         if(tmp.name == "Name")
-                            tmp.text = devicesList[j].hostName;
+                            tmp.text = devicesList[i].hostName;
                         if(tmp.name == "IP")
-                            tmp.text = "IP: " + devicesList[j].IP;
+                            tmp.text = "IP: " + devicesList[i].IP;
                         if(tmp.name == "Score")
-                            tmp.text = "score: " + devicesList[j].severityLevel;
+                            tmp.text = "score: " + devicesList[i].severityLevel;
                         if(tmp.name == "Ports")
-                            tmp.text = devicesList[j].Port.Count.ToString() + " ports ouverts";
+                            tmp.text = devicesList[i].Port.Count.ToString() + " ports ouverts";
                     }
                 catch (System.Exception)
                     {
