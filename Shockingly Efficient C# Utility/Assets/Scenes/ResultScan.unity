@@ -1808,7 +1808,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "5 vulnerabilit\xE9 critiques\n"
+  m_Text: "2 vulnerabilit\xE9 critique\n"
 --- !u!222 &484948233
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2683,7 +2683,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!222 &724885763
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2882,7 +2882,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: www.exemple.com?id=1
+  m_Text: 
 --- !u!222 &759074651
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4089,7 +4089,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "5 vulnerabilit\xE9 moyennes"
+  m_Text: "0 vulnerabilit\xE9 moyenne"
 --- !u!222 &1192874711
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5199,7 +5199,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SQLi bypass auth
+  m_Text: 
 --- !u!222 &1616258021
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6464,7 +6464,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "5 vulnerabilit\xE9 faibles"
+  m_Text: "0 vulnerabilit\xE9 faible"
 --- !u!222 &1963214334
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6994,7 +6994,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 255.255.255.255
+  m_Text: 
 --- !u!222 &2077764997
 CanvasRenderer:
   m_ObjectHideFlags: 0
