@@ -81,7 +81,7 @@ public static class Utils
             // Prepend line numbers to each line of the output.
             if (!string.IsNullOrEmpty(e.Data))
             {
-                Debug.Log(escapedArgs + " : " + e.Data);
+                //Debug.Log(escapedArgs + " : " + e.Data);
                 result += e.Data;
             }
         };

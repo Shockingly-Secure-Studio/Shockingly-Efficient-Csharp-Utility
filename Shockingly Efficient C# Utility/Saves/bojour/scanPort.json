@@ -1,0 +1,15 @@
+[
+  {
+    "hostName": "127.0.0.1",
+    "IP": "127.0.0.1",
+    "Port": [
+      80,
+      135,
+      443,
+      445
+    ],
+    "nbOfSFlaw": "4",
+    "severityLevel": "10",
+    "scanStatus": "MajorPortsScanCompleted"
+  }
+]

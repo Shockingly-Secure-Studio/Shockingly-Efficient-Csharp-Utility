@@ -3,32 +3,19 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Renci.SshNet;
 using Service;
 using Service.Exploit;
 using UnityEngine;
 using Web;
-using Machine = Machine.Machine;
 
 public class Test : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
-       // WebService ws = new WebService(new global::Machine.Machine("127.0.0.1"), "localhost", "127.0.0.1", 80);
-       // Thread t = new Thread(ws.Exploit);
-       // t.Start();
-       // /*
-       // Machine.Machine machine = new Machine.Machine("127.0.0.1");
-       // 
-       // InputWebService inputWebService = new InputWebService(machine, "localhost", "127.0.0.1", 8181, "/", Utils.WebMethod.GET, "name");
-       // await inputWebService.Exploit(true);
-       // 
-       // Debug.Log("============== PART 2 ===============");
-       // 
-       // inputWebService = new InputWebService(machine, "localhost", "127.0.0.1", 8181, "command.php", Utils.WebMethod.GET, "ip");
-       // await inputWebService.Exploit(false);
-       // */
+        Machine.Machine machine = new Machine.Machine("127.0.0.1");
+        List<InputWebService> ws_list = await InputWebService.FromLink(machine, 80, "http://127.0.0.1/fileinclusion.php");
+        await ws_list[0].Exploit(true);
     }
 
     // Update is called once per frame

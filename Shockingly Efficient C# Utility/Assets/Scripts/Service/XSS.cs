@@ -29,7 +29,7 @@ public class XSS
             string payload;
             while((payload = await file.ReadLineAsync()) != null)
             {
-                Debug.Log($"XSS test payload{payload}, url ={_url}");
+                //Debug.Log($"XSS test payload{payload}, url ={_url}");
                 string result=await _input.Submit(payload);
                 if (result.Contains(payload))
                 {
