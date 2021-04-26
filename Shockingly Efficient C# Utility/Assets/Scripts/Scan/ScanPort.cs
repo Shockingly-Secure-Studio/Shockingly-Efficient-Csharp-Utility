@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using Service;
@@ -15,6 +17,7 @@ namespace Scan
 {
     public class ScanPort
     {
+        public static List<Machine.Machine> Machines = new List<Machine.Machine>();
         public static void ConnectCallback(IAsyncResult asyncResult)//Délégué AsyncCallback qui fait référence à la méthode à appeler quand l’opération de connexion est terminée.
         {
             TcpClient tcpClient = (TcpClient) asyncResult.AsyncState;
@@ -29,7 +32,7 @@ namespace Scan
 
         }
 
-        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType,string fileName)
+        private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType,string fileName,Machine.Machine mach)
         {
             Debug.Log("newScanTask");
             List<int> portList = new List<int>();
@@ -49,7 +52,6 @@ namespace Scan
                     if(port == 80|| port==443 || port==8080)
                     {
                         Debug.Log("WEB start exploit");
-                        Machine.Machine mach = new Machine.Machine(ip.ToString());
                         WebService newWebService = new WebService(mach, port, ip.ToString());
                         Thread tr = new Thread((async () => await newWebService.Exploit()));
                         tr.Start();
@@ -123,7 +125,9 @@ namespace Scan
             SaveScan.NewJson(fileName);
             foreach (var ip in ipList)
             {
-                Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType,fileName));
+                Machine.Machine mach = new Machine.Machine(ip.ToString());
+                Machines.Add(mach);
+                Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType,fileName,mach));
                 scanPortIPThread.Start();
                 if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }

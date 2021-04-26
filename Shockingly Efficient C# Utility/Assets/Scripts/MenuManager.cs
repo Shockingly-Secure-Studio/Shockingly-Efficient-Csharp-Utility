@@ -86,11 +86,19 @@ public class MenuManager : MonoBehaviour
     /////            SETUP VULNS                 //////
 
 
-    public string[] GetVulns(string ip){
+    public List<Vulnerability> GetVulns(string ip){
         // TODO : prends une ip en paramètre et renvoie la liste de ses vulns
         // Si c'est plus ismple autrement pas de soucis
-        // Si tu peux faire List<Vulnerability> comme type de retour ça m'arrange encore +
-        return new string[]{"yes"};
+        // Si tu peux faire List<Vulnerability> comme type de retour ça m'arrange encore + ok
+        List<Vulnerability> vulnerabilities = new List<Vulnerability>();
+        foreach (var m in ScanPort.Machines)
+        {
+            foreach (var v in m.UpdateVulnerabilities())
+            {
+                vulnerabilities.Add(v);
+            }
+        }
+        return vulnerabilities;
     }
     public void SetVulns()
     {
