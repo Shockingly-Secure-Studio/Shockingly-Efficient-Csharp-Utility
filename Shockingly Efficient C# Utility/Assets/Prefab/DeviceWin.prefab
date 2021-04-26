@@ -289,7 +289,6 @@ GameObject:
   - component: {fileID: 931185128470613746}
   - component: {fileID: 1280191419784867974}
   - component: {fileID: 2997480168812069386}
-  - component: {fileID: 4295337381565226722}
   m_Layer: 5
   m_Name: Ports
   m_TagString: Untagged
@@ -358,25 +357,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Ports ouverts: 10'
---- !u!114 &4295337381565226722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732604217493793581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f570005710d3844ab972ee10f3a39a3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 0}
-  content: {fileID: 0}
-  display: {fileID: 0}
-  contentFiche: {fileID: 0}
-  Local_Fiche: {fileID: 0}
-  Device_Fiche: {fileID: 0}
-  Device_Prefab: {fileID: 1268908806132449314}
 --- !u!1 &3620491983767486455
 GameObject:
   m_ObjectHideFlags: 0
