@@ -70,7 +70,7 @@ public class ListeDevices : MonoBehaviour
                     catch (System.Exception)
                     {
                         
-                        throw;
+                        break;
                     }
                     
                 }
