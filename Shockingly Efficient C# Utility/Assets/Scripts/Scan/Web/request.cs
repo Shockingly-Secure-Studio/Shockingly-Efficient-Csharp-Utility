@@ -80,10 +80,18 @@ namespace Web
             {
                 if (this._ip == "")
                 {
+                    if (this._port != -1)
+                    {
+                        return "localhost:" + this._port;
+                    }
                     return "localhost";
                 }
                 else
                 {
+                    if (this._port != -1)
+                    {
+                        return "localhost:" + this._port;
+                    }
                     return this._ip;
                 }   
             }
