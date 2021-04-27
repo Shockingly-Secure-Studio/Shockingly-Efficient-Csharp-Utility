@@ -111,7 +111,7 @@ namespace Service
             List<string> mapSave = SaveScan.LoadMap(path);
             if (mapSave == null||mapSave.Count==0)
             {
-                map = web.map(list,url);
+                map = await web.map(list,url);
                 SaveScan.SaveMap(path,map);
             }
             else
