@@ -46,32 +46,47 @@ namespace Web
             }
         }
 
-        public static async Task<HttpStatusCode> Ping(string url)
+        public static async Task<(HttpStatusCode,string)> Ping(string url)
         {
             using var client = new HttpClient();
-
-            var result = await client.GetAsync(url);
-            return result.StatusCode;
+            try
+            {
+                var result = await client.GetAsync(url);
+                result.EnsureSuccessStatusCode();
+                return (result.StatusCode,url);
+            }
+            catch
+            {
+                return (HttpStatusCode.GatewayTimeout, url);
+            }
         }
         
-        public void test()
+        public async Task test()
         {
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
-            url.Add("http://secu.studio");
-            url.Add("https://www.epita.fr/");
-            List<string> map = web.map(list,url);
+            url.Add("http://localhost/");
+            List<string> map = await web.map(list,url);
             foreach (var element in map)
             {
                 Debug.Log(element);
             }
             List<string> listurl = web.GetInUrl(map);
-            List<string> input = web.GetText(map);
+            List<string> input = await web.GetText(map);
         }
         public string GetDomainName(string url)
         {
             if (url.Contains("localhost") || this._ip != "")
-                return this._ip;
+            {
+                if (this._ip == "")
+                {
+                    return "localhost";
+                }
+                else
+                {
+                    return this._ip;
+                }   
+            }
             HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
             r.Method = "GET";
             WebResponse response = r.GetResponse();
