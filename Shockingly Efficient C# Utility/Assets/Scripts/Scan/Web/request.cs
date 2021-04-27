@@ -65,7 +65,7 @@ namespace Web
         {
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
-            url.Add("http://localhost/");
+            list.Add(("127.0.0.1",80));
             List<string> map = await web.map(list,url);
             foreach (var element in map)
             {

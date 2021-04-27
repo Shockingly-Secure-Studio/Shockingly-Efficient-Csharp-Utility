@@ -28,41 +28,15 @@ public class web : MonoBehaviour
     public static async Task<List<string>> map(List<(string, int)> list, List<string> url = null)
     {
         List<string> nlist = new List<string>();
-        if (list.Count == 0)
-        {
-            Request request = new Request("", -1, null, null);
-            foreach (var VARIABLE in url)
-            {
-                string domain = request.GetDomainName(VARIABLE);
-                List<string> nnlist= await WebDiscover(domain, VARIABLE, 10);
-                foreach (var items in nnlist)
-                {
-                    bool find = false;
-                    foreach (var it in nlist)
-                    {
-                        if (it == items)
-                        {
-                            find = true;
-                        }
-                    }
-                    if (!find)
-                    {
-                        nlist.Add(items);
-                    }
-                }
-            }
-        }
-        else
-        {
-            foreach (var e in list)
+        foreach (var e in list)
             {
                 Request request = new Request(e.Item1, e.Item2, null, null);
-                string domain;
+                string domain = $"{e.Item1}:{e.Item2}";
                 List<string> nnlist = new List<string>();
                 if (e.Item2 == 80)
                 {
                     nlist.Add($"http://{e.Item1}");
-                    domain = request.GetDomainName($"http://{e.Item1}");
+                    //domain = request.GetDomainName($"http://{e.Item1}");
                     nnlist = await WebDiscover(domain, $"http://{e.Item1}", 10);
                 }
                 else
@@ -88,8 +62,7 @@ public class web : MonoBehaviour
                         nlist.Add(items);
                     }
                 }
-            }  
-        }
+            }
         return nlist;
     }
 
@@ -224,7 +197,10 @@ public class web : MonoBehaviour
                 //}
         }
         
-        
+        foreach (var VARIABLE in hashSet)
+        {
+            hashSet.Remove(VARIABLE);
+        }
         foreach (var VARIABLE in visited)
         {
             hashSet.Add(VARIABLE);
@@ -271,10 +247,7 @@ public class web : MonoBehaviour
         }
 
         List<string> resultatGo = new List<string>();
-        foreach (var VARIABLE in hashSet)
-        {
-            hashSet.Remove(VARIABLE);
-        }
+        
         foreach (var VARIABLE in hashSet)
         {
             resultatGo.Add(VARIABLE);
