@@ -193,30 +193,10 @@ public class MenuManager : MonoBehaviour
     {
         GetVulns(); 
 
-        float total = 0f; 
-        float nbHard = 0f; 
-        float nbMedium = 0f; 
-        float nbEasy = 0f; 
-        foreach (var vulnerability in vulnsFound)
-        {
-            if (vulnerability.Severity > 7){
-                total ++;
-                nbHard ++;            
-            }
-                
-            if (vulnerability.Severity < 8 && vulnerability.Severity > 4){
-                total ++;
-                nbMedium ++;
-                
-            }
-                
-            if (vulnerability.Severity < 5){
-                total ++;
-                nbEasy ++;
-                
-            }
-                
-        }
+        float nbHard = nbCrit; 
+        float nbMedium = nbMoy; 
+        float nbEasy = nbFaible; 
+        float total = (float) vulnsFound.Count;
         float[] nbfailles = new float[] {nbEasy,nbMedium,nbHard};
         float zRot = 0f;
 

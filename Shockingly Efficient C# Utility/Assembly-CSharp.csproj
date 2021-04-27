@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Scan\ScanControl.cs" />
      <Compile Include="Assets\Scripts\Machine\Shell.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\web.cs" />
+     <Compile Include="Assets\Scripts\Antivirus\FileScan.cs" />
      <Compile Include="Assets\Scripts\Options.cs" />
      <Compile Include="Assets\Scripts\SessionSave.cs" />
      <Compile Include="Assets\Scripts\Service\SSHService.cs" />
