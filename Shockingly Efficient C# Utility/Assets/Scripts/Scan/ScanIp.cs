@@ -21,36 +21,56 @@ namespace Scan
 {
     //si ip vide tt tout seul sinon scan a l'aide de l'ip
     public List<(IPAddress, List<int>)> Results;
-    
-    public static string GETLocalIp()
+    public static (string, string) GETLocalIp()
     {
         IPHostEntry ipLocal = Dns.GetHostEntry("");//recherche la liste d'adrese ip associer a notre machine
+
+        foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+        {
+            if (ni.Name.Contains("VirtualBox"))
+            {
+                Debug.Log(ni.Name);
+                foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                {
+                    if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        Debug.Log(ip.Address.ToString());
+                        
+                        return (ip.Address.ToString(), ip.IPv4Mask.ToString());
+                    }
+                }
+            }
+        }
+
         foreach (IPAddress ip in ipLocal.AddressList)
         {
             if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
             {
                 Debug.Log("My ip:" + ip);
-                return ip.ToString();
+                return (ip.ToString(), "ip");
                 //return "127.0.0.1";
                 //TODO vérifier l'interface de l'adresse
             }
         }
-        return ""; 
+        return ("", "IPAddress.Any"); 
     }
-    public static (string,string) ReturnIpRange(string ip)
+    public static (string,string) ReturnIpRange(string ip, string mask)
     {
-        uint firstOctet = uint.Parse(ip.Split('.')[0]);
-        switch (firstOctet)
-        {
-            case 10:
-                return ("10.0.0.0","10.255.255.255");//classe A, 10.0.0.0 à 10.255.255.255
-            case 172:
-                return ("172.16.0.0","172.31.255.255");//classe B, 	172.16.0.0 à 172.31.255.255
-            case 192:
-                return ("192.168.1.0","192.168.255.255");//classe C,  192.168.1.0 à 192.168.255.255
-            default:
-                return ("127.0.0.1","127.0.0.1"); 
-        }
+        string[] parts = ip.Split('.');
+        string[] mask_part = mask.Split('.');
+
+        if (mask_part[0] == "0") // mask == 0.0.0.0 
+            return ("0.0.0.0", "255.255.255.255");
+        if (mask_part[1] == "0") // mask == 255.0.0.0
+            return (parts[0] + ".0.0.0", parts[0] + ".255.255.255");
+        if (mask_part[2] == "0") // mask == 255.255.0.0
+            return ($"{parts[0]}.{parts[1]}.0.0", $"{parts[0]}.{parts[1]}.255.255");
+        if (mask_part[3] == "0") // mask == 255.255.255.0
+            return ($"{parts[0]}.{parts[1]}.{parts[2]}.0", $"{parts[0]}.{parts[1]}.{parts[2]}.255");
+        
+        // mask == 255.255.255.255
+        
+        return (ip, ip);
     }
     
     public async void MakePing((string,string) ipRange,string scanType)

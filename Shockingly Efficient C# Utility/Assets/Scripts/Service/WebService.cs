@@ -60,12 +60,12 @@ namespace Service
                 {
                     requestMessage.Headers.Add(header.Key, header.Value);
                 }
-            }
+            }   
             
             if (content != null)
                 requestMessage.Content = new FormUrlEncodedContent(content);
 
-            // Debug.Log(requestMessage.ToString());
+            //Debug.Log(requestMessage.ToString());
             HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
             responseMessage.EnsureSuccessStatusCode();
             string responseContent = await responseMessage.Content.ReadAsStringAsync();

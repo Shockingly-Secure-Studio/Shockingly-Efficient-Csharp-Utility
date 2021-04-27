@@ -118,7 +118,7 @@ public class web : MonoBehaviour
             else if (rgx2.IsMatch(s) && !find)
             {
                 string ns = "";
-                ns += $"http://{domain}";
+                ns += $"http://{domain}/";
                 if (s[6] != '/' )
                 {
                     ns+= '/';
@@ -132,7 +132,7 @@ public class web : MonoBehaviour
             else if (rgx3.IsMatch(s) && !find)
             {
                 string ns = "";
-                ns += url;
+                ns += url + "/";
                     for (int i = 8; i < s.Length; i++)
                     {
                         ns += s[i];
@@ -299,7 +299,7 @@ public class web : MonoBehaviour
         //}
 
         var ping = await Request.Ping(url);
-        if (ping.Item1  == HttpStatusCode.OK)
+        if (ping.Item1  == HttpStatusCode.OK || ping.Item1 == HttpStatusCode.Redirect)
         { 
             WebResponse Response = await r.GetResponseAsync();
             StreamReader sr = new StreamReader(Response.GetResponseStream(), System.Text.Encoding.UTF8);
