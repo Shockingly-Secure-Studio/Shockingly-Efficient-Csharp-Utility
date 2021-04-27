@@ -92,6 +92,9 @@ public class MenuManager : MonoBehaviour
         // TODO : prends une ip en paramètre et renvoie la liste de ses vulns
         // Si c'est plus ismple autrement pas de soucis
         // Si tu peux faire List<Vulnerability> comme type de retour ça m'arrange encore + ok
+        nbCrit = 0;
+        nbMoy = 0;
+        nbFaible = 0;
         List<Vulnerability> vulnerabilities = new List<Vulnerability>();
         var flawsByServices =
             Directory.EnumerateFiles("Results", "output.json", SearchOption.AllDirectories);
@@ -103,7 +106,17 @@ public class MenuManager : MonoBehaviour
             sr.Close();
             foreach (AccessPoint vuln in serviceResult.AccessPoints)
             {
+
                 Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, serviceResult.Identifier);
+                if (vulnerability.Severity > 7)
+                    nbCrit++;           
+
+                if (vulnerability.Severity < 8 && vulnerability.Severity > 4)
+                    nbMoy++;
+                
+                if (vulnerability.Severity < 5)
+                    nbFaible ++;
+
                 vulnsFound.Add(vulnerability);
             }
         }
@@ -116,8 +129,6 @@ public class MenuManager : MonoBehaviour
         int nbVulns = vulnsFound.Count;
         for (int i = 0; i < nbVulns; i++)
         {
-            
-            
             for (int j = 0; j < listVulns[i].transform.childCount; j++)
             {
                 
@@ -172,8 +183,7 @@ public class MenuManager : MonoBehaviour
         {
             if (vulnerability.Severity > 7){
                 total ++;
-                nbHard ++;
-                
+                nbHard ++;            
             }
                 
             if (vulnerability.Severity < 8 && vulnerability.Severity > 4){
