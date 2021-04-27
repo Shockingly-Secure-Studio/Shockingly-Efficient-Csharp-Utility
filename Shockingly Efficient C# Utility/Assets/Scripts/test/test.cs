@@ -21,10 +21,10 @@ public class test : MonoBehaviour
         //o.MakePing();
         //Thread t = new Thread(new ThreadStart( o.MakePing));
         //t.Start();
-        Debug.Log("========================== Test Begin =============");
-        Request request = new Request("",-1,null,"");
-        await request.test();
-        Debug.Log("========================== Test ended =============");
+        //Debug.Log("========================== Test Begin =============");
+        //Request request = new Request("",-1,null,"");
+        //await request.test();
+        //Debug.Log("========================== Test ended =============");
         //aréter de laisser vos test SVP, commenter ou effacer
         //gameObject.AddComponent<rapport>().NewDocument();
     }
