@@ -273,6 +273,10 @@ public class web : MonoBehaviour
         List<string> resultatGo = new List<string>();
         foreach (var VARIABLE in hashSet)
         {
+            hashSet.Remove(VARIABLE);
+        }
+        foreach (var VARIABLE in hashSet)
+        {
             resultatGo.Add(VARIABLE);
         }
         return resultatGo;
