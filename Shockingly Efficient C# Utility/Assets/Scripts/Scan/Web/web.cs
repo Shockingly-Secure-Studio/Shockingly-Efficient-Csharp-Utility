@@ -178,7 +178,7 @@ public class web : MonoBehaviour
         }
         return res;
     }
-    public static List<string> resultatGo = new List<string>();
+    //public static List<string> resultatGo = new List<string>();
     public static HashSet<string> hashSet = new HashSet<string>();
     public static async  Task<List<string>> WebDiscover(string domain, string url, int depth) // will detect all the pages from a website
     {
@@ -270,6 +270,7 @@ public class web : MonoBehaviour
             }
         }
 
+        List<string> resultatGo = new List<string>();
         foreach (var VARIABLE in hashSet)
         {
             resultatGo.Add(VARIABLE);
