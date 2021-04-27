@@ -42,7 +42,7 @@ public class web : MonoBehaviour
                 else
                 {
                     nlist.Add($"http://{e.Item1}:{e.Item2}");
-                    domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
+                    //domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
                     nnlist = await WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
                 }
                 
