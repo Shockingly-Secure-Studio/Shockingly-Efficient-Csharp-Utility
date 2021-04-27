@@ -12,6 +12,8 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
 using UnityEngine.UI;
+
+
 public class Scans : MonoBehaviour
 {
 
@@ -249,17 +251,7 @@ public class Scans : MonoBehaviour
 
     }
 
-    public void ScanAFile(string path){
-        string apiKey = "apikey=5b68b8d063fe1421b39ac7e8bfab8baee2b893200e1078b425045cfa09b2ae58";
-        string url = "https://www.virustotal.com/vtapi/v2/file/scan";
-        string file = "file=@"+path;
-        HttpWebRequest requestObj = (HttpWebRequest)WebRequest.Create(url);
-        requestObj.Method = "GET";
-        requestObj.PreAuthenticate = true;
-
-
-    }
-
+    
     /* Bug The type name 'RegistryKey' could not be found in the namespace 'Microsoft.Win32'. 
     public void Registery(){
         string[] endpoint = new string[]{"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run","HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce","HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run","HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce"};
