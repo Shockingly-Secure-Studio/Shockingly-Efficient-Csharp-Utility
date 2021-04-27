@@ -106,12 +106,12 @@ namespace Service
             List<string> url = new List<string>();
             url.Add($"http://{_vHost}:{GetPort()}/");
             string path = GetIP().ToString() +"\\"+ GetPort().ToString() + @"\mapSave";
-            list.Add((GetIP().ToString(),GetPort()));//TODO vérifier
+            list.Add((GetIP().ToString(),GetPort()));
             List<string> map;
             List<string> mapSave = SaveScan.LoadMap(path);
             if (mapSave == null||mapSave.Count==0)
             {
-                map = await web.map(list,url);
+                map = await web.map(list);
                 SaveScan.SaveMap(path,map);
             }
             else

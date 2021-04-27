@@ -127,7 +127,7 @@ public class rapport: MonoBehaviour
                 {
                     string json = File.ReadAllText(path);
                     List<AccessPoint> accessPoints = JsonConvert.DeserializeObject<ServiceResult>(json).AccessPoints;
-                    int[] nbF = new int[3];
+                    int[] nbF = new int[10];
                     for(var i=0;i<accessPoints.Count;i++)
                     {
                         nbF[(int) accessPoints[i].Type] += 1;
