@@ -9,6 +9,8 @@ using Service.Exploit;
 using System.Globalization;
 using System;
 using System.IO;
+using DefaultNamespace;
+using Newtonsoft.Json;
 
 
 public class MenuManager : MonoBehaviour
@@ -35,8 +37,8 @@ public class MenuManager : MonoBehaviour
     private int nbCrit = 0;
 
     List<Vulnerability> vulnsFound = new List<Vulnerability>();
-    
-    void Awake()
+
+    private void Update()
     {
         UnityEngine.Debug.Log("MenuManager running");
         if (SceneManager.GetActiveScene().name=="ResultScan"||isResultScan)
@@ -86,33 +88,32 @@ public class MenuManager : MonoBehaviour
     /////            SETUP VULNS                 //////
 
 
-    public List<Vulnerability> GetVulns(){
+    public void GetVulns(){
         // TODO : prends une ip en paramètre et renvoie la liste de ses vulns
         // Si c'est plus ismple autrement pas de soucis
         // Si tu peux faire List<Vulnerability> comme type de retour ça m'arrange encore + ok
         List<Vulnerability> vulnerabilities = new List<Vulnerability>();
-
-
-        // Il faudrait un truc du genre je pense:
-        // ScanPort scp = new ScanPort();
-        // var machines = scp.Machines;
-
-        // Le pb c'est que ScanPort.Machines est vide (je crois)
-        foreach (var m in ScanPort.Machines)
+        var flawsByServices =
+            Directory.EnumerateFiles("Results", "output.json", SearchOption.AllDirectories);
+        vulnsFound = new List<Vulnerability>();
+        foreach (string outputjson in flawsByServices)
         {
-            foreach (var v in m.UpdateVulnerabilities())
+            StreamReader sr = new StreamReader(outputjson);
+            ServiceResult serviceResult = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
+            sr.Close();
+            foreach (AccessPoint vuln in serviceResult.AccessPoints)
             {
-                vulnerabilities.Add(v);
+                Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, serviceResult.Identifier);
+                vulnsFound.Add(vulnerability);
             }
         }
-        return vulnerabilities;
     }
 
     public void SetVulns()
     {
 
-        List<Vulnerability> Vulns = GetVulns(); 
-        int nbVulns = Vulns.Count;
+        GetVulns(); 
+        int nbVulns = vulnsFound.Count;
         for (int i = 0; i < nbVulns; i++)
         {
             
@@ -124,7 +125,7 @@ public class MenuManager : MonoBehaviour
                 try
                 {
                     Text Nametxt = tmp.transform.Find("Name").GetComponent<Text>() as Text;
-                    Nametxt.text = Vulns[i].Name;
+                    Nametxt.text = vulnsFound[i].Name;
 
                 }
                 catch (Exception)
@@ -134,7 +135,7 @@ public class MenuManager : MonoBehaviour
                 try
                 {
                     Text Nametxt = tmp.transform.Find("Access point").GetComponent<Text>() as Text;
-                    Nametxt.text = Vulns[i].AccessPoint;
+                    Nametxt.text = vulnsFound[i].AccessPoint;
                 }
                 catch (Exception)
                 {
@@ -143,7 +144,7 @@ public class MenuManager : MonoBehaviour
                 try
                 {
                     Text Nametxt = tmp.transform.Find("IP").GetComponent<Text>() as Text;
-                    Nametxt.text = Vulns[i].IP;
+                    Nametxt.text = vulnsFound[i].IP;
                 }
                 catch (Exception)
                 {
@@ -161,13 +162,13 @@ public class MenuManager : MonoBehaviour
 
     public void Chart() //Permet de générer un Chart
     {
-        List<Vulnerability> Vulns = GetVulns(); 
+        GetVulns(); 
 
         float total = 0f; 
         float nbHard = 0f; 
         float nbMedium = 0f; 
         float nbEasy = 0f; 
-        foreach (var vulnerability in Vulns)
+        foreach (var vulnerability in vulnsFound)
         {
             if (vulnerability.Severity > 7){
                 total ++;

@@ -17,7 +17,6 @@ namespace Scan
 {
     public class ScanPort
     {
-        public static List<Machine.Machine> Machines = new List<Machine.Machine>();
         public static void ConnectCallback(IAsyncResult asyncResult)//Délégué AsyncCallback qui fait référence à la méthode à appeler quand l’opération de connexion est terminée.
         {
             TcpClient tcpClient = (TcpClient) asyncResult.AsyncState;
@@ -126,7 +125,6 @@ namespace Scan
             foreach (var ip in ipList)
             {
                 Machine.Machine mach = new Machine.Machine(ip.ToString());
-                Machines.Add(mach);
                 Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType,fileName,mach));
                 scanPortIPThread.Start();
                 if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
