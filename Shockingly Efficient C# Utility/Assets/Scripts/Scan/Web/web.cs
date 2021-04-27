@@ -33,9 +33,9 @@ public class web : MonoBehaviour
                 Request request = new Request(e.Item1, e.Item2, null, null);
                 string domain = $"{e.Item1}:{e.Item2}";
                 List<string> nnlist = new List<string>();
-                nlist.Add($"http://{e.Item1}");
+                nlist.Add($"http://{e.Item1}:{e.Item2}");
                 //domain = request.GetDomainName($"http://{e.Item1}");
-                nnlist = await WebDiscover(domain, $"http://{e.Item1}:", 10);
+                nnlist = await WebDiscover(domain, $"http://{e.Item1}:{e.Item2}:", 10);
                 
 
                 foreach (var items in nnlist)
