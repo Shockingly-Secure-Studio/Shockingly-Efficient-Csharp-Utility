@@ -25,7 +25,7 @@ public class web : MonoBehaviour
     {
         
     }
-    public static async Task<List<string>> map(List<(string, int)> list, List<string> url)
+    public static async Task<List<string>> map(List<(string, int)> list, List<string> url = null)
     {
         List<string> nlist = new List<string>();
         if (list.Count == 0)
@@ -57,9 +57,21 @@ public class web : MonoBehaviour
             foreach (var e in list)
             {
                 Request request = new Request(e.Item1, e.Item2, null, null);
-                nlist.Add($"http://{e.Item1}:{e.Item2}");
-                string domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
-                List<string> nnlist= await WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
+                string domain;
+                List<string> nnlist = new List<string>();
+                if (e.Item2 == 80)
+                {
+                    nlist.Add($"http://{e.Item1}");
+                    domain = request.GetDomainName($"http://{e.Item1}");
+                    nnlist = await WebDiscover(domain, $"http://{e.Item1}", 10);
+                }
+                else
+                {
+                    nlist.Add($"http://{e.Item1}:{e.Item2}");
+                    domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
+                    nnlist = await WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
+                }
+                
                 foreach (var items in nnlist)
                 {
                     bool find = false;
