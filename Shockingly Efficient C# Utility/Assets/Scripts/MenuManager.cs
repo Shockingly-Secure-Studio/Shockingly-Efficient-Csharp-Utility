@@ -37,8 +37,8 @@ public class MenuManager : MonoBehaviour
     private int nbCrit = 0;
 
     List<Vulnerability> vulnsFound = new List<Vulnerability>();
-
-    private void Update()
+    
+    void Update()
     {
         UnityEngine.Debug.Log("MenuManager running");
         if (SceneManager.GetActiveScene().name=="ResultScan"||isResultScan)
