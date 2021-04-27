@@ -37,11 +37,20 @@ public class MenuManager : MonoBehaviour
     private int nbCrit = 0;
 
     List<Vulnerability> vulnsFound = new List<Vulnerability>();
+
+    public Image loadingbar;
+    public bool loadingScene;
     
     void Update()
     {
         UnityEngine.Debug.Log("MenuManager running");
-        if (SceneManager.GetActiveScene().name=="ResultScan"||isResultScan)
+        if (loadingScene)
+        {
+            UnityEngine.Debug.Log("LOADING");
+            SetLoading();
+        }
+        
+        else if (SceneManager.GetActiveScene().name=="ResultScan"||isResultScan)
         {
             SetVulns();
             Chart();
@@ -52,6 +61,15 @@ public class MenuManager : MonoBehaviour
     {
         Debug.Log("Exit App");
         Application.Quit();
+    }
+
+    public void SetLoading(){
+        Image tmp = loadingbar;
+        tmp.fillAmount += 0.02f;
+        if(tmp.fillAmount == 1f){
+            SceneManager.LoadScene("ResultScan");
+        }
+
     }
 
     public void ChangeScene_(string sceanename)

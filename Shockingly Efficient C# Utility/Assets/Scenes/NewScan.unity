@@ -999,9 +999,13 @@ MonoBehaviour:
   WedgeParent: {fileID: 0}
   PieChartPrefab: {fileID: 0}
   colors: []
+  vulns: []
   IP: {fileID: 1031634679}
   aggresif: {fileID: 1887384307}
   ListOption: []
+  listVulns: []
+  isResultScan: 0
+  loadingbar: {fileID: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1787,7 +1791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.1600037, y: 0}
+  m_AnchoredPosition: {x: 4.1600037, y: 0.000015258789}
   m_SizeDelta: {x: 8.32, y: 224.98}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1009667164
@@ -3077,7 +3081,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1276639503}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.00000013564573
+  m_Size: 0.00000006782287
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3211,7 +3215,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ResultScan
+          m_StringArgument: loadingpage
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1624326272
