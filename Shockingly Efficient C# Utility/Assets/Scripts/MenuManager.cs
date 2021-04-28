@@ -62,7 +62,7 @@ public class MenuManager : MonoBehaviour
     }
     void ExitAPP()
     {
-        Debug.Log("Exit App");
+        //Debug.Log("Exit App");
         Application.Quit();
     }
 
