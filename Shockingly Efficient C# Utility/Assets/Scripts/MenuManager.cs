@@ -100,26 +100,42 @@ public class MenuManager : MonoBehaviour
 
     public void ScanStart()
     {
-        string ipText = IP.text;
+        string ipText;
+        if (IP.text == null || IP.text == "")
+            ipText = "";
+        else
+            ipText = IP.text;
+        Debug.Log("ScanStart");
         if ( ipText == null || ipText == "" )
         {
             alertbox2.SetActive(true);
         }
         else{
-            string agg = "fast";
-            if (aggresif.isOn)
-                agg = "all";
-            if (!ipText.Contains("/"))
-            {
-                ipText += '/';
-            }
-            ScanControl Scan = new ScanControl(ipText,agg);
-            if (!Directory.Exists("Results"))
-                Directory.CreateDirectory("Results");
-            Scan.Scan();
-            SceneManager.LoadScene("loadingpage");
+            ForceScanStart();
         }
         
+    }
+
+    public void ForceScanStart()
+    {
+        string ipText;
+        if (IP == null || IP.text == null || IP.text == "")
+            ipText = "";
+        else
+            ipText = IP.text;
+        Debug.Log("Vrai scan");
+        string agg = "fast";
+        if (aggresif.isOn)
+            agg = "all";
+        if (!ipText.Contains("/"))
+        {
+            ipText += '/';
+        }
+        ScanControl Scan = new ScanControl(ipText,agg);
+        if (!Directory.Exists("Results"))
+            Directory.CreateDirectory("Results");
+        Scan.Scan();
+        SceneManager.LoadScene("loadingpage");
     }
 
     /////            SETUP VULNS                 //////
