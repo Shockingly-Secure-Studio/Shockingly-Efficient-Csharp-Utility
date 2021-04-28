@@ -14,8 +14,10 @@ public class Test : MonoBehaviour
     async void Start()
     {
         Machine.Machine machine = new Machine.Machine("127.0.0.1");
-        List<InputWebService> ws_list = await InputWebService.FromLink(machine, 80, "http://127.0.0.1/fileinclusion.php");
-        await ws_list[0].Exploit(true);
+        WebService ws = new WebService(
+            machine, 80, "127.0.0.1"
+        );
+        await ws.Exploit();
     }
 
     // Update is called once per frame

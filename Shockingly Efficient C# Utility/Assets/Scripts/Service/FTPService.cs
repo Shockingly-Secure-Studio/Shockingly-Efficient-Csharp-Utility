@@ -195,7 +195,7 @@ namespace Service
             }
             catch (WebException e)
             {
-                if (e.Message.Contains("Login or password incorrect"))
+                if (e.Message.Contains("Login or password incorrect") || e.Message.Contains("Login incorrect"))
                     return false;
                 throw;
             }

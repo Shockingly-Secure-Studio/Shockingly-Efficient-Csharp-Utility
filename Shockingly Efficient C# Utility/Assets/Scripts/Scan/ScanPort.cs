@@ -33,7 +33,7 @@ namespace Scan
 
         private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType,string fileName,Machine.Machine mach)
         {
-            Debug.Log("newScanTask");
+            Debug.Log("newScanTask :" + ip.ToString());
             List<int> portList = new List<int>();
             SaveScan.UpdatePortJson((ip,portList),fileName,"Underway");
             //on scan liste des port imporant
@@ -53,6 +53,14 @@ namespace Scan
                         Debug.Log("WEB start exploit");
                         WebService newWebService = new WebService(mach, port, ip.ToString());
                         Thread tr = new Thread((async () => await newWebService.Exploit()));
+                        tr.Start();
+                    }
+
+                    if (port == 21)
+                    {
+                        Debug.Log("FTP start exploit");
+                        FTPService ftpService = new FTPService(mach, port);
+                        Thread tr = new Thread(ftpService.Exploit);
                         tr.Start();
                     }
                     portList.Add(port);
