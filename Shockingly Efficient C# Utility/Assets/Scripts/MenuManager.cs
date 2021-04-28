@@ -49,7 +49,7 @@ public class MenuManager : MonoBehaviour
         //UnityEngine.Debug.Log("MenuManager running");
         if (loadingScene)
         {
-            UnityEngine.Debug.Log("LOADING");
+            //UnityEngine.Debug.Log("LOADING");
             SetLoading();
         }
         
@@ -105,7 +105,7 @@ public class MenuManager : MonoBehaviour
             ipText = "";
         else
             ipText = IP.text;
-        Debug.Log("ScanStart");
+        //Debug.Log("ScanStart");
         if ( ipText == null || ipText == "" )
         {
             alertbox2.SetActive(true);
@@ -118,7 +118,7 @@ public class MenuManager : MonoBehaviour
             ipText = "";
         else
             ipText = IP.text;
-        Debug.Log("Vrai scan");
+        //Debug.Log("Vrai scan");
         string agg = "fast";
         if (aggresif.isOn)
             agg = "all";
