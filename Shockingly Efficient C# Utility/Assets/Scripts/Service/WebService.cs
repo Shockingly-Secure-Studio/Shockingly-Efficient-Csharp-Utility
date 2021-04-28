@@ -67,9 +67,10 @@ namespace Service
                 requestMessage.Content = new FormUrlEncodedContent(content);
 
             //Debug.Log(requestMessage.ToString());
-            HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
+            /*HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
             responseMessage.EnsureSuccessStatusCode();
-            string responseContent = await responseMessage.Content.ReadAsStringAsync();
+            string responseContent = await responseMessage.Content.ReadAsStringAsync();*/
+            string responseContent = Utils.MakeRequest(uri.AbsoluteUri);
             return responseContent;
         }
         
