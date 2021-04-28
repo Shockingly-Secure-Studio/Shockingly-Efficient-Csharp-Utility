@@ -62,7 +62,7 @@ public class web : MonoBehaviour
     {
         List<string> res = new List<string>();
 
-        string src = await Utils.(url);
+        string src = Utils.MakeRequest(url);
         if (src == "")
         {
             return res;
@@ -270,7 +270,7 @@ public class web : MonoBehaviour
         List<string> nlist = new List<string>();
         foreach (var item in list)
         {
-            string s= await SourceCode(item);
+            string s= Utils.MakeRequest(item);
             if (regex.IsMatch(s) && s != "")
             {
                 nlist.Add(item);
