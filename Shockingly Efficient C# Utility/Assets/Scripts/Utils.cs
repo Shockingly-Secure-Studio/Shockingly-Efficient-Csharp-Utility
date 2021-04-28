@@ -123,6 +123,7 @@ public static class Utils
     public static string MakeRequest(string url)
     {
         WebClient wc = new WebClient();
+        wc.Headers.Add("user-agent", "Headless scan - SECU");
         Stream data = wc.OpenRead(url);
         StreamReader reader = new StreamReader(data);
         string s = reader.ReadToEnd();
