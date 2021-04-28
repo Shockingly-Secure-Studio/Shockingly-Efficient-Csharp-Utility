@@ -98,28 +98,28 @@ public class MenuManager : MonoBehaviour
 
     }
 
-    public void ScanStart(string sceanename)
+    public void ScanStart()
     {
         string ipText = IP.text;
         if ( ipText == null || ipText == "" )
         {
             alertbox2.SetActive(true);
         }
-        else
-        {
-            SceneManager.LoadScene(sceanename);
+        else{
+            string agg = "fast";
+            if (aggresif.isOn)
+                agg = "all";
+            if (!ipText.Contains("/"))
+            {
+                ipText += '/';
+            }
+            ScanControl Scan = new ScanControl(ipText,agg);
+            if (!Directory.Exists("Results"))
+                Directory.CreateDirectory("Results");
+            Scan.Scan();
+            SceneManager.LoadScene("loadingpage");
         }
-        string agg = "fast";
-        if (aggresif.isOn)
-            agg = "all";
-        if (!ipText.Contains("/"))
-        {
-            ipText += '/';
-        }
-        ScanControl Scan = new ScanControl(ipText,agg);
-        if (!Directory.Exists("Results"))
-            Directory.CreateDirectory("Results");
-        Scan.Scan();
+        
     }
 
     /////            SETUP VULNS                 //////
