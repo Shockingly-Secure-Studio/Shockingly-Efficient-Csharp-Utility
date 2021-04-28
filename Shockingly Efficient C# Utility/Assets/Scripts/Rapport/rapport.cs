@@ -129,6 +129,8 @@ public class rapport: MonoBehaviour
             string info = $"{device.IP},{device.severityLevel},{device.nbOfSFlaw}";
             DirectoryInfo deviceDirectoryInfo = new DirectoryInfo(@"Results\"+device.IP+@"\");
             var dirList=deviceDirectoryInfo.EnumerateDirectories();
+            var n = Enum.GetNames(typeof(AccessPointType)).Length;
+            int[] nbF = new int[n];
             foreach (var dir in dirList)
             {
                 string path = Path.Combine(dir.ToString(), "output.json");
@@ -136,19 +138,18 @@ public class rapport: MonoBehaviour
                 {
                     string json = File.ReadAllText(path);
                     List<AccessPoint> accessPoints = JsonConvert.DeserializeObject<ServiceResult>(json).AccessPoints;
-                    var n = Enum.GetNames(typeof(AccessPointType)).Length;
-                    int[] nbF = new int[n];
+                    nbF = new int[n];
                     for(var i=0;i<accessPoints.Count;i++)
                     {
                         nbF[(int) accessPoints[i].Type] += 1;
                         if(!flaws.Contains(accessPoints[i].Type))
                             flaws.Add(accessPoints[i].Type);
                     }
-                    for (var i = 0; i < n ; i++)
-                    {
-                        info += $",{nbF[i]}";
-                    }
                 }
+            }
+            for (var i = 0; i < n ; i++)
+            {
+                info += $",{nbF[i]}";
             }
             AddLine(ref newTable,info);
         }
