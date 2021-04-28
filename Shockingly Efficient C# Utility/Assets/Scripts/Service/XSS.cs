@@ -18,7 +18,7 @@ public class XSS
     public XSS(InputWebService inputs,string url)
     {
         _input = inputs;
-        _pathPayload=@".\Assets\Scripts\Service\xss_payloads";
+        _pathPayload = Path.Combine("Binaries", "xss_payloads");
         _url = url;
     }
     public async Task TestPayload()

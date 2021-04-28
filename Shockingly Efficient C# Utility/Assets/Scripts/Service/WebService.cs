@@ -114,6 +114,7 @@ namespace Service
             if (mapSave == null||mapSave.Count==0)
             {
                 map = await web.map(list);
+                Debug.Log($"WebService.Exploit: map is done. Length of map == {map.Count}");
                 SaveScan.SaveMap(path,map);
             }
             else

@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.VersionControl;
 using Web;
 using Task = System.Threading.Tasks.Task;
 using ThreadPriority = System.Threading.ThreadPriority;
@@ -36,7 +35,7 @@ public class web : MonoBehaviour
                 nlist.Add($"http://{e.Item1}:{e.Item2}");
                 //domain = request.GetDomainName($"http://{e.Item1}");
                 nnlist = await WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
-                
+                Debug.Log("after WebDiscover");
 
                 foreach (var items in nnlist)
                 {
@@ -55,6 +54,7 @@ public class web : MonoBehaviour
                     }
                 }
         }
+        
         return nlist;
     }
 
@@ -195,12 +195,14 @@ public class web : MonoBehaviour
         {
             hashSet.Add(VARIABLE);
         }
+
         return await Gobuster(url);
     }
 
     public static async Task<List<string>> Gobuster(string url)
     {
-        StreamReader sr = new StreamReader("Assets\\Scripts\\Scan\\Web\\wordlistsout.txt");
+        Debug.Log("gobuster DEBUG");
+        StreamReader sr = new StreamReader(Path.Combine("Binaries", "wordlistsout.txt"));
         string s;
         var requestTaskList = new List<Task>();
         while ((s = sr.ReadLine()) != null)
@@ -242,6 +244,7 @@ public class web : MonoBehaviour
         {
             resultatGo.Add(VARIABLE);
         }
+        Debug.Log("FIN GOBUSTER");
         return resultatGo;
     }
     public static List<string> GetInUrl(List<string> list)

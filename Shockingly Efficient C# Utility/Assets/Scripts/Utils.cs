@@ -137,6 +137,7 @@ public static class Utils
         }
         catch (Exception e)
         {
+            Debug.Log($"============ Utils.MakeRequest: Error with url={url}");
             Debug.LogError(e);
             return "";
         }
