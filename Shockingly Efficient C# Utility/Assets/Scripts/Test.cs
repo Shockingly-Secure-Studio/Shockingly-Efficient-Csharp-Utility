@@ -13,9 +13,10 @@ public class Test : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        Machine.Machine machine = new Machine.Machine("192.168.56.102");
+        string ip = "192.168.56.102";
+        Machine.Machine machine = new Machine.Machine(ip);
         WebService ws = new WebService(
-            machine, 80, "192.168.56.102"
+            machine, 80, ip
         );
         await ws.Exploit();
     }
