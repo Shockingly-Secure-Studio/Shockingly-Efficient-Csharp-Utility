@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -105,7 +106,7 @@ namespace Service
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
             url.Add($"http://{_vHost}:{GetPort()}/");
-            string path = GetIP().ToString() +"\\"+ GetPort().ToString() + @"\mapSave";
+            string path = Path.Combine(GetIP().ToString(), GetPort().ToString(), "mapSave");
             list.Add((GetIP().ToString(),GetPort()));
             List<string> map;
             List<string> mapSave = SaveScan.LoadMap(path);
@@ -119,8 +120,7 @@ namespace Service
                 map = mapSave;
             }
             List<InputWebService> total = new List<InputWebService>();
-        
-            map.Add($"http://{_vHost}:{GetPort()}/");
+
         
             
             foreach (var link in map)
