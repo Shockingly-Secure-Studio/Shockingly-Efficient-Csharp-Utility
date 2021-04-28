@@ -1005,6 +1005,7 @@ MonoBehaviour:
   ListOption: []
   listVulns: []
   isResultScan: 0
+  LoadingText: {fileID: 0}
   loadingbar: {fileID: 0}
   loadingScene: 0
 --- !u!20 &519420031
@@ -1574,8 +1575,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 519420030}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: ChangeScene_
-        m_Mode: 5
+        m_MethodName: ScanStart
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3132,7 +3133,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1276639503}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.00000006782287
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -16,7 +16,7 @@ public class rapport: MonoBehaviour
 
     public void NewDocument()
     {
-        System.IO.FileStream fs = new FileStream(@".\report.pdf", FileMode.Create);
+        System.IO.FileStream fs = new FileStream(@"report.pdf", FileMode.Create);
         Document document = new Document(PageSize.A4, 25, 25, 30, 30);  
         PdfWriter writer = PdfWriter.GetInstance(document, fs);  
         document.Open();
@@ -127,7 +127,7 @@ public class rapport: MonoBehaviour
         foreach (var device in devicesList)
         {
             string info = $"{device.IP},{device.severityLevel},{device.nbOfSFlaw}";
-            DirectoryInfo deviceDirectoryInfo = new DirectoryInfo(@".\Results\"+device.IP+@"\");
+            DirectoryInfo deviceDirectoryInfo = new DirectoryInfo(@"Results\"+device.IP+@"\");
             var dirList=deviceDirectoryInfo.EnumerateDirectories();
             foreach (var dir in dirList)
             {
