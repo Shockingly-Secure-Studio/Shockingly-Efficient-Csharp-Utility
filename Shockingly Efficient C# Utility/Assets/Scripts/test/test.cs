@@ -26,7 +26,7 @@ public class test : MonoBehaviour
         //await request.test();
         //Debug.Log("========================== Test ended =============");
         //aréter de laisser vos test SVP, commenter ou effacer
-        //gameObject.AddComponent<rapport>().NewDocument();
+        gameObject.AddComponent<rapport>().NewDocument();
     }
 
     // Update is called once per frame
