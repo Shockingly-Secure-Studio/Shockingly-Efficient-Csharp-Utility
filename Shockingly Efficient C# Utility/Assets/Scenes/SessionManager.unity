@@ -1216,6 +1216,7 @@ MonoBehaviour:
   ListOption: []
   listVulns: []
   isResultScan: 0
+  LoadingText: {fileID: 0}
   loadingbar: {fileID: 0}
   loadingScene: 0
 --- !u!114 &1508252348
@@ -1363,7 +1364,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1508252352}
         m_TargetAssemblyTypeName: DefaultNamespace.SessionManager, Assembly-CSharp
-        m_MethodName: SaveSession
+        m_MethodName: LoadSession
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1710,6 +1711,7 @@ MonoBehaviour:
   ListOption: []
   listVulns: []
   isResultScan: 0
+  LoadingText: {fileID: 0}
   loadingbar: {fileID: 0}
   loadingScene: 0
 --- !u!114 &1068577415927500479

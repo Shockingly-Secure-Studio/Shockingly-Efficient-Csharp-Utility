@@ -188,11 +188,9 @@ public class web : MonoBehaviour
                 depth--;
                 //}
         }
+
+        hashSet.Clear();
         
-        foreach (var VARIABLE in hashSet)
-        {
-            hashSet.Remove(VARIABLE);
-        }
         foreach (var VARIABLE in visited)
         {
             hashSet.Add(VARIABLE);

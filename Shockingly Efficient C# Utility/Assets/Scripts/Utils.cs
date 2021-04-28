@@ -122,16 +122,24 @@ public static class Utils
     /// <returns></returns>
     public static string MakeRequest(string url)
     {
-        WebClient wc = new WebClient();
-        wc.Headers.Add("user-agent", "Headless scan - SECU");
-        Stream data = wc.OpenRead(url);
-        StreamReader reader = new StreamReader(data);
-        string s = reader.ReadToEnd();
-        Console.WriteLine(s);
-        data.Close();
-        reader.Close();
+        try
+        {
+            WebClient wc = new WebClient();
+            wc.Headers.Add("user-agent", "Headless scan - SECU");
+            Stream data = wc.OpenRead(url);
+            StreamReader reader = new StreamReader(data);
+            string s = reader.ReadToEnd();
+            Console.WriteLine(s);
+            data.Close();
+            reader.Close();
 
-        return s;
+            return s;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+            return "";
+        }
     }
     
     public enum WebMethod
