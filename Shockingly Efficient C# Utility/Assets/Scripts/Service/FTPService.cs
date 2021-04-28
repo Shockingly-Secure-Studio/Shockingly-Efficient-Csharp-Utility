@@ -232,7 +232,7 @@ namespace Service
             AccessPoint vuln = new AccessPoint(
                 $"{username}:{password}@{_serverUri}",
                 $"{username}:{password}@{_serverUri}",
-                AccessPointType.InsecureAuthentication,
+                AccessPointType.Insecure_Authentication,
                 4,
                 creds
             );

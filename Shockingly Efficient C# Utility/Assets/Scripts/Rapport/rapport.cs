@@ -113,11 +113,20 @@ public class rapport: MonoBehaviour
         NewTitle(document,"Rapport de l'analyse",fontFamily,30);
         NewImage(document,@"./img.png");
         NewTitle(document,"Tableaux récapitulatif",fontFamily,15);
-        var newTable=MakeTable(document,6,"IP,Niveau de vulnérabilité,Nombre total de failles,RCE,SQLi,XSS","7,5,5,3,3,3");
+        var colinfo = "IP,Niveau de vulnérabilité,Nombre total de failles";
+        var colW = "5,6,5";
+        var nbCol = 3;
+        foreach (var type in Enum.GetNames(typeof(AccessPointType)))
+        {
+            colinfo += ","+type;
+            colW += ",5";
+            nbCol++;
+        }
+        var newTable=MakeTable(document,nbCol,colinfo,colW);
         List<AccessPointType> flaws = new List<AccessPointType>();
         foreach (var device in devicesList)
         {
-            string info = $"{device.IP},{device.nbOfSFlaw},{device.severityLevel}";
+            string info = $"{device.IP},{device.severityLevel},{device.nbOfSFlaw}";
             DirectoryInfo deviceDirectoryInfo = new DirectoryInfo(@".\Results\"+device.IP+@"\");
             var dirList=deviceDirectoryInfo.EnumerateDirectories();
             foreach (var dir in dirList)
@@ -127,14 +136,18 @@ public class rapport: MonoBehaviour
                 {
                     string json = File.ReadAllText(path);
                     List<AccessPoint> accessPoints = JsonConvert.DeserializeObject<ServiceResult>(json).AccessPoints;
-                    int[] nbF = new int[3];
+                    var n = Enum.GetNames(typeof(AccessPointType)).Length;
+                    int[] nbF = new int[n];
                     for(var i=0;i<accessPoints.Count;i++)
                     {
                         nbF[(int) accessPoints[i].Type] += 1;
                         if(!flaws.Contains(accessPoints[i].Type))
                             flaws.Add(accessPoints[i].Type);
                     }
-                    info += $",{nbF[0]},{nbF[1]},{nbF[2]}";
+                    for (var i = 0; i < n ; i++)
+                    {
+                        info += $",{nbF[i]}";
+                    }
                 }
             }
             AddLine(ref newTable,info);
@@ -149,30 +162,30 @@ public class rapport: MonoBehaviour
                     document.Add(new Paragraph("\tRCE ou remonte commande injection, ce sont des failles qui" +
                                                " permettent à l’utilisateur d’exécuter des commandes, pour éviter " +
                                                "ce type de faille il faut vérifier  les requêtes de l’utilisateur, " +
-                                               "par exemple en vérifiant les symboles utilisées. \n", 
+                                               "par exemple en vérifiant les symboles utilisés. \n", 
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
                 case AccessPointType.SQLi:
                     NewTitle(document,"SQLi",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tLes SQLi, aussi appelé injection SQL est un type de faille qui a pour but interagir avec une base de " +
+                        "\tLes SQLi, aussi appelées injection SQL est un type de faille qui a pour but interagir avec une base de " +
                         "données, pour cela on injecte un morceau malveillant de requête SQL dans une requête SQL qui" +
                         " va par exemple vérifier un mot de passe. Ce type de faille peux permettre par exemple de " +
-                        "récupérer tous les mot de passe et les nom d’utilisateurs.Voici une ressource pour vous " +
-                        "protéger contre les injections sql\nhttps://cheatsheetseries.owasp.org/cheatsheets/SQL_Inject" +
+                        "récupérer tous les mots de passe et les noms d’utilisateurs. Voici une ressource pour vous " +
+                        "protéger contre les injections sql.\nhttps://cheatsheetseries.owasp.org/cheatsheets/SQL_Inject" +
                         "ion_Prevention_Cheat_Sheet.html\n",
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
                 case AccessPointType.XSS:
                     NewTitle(document,"XSS",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tLes failles XSS sont des failles liées aux différents point d’entrés du site web, per exemple " +
+                        "\tLes failles XSS sont des failles liées aux différents points d’entrée du site web, par exemple " +
                         "en laissant un commentaire l’utilisateur peux tenter d’injecter du code malveillant, si votre serveur " +
-                        "ne vérifie pas ce que rentre l’utilisateur il va renvoyer le code qui va être interpréter par les " +
-                        "navigateurs des autres utilisateur qui visiterons la page. Ce type d’attaques peux permettre de " +
-                        "voler les cookies, si un personne vole un cookie d’un administrateur il peux élever ses privilèges" +
-                        " et accéder à des informations sensible. Il peux aussi par exemple rediriger les utilisateurs sur " +
-                        "un page malveillantes. Voici une ressouce pour vous protéger contre les XSS\nhttps://cheatsheet" +
+                        "ne vérifie pas ce que rentre l’utilisateur il va renvoyer le code qui va être interprété par les " +
+                        "navigateurs des autres utilisateurs qui visiteront la page. Ce type d’attaques peut permettre de " +
+                        "voler les cookies, si une personne vole un cookie d’un administrateur il peut élever ses privilèges" +
+                        " et accéder à des informations sensibles. Il peux aussi par exemple rediriger les utilisateurs sur " +
+                        "une page malveillante. Voici une ressource pour vous protéger contre les XSS\nhttps://cheatsheet" +
                         "series.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html#defense-against-xss\n",
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
