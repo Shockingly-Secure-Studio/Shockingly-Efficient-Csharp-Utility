@@ -149,30 +149,30 @@ public class rapport: MonoBehaviour
                     document.Add(new Paragraph("\tRCE ou remonte commande injection, ce sont des failles qui" +
                                                " permettent à l’utilisateur d’exécuter des commandes, pour éviter " +
                                                "ce type de faille il faut vérifier  les requêtes de l’utilisateur, " +
-                                               "par exemple en vérifiant les symboles utilisées. \n", 
+                                               "par exemple en vérifiant les symboles utilisés. \n", 
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
                 case AccessPointType.SQLi:
                     NewTitle(document,"SQLi",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tLes SQLi, aussi appelé injection SQL est un type de faille qui a pour but interagir avec une base de " +
+                        "\tLes SQLi, aussi appelées injection SQL est un type de faille qui a pour but interagir avec une base de " +
                         "données, pour cela on injecte un morceau malveillant de requête SQL dans une requête SQL qui" +
                         " va par exemple vérifier un mot de passe. Ce type de faille peux permettre par exemple de " +
-                        "récupérer tous les mot de passe et les nom d’utilisateurs.Voici une ressource pour vous " +
-                        "protéger contre les injections sql\nhttps://cheatsheetseries.owasp.org/cheatsheets/SQL_Inject" +
+                        "récupérer tous les mots de passe et les noms d’utilisateurs. Voici une ressource pour vous " +
+                        "protéger contre les injections sql.\nhttps://cheatsheetseries.owasp.org/cheatsheets/SQL_Inject" +
                         "ion_Prevention_Cheat_Sheet.html\n",
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
                 case AccessPointType.XSS:
                     NewTitle(document,"XSS",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tLes failles XSS sont des failles liées aux différents point d’entrés du site web, per exemple " +
+                        "\tLes failles XSS sont des failles liées aux différents points d’entrée du site web, par exemple " +
                         "en laissant un commentaire l’utilisateur peux tenter d’injecter du code malveillant, si votre serveur " +
-                        "ne vérifie pas ce que rentre l’utilisateur il va renvoyer le code qui va être interpréter par les " +
-                        "navigateurs des autres utilisateur qui visiterons la page. Ce type d’attaques peux permettre de " +
-                        "voler les cookies, si un personne vole un cookie d’un administrateur il peux élever ses privilèges" +
-                        " et accéder à des informations sensible. Il peux aussi par exemple rediriger les utilisateurs sur " +
-                        "un page malveillantes. Voici une ressouce pour vous protéger contre les XSS\nhttps://cheatsheet" +
+                        "ne vérifie pas ce que rentre l’utilisateur il va renvoyer le code qui va être interprété par les " +
+                        "navigateurs des autres utilisateurs qui visiteront la page. Ce type d’attaques peut permettre de " +
+                        "voler les cookies, si une personne vole un cookie d’un administrateur il peut élever ses privilèges" +
+                        " et accéder à des informations sensibles. Il peux aussi par exemple rediriger les utilisateurs sur " +
+                        "une page malveillante. Voici une ressource pour vous protéger contre les XSS\nhttps://cheatsheet" +
                         "series.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html#defense-against-xss\n",
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
