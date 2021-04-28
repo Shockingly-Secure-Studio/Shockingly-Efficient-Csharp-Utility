@@ -1,4 +1,3 @@
-javascript:alert(1)//INJECTX
 <svg/onload=alert(1)>//INJECTX
 <img onload=alert(1)>//INJECTX
 <img src=x onerror=prompt(1)>//INJECTX
