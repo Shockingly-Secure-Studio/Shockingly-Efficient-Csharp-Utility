@@ -43,7 +43,7 @@ public class MenuManager : MonoBehaviour
     
     void Update()
     {
-        UnityEngine.Debug.Log("MenuManager running");
+        //UnityEngine.Debug.Log("MenuManager running");
         if (loadingScene)
         {
             UnityEngine.Debug.Log("LOADING");
