@@ -29,7 +29,7 @@ public class web : MonoBehaviour
     {
         List<string> nlist = new List<string>();
         foreach (var e in list)
-            {
+        {
                 Request request = new Request(e.Item1, e.Item2, null, null);
                 string domain = $"{e.Item1}:{e.Item2}";
                 List<string> nnlist = new List<string>();
@@ -54,7 +54,7 @@ public class web : MonoBehaviour
                         nlist.Add(items);
                     }
                 }
-            }
+        }
         return nlist;
     }
 
