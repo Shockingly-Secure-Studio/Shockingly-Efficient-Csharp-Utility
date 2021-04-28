@@ -113,11 +113,20 @@ public class rapport: MonoBehaviour
         NewTitle(document,"Rapport de l'analyse",fontFamily,30);
         NewImage(document,@"./img.png");
         NewTitle(document,"Tableaux récapitulatif",fontFamily,15);
-        var newTable=MakeTable(document,6,"IP,Niveau de vulnérabilité,Nombre total de failles,RCE,SQLi,XSS","7,5,5,3,3,3");
+        var colinfo = "IP,Niveau de vulnérabilité,Nombre total de failles";
+        var colW = "5,6,5";
+        var nbCol = 3;
+        foreach (var type in Enum.GetNames(typeof(AccessPointType)))
+        {
+            colinfo += ","+type;
+            colW += ",5";
+            nbCol++;
+        }
+        var newTable=MakeTable(document,nbCol,colinfo,colW);
         List<AccessPointType> flaws = new List<AccessPointType>();
         foreach (var device in devicesList)
         {
-            string info = $"{device.IP},{device.nbOfSFlaw},{device.severityLevel}";
+            string info = $"{device.IP},{device.severityLevel},{device.nbOfSFlaw}";
             DirectoryInfo deviceDirectoryInfo = new DirectoryInfo(@".\Results\"+device.IP+@"\");
             var dirList=deviceDirectoryInfo.EnumerateDirectories();
             foreach (var dir in dirList)
@@ -127,14 +136,18 @@ public class rapport: MonoBehaviour
                 {
                     string json = File.ReadAllText(path);
                     List<AccessPoint> accessPoints = JsonConvert.DeserializeObject<ServiceResult>(json).AccessPoints;
-                    int[] nbF = new int[10];
+                    var n = Enum.GetNames(typeof(AccessPointType)).Length;
+                    int[] nbF = new int[n];
                     for(var i=0;i<accessPoints.Count;i++)
                     {
                         nbF[(int) accessPoints[i].Type] += 1;
                         if(!flaws.Contains(accessPoints[i].Type))
                             flaws.Add(accessPoints[i].Type);
                     }
-                    info += $",{nbF[0]},{nbF[1]},{nbF[2]}";
+                    for (var i = 0; i < n ; i++)
+                    {
+                        info += $",{nbF[i]}";
+                    }
                 }
             }
             AddLine(ref newTable,info);
