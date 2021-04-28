@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.VersionControl;
 using Web;
 using Task = System.Threading.Tasks.Task;
 using ThreadPriority = System.Threading.ThreadPriority;
