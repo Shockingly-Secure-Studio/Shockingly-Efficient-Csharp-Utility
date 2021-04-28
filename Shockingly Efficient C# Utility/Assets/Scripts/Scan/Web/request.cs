@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.NetworkInformation;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -45,29 +46,55 @@ namespace Web
             }
         }
 
-        public async Task<HttpStatusCode> Ping()
+        public static async Task<(HttpStatusCode,string)> Ping(string url)
         {
             using var client = new HttpClient();
-
-            var result = await client.GetAsync(this._url);
-            return result.StatusCode;
-            
+            try
+            {
+                var result = await client.GetAsync(url);
+                result.EnsureSuccessStatusCode();
+                return (result.StatusCode,url);
+            }
+            catch
+            {
+                return (HttpStatusCode.GatewayTimeout, url);
+            }
         }
-
-        public void test()
+        
+        public async Task test()
         {
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
-            url.Add("http://secu.studio");
-            url.Add("http://challenge01.root-me.org/web-serveur/ch19/");
-            List<string> map = web.map(list,url);
+            list.Add(("127.0.0.1",80));
+            List<string> map = await web.map(list,url);
+            foreach (var element in map)
+            {
+                Debug.Log(element);
+            }
             List<string> listurl = web.GetInUrl(map);
-            List<string> input = web.GetText(map);
+            List<string> input = await web.GetText(map);
         }
         public string GetDomainName(string url)
         {
-            if (url.Contains("localhost"))
-                return "localhost";
+            if (url.Contains("localhost") || this._ip != "")
+            {
+                if (this._ip == "")
+                {
+                    if (this._port != -1)
+                    {
+                        return "localhost:" + this._port;
+                    }
+                    return "localhost";
+                }
+                else
+                {
+                    if (this._port != -1)
+                    {
+                        return "localhost:" + this._port;
+                    }
+                    return this._ip;
+                }   
+            }
             HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
             r.Method = "GET";
             WebResponse response = r.GetResponse();

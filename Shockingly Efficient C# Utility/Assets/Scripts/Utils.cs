@@ -81,7 +81,7 @@ public static class Utils
             // Prepend line numbers to each line of the output.
             if (!string.IsNullOrEmpty(e.Data))
             {
-                Debug.Log(escapedArgs + " : " + e.Data);
+                //Debug.Log(escapedArgs + " : " + e.Data);
                 result += e.Data;
             }
         };
@@ -115,6 +115,34 @@ public static class Utils
         }
     }
 
+    /// <summary>
+    /// Make a simple request to a foreign server, it is made to be simple so no POST params or cookies or things like this.
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    public static string MakeRequest(string url)
+    {
+        try
+        {
+            WebClient wc = new WebClient();
+            wc.Headers.Add("user-agent", "Headless scan - SECU");
+            Stream data = wc.OpenRead(url);
+            StreamReader reader = new StreamReader(data);
+            string s = reader.ReadToEnd();
+            Console.WriteLine(s);
+            data.Close();
+            reader.Close();
+
+            return s;
+        }
+        catch (Exception e)
+        {
+            Debug.Log($"============ Utils.MakeRequest: Error with url={url}");
+            Debug.LogError(e);
+            return "";
+        }
+    }
+    
     public enum WebMethod
     {
         GET,

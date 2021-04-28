@@ -885,7 +885,7 @@
         </member>
         <member name="T:Newtonsoft.Json.Converters.VersionConverter">
             <summary>
-            Converts a <see cref="T:System.Version"/> to and from a string (e.g. <c>"1.2.3.4"</c>).
+            Converts a <see cref="T:System.Type"/> to and from a string (e.g. <c>"1.2.3.4"</c>).
             </summary>
         </member>
         <member name="M:Newtonsoft.Json.Converters.VersionConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
