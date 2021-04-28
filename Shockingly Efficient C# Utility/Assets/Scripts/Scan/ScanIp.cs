@@ -114,7 +114,8 @@ namespace Scan
         }
         Debug.Log("FIN DU SCAN IP");
         SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},completed");
-        ScanPort.MakePortScan(ipList,scanType);
+        Thread t = new Thread(() => ScanPort.MakePortScan(ipList,scanType));
+        t.Start();
     }
     private  static async Task<(IPAddress,bool)> PingAsync(IPAddress ip)
     {

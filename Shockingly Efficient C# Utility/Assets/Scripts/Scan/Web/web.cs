@@ -118,7 +118,7 @@ public class web : MonoBehaviour
             else if (rgx2.IsMatch(s) && !find)
             {
                 string ns = "";
-                ns += $"http://{domain}/";
+                ns += $"http://{domain}";
                 if (s[6] != '/' )
                 {
                     ns+= '/';

@@ -1,0 +1,12 @@
+{
+  "identifier": "192.168.56.103:21",
+  "AccessPoints": [
+    {
+      "access": "anonymous:anonymous@ftp://192.168.56.103/",
+      "poc": "anonymous:anonymous@ftp://192.168.56.103/",
+      "type": 2,
+      "severity": 4,
+      "AdditionalInfo": "anonymous:anonymous\nanonymous:\n"
+    }
+  ]
+}

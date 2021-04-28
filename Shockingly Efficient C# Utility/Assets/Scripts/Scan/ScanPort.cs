@@ -33,7 +33,7 @@ namespace Scan
 
         private static void ScanTask (IPAddress ip,(int,int) portRange, string scanType,string fileName,Machine.Machine mach)
         {
-            Debug.Log("newScanTask :" + ip.ToString());
+            Debug.Log("newScanTask :" + ip.ToString() + " type=" + scanType);
             List<int> portList = new List<int>();
             SaveScan.UpdatePortJson((ip,portList),fileName,"Underway");
             //on scan liste des port imporant
@@ -44,6 +44,7 @@ namespace Scan
             };
             foreach (var port in tabPorts)
             {
+                //Debug.Log("Test port:" + ip + ":" + port);
                 var tcpClient = new TcpClient();
                 IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port,ConnectCallback, tcpClient);
                 if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected){
@@ -135,7 +136,8 @@ namespace Scan
                 Machine.Machine mach = new Machine.Machine(ip.ToString());
                 Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType,fileName,mach));
                 scanPortIPThread.Start();
-                if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
+                scanPortIPThread.Join();
+                //if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }
         }
         

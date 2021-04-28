@@ -1,0 +1,53 @@
+[
+  {
+    "hostName": "fe80::640b:74ec:30a8:4727",
+    "IP": "192.168.56.1",
+    "Port": [
+      135,
+      139,
+      443,
+      445,
+      5357
+    ],
+    "nbOfSFlaw": null,
+    "severityLevel": null,
+    "scanStatus": "MajorPortsScanCompleted"
+  },
+  {
+    "hostName": "192.168.56.100",
+    "IP": "192.168.56.100",
+    "Port": [],
+    "nbOfSFlaw": null,
+    "severityLevel": null,
+    "scanStatus": "MajorPortsScanCompleted"
+  },
+  {
+    "hostName": "192.168.56.102",
+    "IP": "192.168.56.102",
+    "Port": [
+      22,
+      80
+    ],
+    "nbOfSFlaw": null,
+    "severityLevel": null,
+    "scanStatus": "MajorPortsScanCompleted"
+  },
+  {
+    "hostName": "192.168.56.103",
+    "IP": "192.168.56.103",
+    "Port": [
+      21
+    ],
+    "nbOfSFlaw": "1",
+    "severityLevel": "4",
+    "scanStatus": "MajorPortsScanCompleted"
+  },
+  {
+    "hostName": "192.168.56.104",
+    "IP": "192.168.56.104",
+    "Port": [],
+    "nbOfSFlaw": null,
+    "severityLevel": null,
+    "scanStatus": "MajorPortsScanCompleted"
+  }
+]

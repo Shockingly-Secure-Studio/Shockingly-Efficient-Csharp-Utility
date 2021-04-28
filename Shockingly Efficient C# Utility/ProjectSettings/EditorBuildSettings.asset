@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SessionManager.unity
     guid: 9004d2a221173fc429ac2828454a5ec4
+  - enabled: 1
+    path: Assets/Scenes/loadingpage.unity
+    guid: cb71e96525ff4f74fa5ef841b6fa445d
   m_configObjects: {}

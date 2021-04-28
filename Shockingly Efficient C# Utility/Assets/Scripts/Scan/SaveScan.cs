@@ -11,9 +11,12 @@ namespace Scan
     {
         public static void NewJson(string fileName)
         {
+            
             string jsonSerializedObj = "";
             Directory.CreateDirectory("Results");
             string path = Path.Combine("Results", fileName+".json");
+            if (File.Exists(path))
+                return;
             File.WriteAllText(path, jsonSerializedObj);
         }
         public static void UpdatePortJson((IPAddress ip,List<int> port) scanResult,string fileName, string scanStatus)
@@ -87,7 +90,12 @@ namespace Scan
                 {
                     newDevice = false;
                 }
+                else
+                {
+                    ++i;
+                }
             }
+            
             return (newDevice,i);
         }
 
