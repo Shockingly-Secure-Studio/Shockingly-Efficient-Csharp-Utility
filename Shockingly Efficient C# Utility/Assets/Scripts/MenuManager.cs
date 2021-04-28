@@ -110,16 +110,11 @@ public class MenuManager : MonoBehaviour
         {
             alertbox2.SetActive(true);
         }
-        else{
+        else {
             ForceScanStart();
         }
         
-    }
-
-    public void ForceScanStart()
-    {
-        string ipText;
-        if (IP == null || IP.text == null || IP.text == "")
+        if (IP.text == null || IP.text == "")
             ipText = "";
         else
             ipText = IP.text;
@@ -136,6 +131,11 @@ public class MenuManager : MonoBehaviour
             Directory.CreateDirectory("Results");
         Scan.Scan();
         SceneManager.LoadScene("loadingpage");
+        
+    }
+
+    public void ForceScanStart()
+    {
     }
 
     /////            SETUP VULNS                 //////
