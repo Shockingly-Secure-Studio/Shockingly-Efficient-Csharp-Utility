@@ -149,6 +149,8 @@ public class MenuManager : MonoBehaviour
         nbMoy = 0;
         nbFaible = 0;
         List<Vulnerability> vulnerabilities = new List<Vulnerability>();
+        if(!Directory.Exists("Results"));
+            Directory.CreateDirectory("Results");
         var flawsByServices =
             Directory.EnumerateFiles("Results", "output.json", SearchOption.AllDirectories);
         vulnsFound = new List<Vulnerability>();
