@@ -120,8 +120,7 @@ namespace Service
                 map = mapSave;
             }
             List<InputWebService> total = new List<InputWebService>();
-        
-            map.Add($"http://{_vHost}:{GetPort()}/");
+
         
             
             foreach (var link in map)

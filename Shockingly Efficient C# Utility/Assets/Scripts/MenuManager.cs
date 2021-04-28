@@ -36,6 +36,9 @@ public class MenuManager : MonoBehaviour
     private int nbMoy = 0;
     private int nbCrit = 0;
 
+    private int AccText = 0;
+    private int AccText2 = 0;
+    public Text LoadingText;
     List<Vulnerability> vulnsFound = new List<Vulnerability>();
 
     public Image loadingbar;
@@ -43,7 +46,7 @@ public class MenuManager : MonoBehaviour
     
     void Update()
     {
-        UnityEngine.Debug.Log("MenuManager running");
+        //UnityEngine.Debug.Log("MenuManager running");
         if (loadingScene)
         {
             UnityEngine.Debug.Log("LOADING");
@@ -64,8 +67,24 @@ public class MenuManager : MonoBehaviour
     }
 
     public void SetLoading(){
+
+        string[] loading = new string[]{"chargement.","chargement..","chargement..."};
+        
+        if(AccText2 == 10){
+            AccText++;
+            AccText2 = 0;
+        }  
+        else if(AccText == 2){
+            AccText = 0;
+            AccText2++;
+        }
+        else
+            AccText2++;
+
+
+        LoadingText.text = loading[AccText];
         Image tmp = loadingbar;
-        tmp.fillAmount += 0.02f;
+        tmp.fillAmount += 0.015f;
         if(tmp.fillAmount == 1f){
             SceneManager.LoadScene("ResultScan");
         }
