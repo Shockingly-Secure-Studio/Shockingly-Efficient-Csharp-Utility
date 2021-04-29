@@ -28,8 +28,8 @@
       22,
       80
     ],
-    "nbOfSFlaw": null,
-    "severityLevel": null,
+    "nbOfSFlaw": "5",
+    "severityLevel": "10",
     "scanStatus": "MajorPortsScanCompleted"
   },
   {
@@ -40,14 +40,6 @@
     ],
     "nbOfSFlaw": "1",
     "severityLevel": "4",
-    "scanStatus": "MajorPortsScanCompleted"
-  },
-  {
-    "hostName": "192.168.56.104",
-    "IP": "192.168.56.104",
-    "Port": [],
-    "nbOfSFlaw": null,
-    "severityLevel": null,
     "scanStatus": "MajorPortsScanCompleted"
   }
 ]

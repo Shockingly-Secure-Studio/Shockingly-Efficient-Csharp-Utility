@@ -56,7 +56,9 @@ public class SessionSave
            Debug.Log("Directory does not exist or could not be found:"+loadPath);
            return false;
         }
-        Directory.Delete(_sessionResultDir,true);
+        if (Directory.Exists(_sessionResultDir))
+            Directory.Delete(_sessionResultDir,true);
+
         DirectoryCopy(loadPath,_sessionResultDir);
         (string info,List<IPAddress> ipList) =SaveScan.LoadIpScan("ipScan");
         if (info == null)
