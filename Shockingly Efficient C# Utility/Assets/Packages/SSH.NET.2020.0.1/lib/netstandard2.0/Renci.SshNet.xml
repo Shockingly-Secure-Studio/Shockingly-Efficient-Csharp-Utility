@@ -21059,7 +21059,7 @@
             SSH_FXP_INIT
             </summary>
         </member>
-        <member name="F:Renci.SshNet.Sftp.SftpMessageTypes.Version">
+        <member name="F:Renci.SshNet.Sftp.SftpMessageTypes.Type">
             <summary>
             SSH_FXP_VERSION
             </summary>

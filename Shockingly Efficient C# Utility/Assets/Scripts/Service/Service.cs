@@ -15,15 +15,17 @@ namespace Service
         private readonly IPAddress _ip;
         private readonly int _port;
         protected readonly string WorkingDirectory;
-        private Machine.Machine host;
+        protected readonly Machine.Machine Host;
         
-        public Service(Machine.Machine machine, string ip, int port)
+        public Service(Machine.Machine machine, int port)
         {
-            host = machine;
-            _ip = IPAddress.Parse(ip);
+            Host = machine;
+            _ip = IPAddress.Parse(machine.IPAdress);
             _port = port;
+                
+            machine.AddService(this);
 
-            WorkingDirectory = Path.Combine("Results", ip, port.ToString());
+            WorkingDirectory = Path.Combine("Results", machine.IPAdress, port.ToString());
 
             Directory.CreateDirectory(WorkingDirectory);
         }
@@ -66,6 +68,11 @@ namespace Service
         {
             return _port;
         }
+
+        public Machine.Machine GetHost()
+        {
+            return Host;
+        }
         
         
 
@@ -96,7 +103,7 @@ namespace Service
             fs.Write(toWrite, 0, toWrite.Length);
             fs.Close();
             
-            host.UpdateFlaws();
+            Host.UpdateFlaws();
         }
     }
 }

@@ -9,9 +9,12 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
 using Web;
+using Task = System.Threading.Tasks.Task;
+using ThreadPriority = System.Threading.ThreadPriority;
 
 public class web : MonoBehaviour
 {
@@ -21,41 +24,19 @@ public class web : MonoBehaviour
     {
         
     }
-    public static List<string> map(List<(string, int)> list, List<string> url)
+    public static async Task<List<string>> map(List<(string, int)> list, List<string> url = null)
     {
         List<string> nlist = new List<string>();
-        if (list.Count == 0)
+        foreach (var e in list)
         {
-            Request request = new Request("", -1, null, null);
-            foreach (var VARIABLE in url)
-            {
-                string domain = request.GetDomainName(VARIABLE);
-                List<string> nnlist= WebDiscover(domain, VARIABLE, 10);
-                foreach (var items in nnlist)
-                {
-                    bool find = false;
-                    foreach (var it in nlist)
-                    {
-                        if (it == items)
-                        {
-                            find = true;
-                        }
-                    }
-                    if (!find)
-                    {
-                        nlist.Add(items);
-                    }
-                }
-            }
-        }
-        else
-        {
-            foreach (var e in list)
-            {
                 Request request = new Request(e.Item1, e.Item2, null, null);
+                string domain = $"{e.Item1}:{e.Item2}";
+                List<string> nnlist = new List<string>();
                 nlist.Add($"http://{e.Item1}:{e.Item2}");
-                string domain = request.GetDomainName($"http://{e.Item1}:{e.Item2}");
-                List<string> nnlist= WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
+                //domain = request.GetDomainName($"http://{e.Item1}");
+                nnlist = await WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
+                Debug.Log("after WebDiscover");
+
                 foreach (var items in nnlist)
                 {
                     bool find = false;
@@ -72,16 +53,16 @@ public class web : MonoBehaviour
                         nlist.Add(items);
                     }
                 }
-            }  
         }
+        
         return nlist;
     }
 
-    public static List<string> getlinks(string url, string domain)
+    public static async Task<List<string>> getlinks(string url, string domain)
     {
         List<string> res = new List<string>();
 
-        string src = SourceCode(url);
+        string src = Utils.MakeRequest(url);
         if (src == "")
         {
             return res;
@@ -98,6 +79,7 @@ public class web : MonoBehaviour
         Regex regex = new Regex(pattern);
         
         Regex rgx = new Regex(pattern2);
+        
 
         Regex rgx2 = new Regex(pattern3);
 
@@ -113,6 +95,7 @@ public class web : MonoBehaviour
                 //prétraitement
                 string nmatch = "";
                 int j = 6;
+                Debug.Log($"tested with : {s}\nWorks with rgx : {rgx.IsMatch(s)}\nWorks with rgx : {rgx2.IsMatch(s)}\nWorks with rgx : {rgx3.IsMatch(s)}");
                 for (; j < s.Length; j++)
                 {
                     nmatch += s[j];
@@ -138,7 +121,7 @@ public class web : MonoBehaviour
                 ns += $"http://{domain}";
                 if (s[6] != '/' )
                 {
-                    ns+= $"http://{domain}";
+                    ns+= '/';
                 }
                 for (int i = 6; i < s.Length; i++)
                 {
@@ -149,7 +132,7 @@ public class web : MonoBehaviour
             else if (rgx3.IsMatch(s) && !find)
             {
                 string ns = "";
-                ns += url;
+                ns += url + "/";
                     for (int i = 8; i < s.Length; i++)
                     {
                         ns += s[i];
@@ -160,11 +143,12 @@ public class web : MonoBehaviour
         }
         return res;
     }
-    
-    public static List<string> WebDiscover(string domain, string url, int depth) // will detect all the pages from a website
+    //public static List<string> resultatGo = new List<string>();
+    public static HashSet<string> hashSet = new HashSet<string>();
+    public static async  Task<List<string>> WebDiscover(string domain, string url, int depth) // will detect all the pages from a website
     {
-        List<string> acc = getlinks(url, domain);
-        List<string> visited = getlinks(url, domain);
+        List<string> acc = await getlinks(url, domain);
+        List<string> visited = await getlinks(url, domain);
         string url2;
         while (acc.Count != 0 && depth > 0)
         {
@@ -175,7 +159,7 @@ public class web : MonoBehaviour
             //}
             //else
             //{
-                List<string> acc2 = getlinks(url2, domain);
+                List<string> acc2 = await getlinks(url2, domain);
                 foreach (var VARIABLE in acc2)
                 {
                     bool find = false;
@@ -205,39 +189,63 @@ public class web : MonoBehaviour
                 //}
         }
 
-       // List<string> url_hidden = new List<string>();
-       //Gobuster(url,url_hidden);
-       //foreach (var hidden in url_hidden)
-       //{
-       //    bool found = false;
-       //    foreach (var visit in visited)
-       //    {
-       //        if (hidden != visit)
-       //        {
-       //            found = true;
-       //        }
-       //    }
-       //
-       //    if (!found)
-       //    {
-       //        visited.Add(hidden);
-       //    }
-       //}
-        return visited;
+        hashSet.Clear();
+        
+        foreach (var VARIABLE in visited)
+        {
+            hashSet.Add(VARIABLE);
+        }
+
+        return await Gobuster(url);
     }
 
-    public static async void Gobuster(string url, List<string> list)
+    public static async Task<List<string>> Gobuster(string url)
     {
-        StreamReader sr = new StreamReader("Assets\\Scripts\\Scan\\Web\\Wordlist.txt");
+        Debug.Log("gobuster DEBUG");
+        StreamReader sr = new StreamReader(Path.Combine("Binaries", "wordlistsout.txt"));
         string s;
+        var requestTaskList = new List<Task>();
         while ((s = sr.ReadLine()) != null)
         {
-            var ans = await Request.Ping(url + '/' + s);
-            if (ans == HttpStatusCode.OK)
+            if (url[url.Length-1] !='/' && s[0] != '/')
             {
-                list.Add(url + s);
+                requestTaskList.Add(Request.Ping(url +'/'+s));
+            }
+            
+            else if (url[url.Length-1] =='/' && s[0] == '/')
+            {
+                string nurl = "";
+                for (int i = 0; i < url.Length-1; i++)
+                {
+                    nurl += url[i];
+                }
+                requestTaskList.Add(Request.Ping(nurl+s));
+            }
+            else
+            {
+                requestTaskList.Add(Request.Ping(url +s));
+            }
+            
+        }
+        while (requestTaskList.Count > 0)
+        {
+            Task<(HttpStatusCode,string)> taskres = await Task.WhenAny(requestTaskList) as Task<(HttpStatusCode,string)>;
+            (HttpStatusCode,string) res = taskres.Result;
+            requestTaskList.Remove(taskres);
+            if (res.Item1 == HttpStatusCode.OK)
+            {
+                hashSet.Add(res.Item2);
             }
         }
+
+        List<string> resultatGo = new List<string>();
+        
+        foreach (var VARIABLE in hashSet)
+        {
+            resultatGo.Add(VARIABLE);
+        }
+        Debug.Log("FIN GOBUSTER");
+        return resultatGo;
     }
     public static List<string> GetInUrl(List<string> list)
     {
@@ -256,14 +264,14 @@ public class web : MonoBehaviour
         return nlist;
     }
 
-    public static List<string> GetText(List<string> list)
+    public static async Task<List<string>> GetText(List<string> list)
     {
         string pattern = "(<input)";
         Regex regex = new Regex(pattern);
         List<string> nlist = new List<string>();
         foreach (var item in list)
         {
-            string s= SourceCode(item);
+            string s= Utils.MakeRequest(item);
             if (regex.IsMatch(s) && s != "")
             {
                 nlist.Add(item);
@@ -272,22 +280,37 @@ public class web : MonoBehaviour
 
         return nlist;
     }
-    public static string SourceCode(string url) //Retourne le code source du site à l'url
+    public static async Task<string> SourceCode(string url) //Retourne le code source du site à l'url
     {
         HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
         r.Method = "GET";
-        try
-        {
-            WebResponse Response = r.GetResponse();
+        //try
+        //{
+        //    WebResponse Response = r.GetResponse();
+        //    StreamReader sr = new StreamReader(Response.GetResponseStream(), System.Text.Encoding.UTF8);
+        //    string res = sr.ReadToEnd();
+        //    sr.Close();
+        //    Response.Close();
+        //    return res;
+        //}
+        //catch (Exception e)
+        //{
+        //    Console.WriteLine(e);
+        //    return "";
+        //}
+
+        var ping = await Request.Ping(url);
+        if (ping.Item1  == HttpStatusCode.OK || ping.Item1 == HttpStatusCode.Redirect)
+        { 
+            WebResponse Response = await r.GetResponseAsync();
             StreamReader sr = new StreamReader(Response.GetResponseStream(), System.Text.Encoding.UTF8);
             string res = sr.ReadToEnd();
             sr.Close();
             Response.Close();
             return res;
         }
-        catch (Exception e)
+        else
         {
-            Console.WriteLine(e);
             return "";
         }
     }
