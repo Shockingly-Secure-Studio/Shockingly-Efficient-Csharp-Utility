@@ -302,6 +302,7 @@
  </Reference>
  <Reference Include="SshNet.Security.Cryptography">
  <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/SshNet.Security.Cryptography.1.3.0/lib/netstandard2.0/SshNet.Security.Cryptography.dll</HintPath>
+<<<<<<< Updated upstream
  </Reference>
  <Reference Include="Newtonsoft.Json">
  <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll</HintPath>
@@ -309,6 +310,21 @@
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.2.2f1/Editor/Data/PlaybackEngines/AppleTVSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
+=======
+ </Reference>
+ <Reference Include="BouncyCastle.Crypto">
+ <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/BouncyCastle.Crypto.dll</HintPath>
+ </Reference>
+ <Reference Include="itextsharp">
+ <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Plugin/itextsharp.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/Projet-code/Shockingly-Efficient-Csharp-Utility/Shockingly Efficient C# Utility/Assets/Packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/2020.2.2f1/Editor/Data/PlaybackEngines/AppleTVSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ </Reference>
+>>>>>>> Stashed changes
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.2.2f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
