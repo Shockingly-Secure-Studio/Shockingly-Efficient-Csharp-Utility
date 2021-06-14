@@ -27,7 +27,7 @@ namespace Scan
 
         foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
         {
-            if (ni.Name.Contains("VirtualBox"))
+            if (ni.Name == NetworkInterfaceDropdown.dropdown.options[NetworkInterfaceDropdown.dropdown.value].text)
             {
                 Debug.Log(ni.Name);
                 foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)

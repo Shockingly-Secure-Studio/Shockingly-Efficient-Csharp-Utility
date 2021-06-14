@@ -9,6 +9,7 @@ using Service.Exploit;
 using System.Globalization;
 using System;
 using System.IO;
+using System.Linq;
 using DefaultNamespace;
 using Newtonsoft.Json;
 
@@ -127,8 +128,10 @@ public class MenuManager : MonoBehaviour
             ipText += '/';
         }
         ScanControl Scan = new ScanControl(ipText,agg);
-        if (!Directory.Exists("Results"))
-            Directory.CreateDirectory("Results");
+        if (Directory.Exists("Results")) 
+            Directory.Delete("Results", true);
+        
+        Directory.CreateDirectory("Results");
         Scan.Scan();
         SceneManager.LoadScene("loadingpage");
         
@@ -262,5 +265,4 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    
 }
