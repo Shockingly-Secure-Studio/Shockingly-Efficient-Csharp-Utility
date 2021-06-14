@@ -13,14 +13,14 @@ namespace Machine
     {
         public string IPAdress;
         public string WorkingDirectory;
-        public List<Service.Service> OpenServices;
+        public List<Service.TcpService> OpenServices;
         public List<WebShell> AccessibleShells;
 
         public Machine(string ip)
         {
             IPAdress = ip;
             WorkingDirectory = Path.Combine("Results", ip);
-            OpenServices = new List<Service.Service>();
+            OpenServices = new List<Service.TcpService>();
             AccessibleShells = new List<WebShell>();
             if (!Directory.Exists(WorkingDirectory))
             {
@@ -85,9 +85,9 @@ namespace Machine
             return result;
         }
 
-        public void AddService(Service.Service service)
+        public void AddService(Service.TcpService tcpService)
         {
-            OpenServices.Add(service);
+            OpenServices.Add(tcpService);
         }
 
         public void AddShell(WebShell webShell)

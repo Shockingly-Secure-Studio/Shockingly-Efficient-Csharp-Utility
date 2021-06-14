@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Service
 {
-    public class FTPService : Service
+    public class FTPService : TcpService
     {
         private Machine.Machine _machine;
         private Uri _serverUri;

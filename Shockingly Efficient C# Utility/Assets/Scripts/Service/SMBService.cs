@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class SMBService : Service
+    public class SMBService : TcpService
     {
         private string _version;
 

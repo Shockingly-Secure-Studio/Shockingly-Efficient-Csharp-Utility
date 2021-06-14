@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Service
 {
-    public class SSHService : Service
+    public class SSHService : TcpService
     {
         private string _version;
 

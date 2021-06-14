@@ -10,14 +10,14 @@ using Service.Exploit;
 
 namespace Service
 {
-    public abstract class Service
+    public abstract class TcpService
     {
         private readonly IPAddress _ip;
         private readonly int _port;
         protected readonly string WorkingDirectory;
         protected readonly Machine.Machine Host;
         
-        public Service(Machine.Machine machine, int port)
+        public TcpService(Machine.Machine machine, int port)
         {
             Host = machine;
             _ip = IPAddress.Parse(machine.IPAdress);

@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Service
 {
-    public class WebService : Service
+    public class WebService : TcpService
     {
         private readonly string _vHost;
 
