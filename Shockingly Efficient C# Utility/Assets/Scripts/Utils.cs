@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using Debug = UnityEngine.Debug;
@@ -125,7 +128,7 @@ public static class Utils
         try
         {
             WebClient wc = new WebClient();
-            wc.Headers.Add("user-agent", "Headless scan - SECU");
+            wc.Headers.Add("User-agent", "Headless scan - SECU");
             Stream data = wc.OpenRead(url);
             StreamReader reader = new StreamReader(data);
             string s = reader.ReadToEnd();
@@ -147,5 +150,18 @@ public static class Utils
     {
         GET,
         POST
+    }
+
+    /// <summary>
+    /// Returns a list of all network interfaces names (physical or logical) currently installed on the computer 
+    /// </summary>
+    /// <returns>Sorted list of string representing all the interfaces</returns>
+    public static List<string> GetNetworkInterfaces()
+    {
+        return NetworkInterface.GetAllNetworkInterfaces()
+            .Where(netInterface => !netInterface.IsReceiveOnly)
+            .Select(netInterface => netInterface.Name)
+            .OrderBy(x => x)
+            .ToList();
     }
 }
