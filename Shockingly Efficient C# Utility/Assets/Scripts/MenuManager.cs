@@ -28,7 +28,6 @@ public class MenuManager : MonoBehaviour
     public Toggle aggresif;
     public Toggle[] ListOption;
 
-    public GameObject[] listVulns; // Les lignes pour les vulns
     // Start is called before the first frame update
     public bool isResultScan;
     
@@ -44,6 +43,9 @@ public class MenuManager : MonoBehaviour
 
     public Image loadingbar;
     public bool loadingScene;
+    
+    public GameObject vulnPrefab;
+    public GameObject vulnScrollView;
     
     void Update()
     {
@@ -164,7 +166,6 @@ public class MenuManager : MonoBehaviour
             sr.Close();
             foreach (AccessPoint vuln in serviceResult.AccessPoints)
             {
-
                 Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, serviceResult.Identifier);
                 if (vulnerability.Severity > 7)
                     nbCrit++;           
@@ -182,50 +183,112 @@ public class MenuManager : MonoBehaviour
 
     public void SetVulns()
     {
-
         GetVulns(); 
         int nbVulns = vulnsFound.Count;
         for (int i = 0; i < nbVulns; i++)
         {
-            for (int j = 0; j < listVulns[i].transform.childCount; j++)
+            bool alreadyExists = false;
+            // iterate over the child of vulnScrollView
+            foreach (Transform child in vulnScrollView.transform)
             {
-                
-                GameObject tmp = listVulns[i] as GameObject;
-                try
+                if (
+                    child.Find("Access point").GetComponent<Text>().text ==
+                    vulnsFound[i].AccessPoint &&
+                    child.Find("IP").GetComponent<Text>().text == vulnsFound[i].IP
+                )
                 {
-                    Text Nametxt = tmp.transform.Find("Name").GetComponent<Text>() as Text;
-                    Nametxt.text = vulnsFound[i].Name;
+                    alreadyExists = true;
+                    break;
+                }
+            }
+            
+            if (alreadyExists) continue;
 
-                }
-                catch (Exception)
-                {
-                    UnityEngine.Debug.Log(" [+] NAME PROBLEM");
-                }
-                try
-                {
-                    Text Nametxt = tmp.transform.Find("Access point").GetComponent<Text>() as Text;
-                    Nametxt.text = vulnsFound[i].AccessPoint;
-                }
-                catch (Exception)
-                {
-                    UnityEngine.Debug.Log(" [+] Access PROBLEM ");
-                }
-                try
-                {
-                    Text Nametxt = tmp.transform.Find("IP").GetComponent<Text>() as Text;
-                    Nametxt.text = vulnsFound[i].IP;
-                }
-                catch (Exception)
-                {
-                    UnityEngine.Debug.Log(" [+] IP PROBLEM");
-                }
+            foreach (Transform child in vulnScrollView.transform)
+            {
+                child.transform.position += Vector3.down;
+                child.Find("Image").GetComponent<Image>().enabled = !child.Find("Image").GetComponent<Image>().enabled;
+            }
+            GameObject tmp = Instantiate(vulnPrefab, vulnScrollView.transform, false);
+            tmp.transform.position += Vector3.right;
+            
+            try
+            {
+                Text Nametxt = tmp.transform.Find("Name").GetComponent<Text>() as Text;
+                Nametxt.text = vulnsFound[i].Name;
+            }
+            catch (Exception)
+            {
+                UnityEngine.Debug.Log(" [+] NAME PROBLEM");
+            }
+            try
+            {
+                Text Nametxt = tmp.transform.Find("Access point").GetComponent<Text>() as Text;
+                Nametxt.text = vulnsFound[i].AccessPoint;
+            }
+            catch (Exception)
+            {
+                UnityEngine.Debug.Log(" [+] Access PROBLEM ");
+            }
+            try
+            {
+                Text Nametxt = tmp.transform.Find("IP").GetComponent<Text>() as Text;
+                Nametxt.text = vulnsFound[i].IP;
+            }
+            catch (Exception)
+            {
+                UnityEngine.Debug.Log(" [+] IP PROBLEM");
             }
 
 
         }
-             
+            
+        
+        
     }
-    
+
+    public void AddVuln(string vulnName, string accessPoint, string ip, int severity)
+    {
+        if (severity > 7)
+            nbCrit++;           
+
+        if (severity < 8 && severity > 4)
+            nbMoy++;
+                
+        if (severity < 5)
+            nbFaible ++;
+
+        GameObject child = Instantiate(vulnPrefab, new Vector3(0, 0, 0), Quaternion.identity, vulnScrollView.transform);
+        
+        try
+        {
+            Text Nametxt = child.transform.Find("Name").GetComponent<Text>() as Text;
+            Nametxt.text = vulnName;
+
+        }
+        catch (Exception)
+        {
+            UnityEngine.Debug.Log(" [+] NAME PROBLEM");
+        }
+        try
+        {
+            Text Nametxt = child.transform.Find("Access point").GetComponent<Text>() as Text;
+            Nametxt.text = accessPoint;
+        }
+        catch (Exception)
+        {
+            UnityEngine.Debug.Log(" [+] Access PROBLEM ");
+        }
+        try
+        {
+            Text Nametxt = child.transform.Find("IP").GetComponent<Text>() as Text;
+            Nametxt.text = ip;
+        }
+        catch (Exception)
+        {
+            UnityEngine.Debug.Log(" [+] IP PROBLEM");
+        }
+    }
 
    /////            SETUP GRAPHICS                 //////
 

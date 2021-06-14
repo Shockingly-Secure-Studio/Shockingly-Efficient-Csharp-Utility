@@ -55,8 +55,8 @@
      <Compile Include="Assets\Scripts\Scan\Web\web.cs" />
      <Compile Include="Assets\Scripts\Antivirus\FileScan.cs" />
      <Compile Include="Assets\Scripts\Options.cs" />
-     <Compile Include="Assets\Scripts\NetworkInterfaceDropdown.cs" />
      <Compile Include="Assets\Scripts\SessionSave.cs" />
+     <Compile Include="Assets\Scripts\NetworkInterfaceDropdown.cs" />
      <Compile Include="Assets\Scripts\Service\SSHService.cs" />
      <Compile Include="Assets\Scripts\test\test.cs" />
      <Compile Include="Assets\Scripts\Service\FTPService.cs" />
@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\MenuManager.cs" />
      <Compile Include="Assets\Scripts\Scan\StartScan.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanPort.cs" />
+     <Compile Include="Assets\Scripts\Service\Exploit\AccessPoint.cs" />
      <None Include="Assets\Fonts\roboto\NOTICE.txt" />
      <None Include="Assets\Packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.xml" />
      <None Include="Assets\Packages\SSH.NET.2020.0.1\lib\netstandard2.0\Renci.SshNet.xml" />

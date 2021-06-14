@@ -35,7 +35,7 @@ namespace Scan
         
         public void Scan()
         {
-            ScanIp o = new ScanIp(); 
+            ScanIp o = new ScanIp();
             Thread newScan = new Thread(new ThreadStart( () => o.MakePing(_ipRange,_portScanType)));
             newScan.Start();
         }
