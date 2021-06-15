@@ -39,7 +39,7 @@ namespace DefaultNamespace
                 .Select(filename => filename.Replace(".csv", ""))
                 .ToArray();
 
-            GameObject.Find("SQLPanel").SetActive(true);
+            sqlPanel.SetActive(true);
             Dropdown dropdown = tableNameDropdown.GetComponent<Dropdown>();
             dropdown.ClearOptions();
             
