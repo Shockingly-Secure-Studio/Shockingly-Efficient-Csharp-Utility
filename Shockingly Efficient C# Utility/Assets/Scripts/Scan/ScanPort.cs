@@ -47,7 +47,7 @@ namespace Scan
                 //Debug.Log("Test port:" + ip + ":" + port);
                 var tcpClient = new TcpClient();
                 IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port,ConnectCallback, tcpClient);
-                if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected){
+                if (asyncResult.AsyncWaitHandle.WaitOne(1000, false) && tcpClient.Connected){
                     //changer le timeout
                     if(port == 80|| port==443 || port==8080)
                     {
@@ -78,7 +78,7 @@ namespace Scan
                     {
                         var tcpClient = new TcpClient();
                         IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port, ConnectCallback, tcpClient);
-                        if (asyncResult.AsyncWaitHandle.WaitOne(300, false) && tcpClient.Connected)
+                        if (asyncResult.AsyncWaitHandle.WaitOne(1000, false) && tcpClient.Connected)
                             portList.Add(port);
                         tcpClient.Close();
                     }
