@@ -10,13 +10,10 @@ namespace Service
 {
     public class password
     {
-        //1 word liste
-        //2 on récupére tout les from pass/login
-        //on gade l'état de la page si pas d'erreur on a réussi sinon échec on continue
         private string _pathWordList;
         private List<InputWebService> _total;
-        private string[] loginListParam={"login","username","email","user"};
-        private string[] passwordListParam={"password"};
+        private string[] _loginListParam={"login","username","email","user"};
+        private string[] _passwordListParam={"password"};
 
         public password(string pathWordList,List<InputWebService> total)
         {
@@ -27,9 +24,9 @@ namespace Service
         {
             for(var i=0; i<_total.Count-1;i++)
             {
-                if (loginListParam.Contains(_total[i].GetParam()))
+                if (_loginListParam.Contains(_total[i].GetParam()))
                 {
-                    if (passwordListParam.Contains(_total[i].GetParam()))
+                    if (_passwordListParam.Contains(_total[i].GetParam()))
                     {
                         await TryPassword(_total[i], _total[i + 1]);
                     }
@@ -61,11 +58,6 @@ namespace Service
                 }
             }
 
-        }
-        public class From
-        {
-            public string Login { get; set; }
-            public string Password { get; set; }
         }
     }
 }
