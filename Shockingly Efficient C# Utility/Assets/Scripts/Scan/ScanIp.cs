@@ -49,7 +49,6 @@ namespace Scan
                 Debug.Log("My ip:" + ip);
                 return (ip.ToString(), "ip");
                 //return "127.0.0.1";
-                //TODO vérifier l'interface de l'adresse
             }
         }
         return ("", "IPAddress.Any"); 
