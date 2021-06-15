@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using iTextSharp.text;
+using TMPro;
+using UnityEditor;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,8 +15,12 @@ namespace DefaultNamespace
 {
     public class VulnButton : MonoBehaviour, IPointerClickHandler
     {
-        public GameObject sqlPanel;
-        public GameObject tableNameDropdown;
+        public GameObject cellPrefab;
+
+        public void Start()
+        {
+            Debug.Log ("I'm Attached to " + gameObject);
+        }
         
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -35,18 +43,25 @@ namespace DefaultNamespace
         {
             string dir = Path.Combine("Results", ip, port, "dump");
             if (!Directory.Exists(dir)) return; // We don't display anything
-            string[] tables = Directory.GetFiles(dir)
-                .Select(filename => filename.Replace(".csv", ""))
+            string[] tables = Directory.GetFiles(dir, "*.csv")
+                .Select(Path.GetFileNameWithoutExtension)
                 .ToArray();
 
+            Transform root = transform.root;
+            GameObject sqlPanel = root.Find("SQLPanel").gameObject;
+            GameObject tableNameDropdown = sqlPanel.transform.Find("Title/TableNamesDropdown").gameObject;
+            
             sqlPanel.SetActive(true);
-            Dropdown dropdown = tableNameDropdown.GetComponent<Dropdown>();
+            TMP_Dropdown dropdown = tableNameDropdown.GetComponent<TMP_Dropdown>();
             dropdown.ClearOptions();
             
             foreach (string s in tables)
-            {
-                dropdown.options.Add(new Dropdown.OptionData(s));
+            {   
+                dropdown.options.Add(new TMP_Dropdown.OptionData(s));
             }
+            
+            DisplaySQLResults(ip, port, dropdown);
+            dropdown.onValueChanged.AddListener(delegate { DisplaySQLResults(ip, port, dropdown); });
         }
 
         /// <summary>
@@ -55,9 +70,12 @@ namespace DefaultNamespace
         /// <param name="ip">IP of the machine hosting the database</param>
         /// <param name="port">Port of the service</param>
         /// <param name="tableName">Name of the table</param>
+        /// <param name="dropdown">Value of dropdown</param>
         /// <exception cref="ArgumentException">The table is an invalid table name.</exception>
-        public void DisplaySQLResults(string ip, string port, string tableName)
+        public void DisplaySQLResults(string ip, string port, TMP_Dropdown dropdown)
         {
+            string tableName = dropdown.options[dropdown.value].text;
+            
             string filename = Path.Combine("Results", ip, port, "dump", tableName + ".csv");
             
             if (!File.Exists(filename))
@@ -69,7 +87,28 @@ namespace DefaultNamespace
             using StreamReader sr = new StreamReader(filename);
             string csvText = sr.ReadToEnd();
 
-            int nbColumns;
+            string[][] values = csvText
+                .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries)
+                .Select(line => line.Split(',')).ToArray();
+
+            glg.constraintCount = values[0].Length;
+            
+            // We clear the glg
+            foreach (Transform child in glg.transform) {
+                Destroy(child.gameObject);
+            }
+
+            foreach (string[] line in values)
+            {
+                foreach (string value in line)
+                {
+                    GameObject cell = Instantiate(cellPrefab, glg.transform, false);
+                    cell.GetComponent<TMP_Text>().text = value;
+                    glg.GetComponent<RectTransform>().transform.SetAsLastSibling();
+                }
+            }
+            
+            LayoutRebuilder.ForceRebuildLayoutImmediate(glg.GetComponent<RectTransform>()); 
         }
     }
 }
