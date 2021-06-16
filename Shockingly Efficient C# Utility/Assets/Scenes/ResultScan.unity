@@ -1263,6 +1263,7 @@ MonoBehaviour:
   loadingScene: 0
   vulnPrefab: {fileID: 8588415716483801973, guid: 8731b1e5655b54e438ef0bc0c8cea50a, type: 3}
   vulnScrollView: {fileID: 162120880}
+  LoadingCircle: {fileID: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -2705,8 +2706,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 282.15955}
-  m_SizeDelta: {x: 1859.72, y: 1273.89}
+  m_AnchoredPosition: {x: -0, y: -0.000061035}
+  m_SizeDelta: {x: 1859.72, y: 991.73}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1044500648
 GameObject:
@@ -3823,8 +3824,8 @@ RectTransform:
   m_Father: {fileID: 655112089}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.32080513}
-  m_AnchorMax: {x: 1, y: 0.77850556}
+  m_AnchorMin: {x: 0, y: 0.4120779}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3948,8 +3949,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1479962184}
   m_HandleRect: {fileID: 1479962183}
   m_Direction: 2
-  m_Value: 0.5915644
-  m_Size: 0.45770043
+  m_Value: 1.0000001
+  m_Size: 0.5879221
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

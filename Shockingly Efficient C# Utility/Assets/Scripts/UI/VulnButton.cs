@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using iTextSharp.text;
+using Service.Exploit;
 using TMPro;
 using UnityEditor;
 using UnityEditor.SearchService;
@@ -65,16 +66,21 @@ namespace DefaultNamespace
                 DisplaySQLResults(ip, port, dropdown);
                 dropdown.onValueChanged.AddListener(delegate { DisplaySQLResults(ip, port, dropdown); });
             }
-            
+            if (vulnName == "Insecure_Authentication")
+            {
+                DisplayWeakPassword(ip,port);
+            }
             
         }
 
-        private void DisplayWeakPassword()
+        private void DisplayWeakPassword(string ip,string port)
         {
             GameObject sqlResultGroup = GameObject.Find("SQLResult");
             GridLayoutGroup glg = sqlResultGroup.GetComponent<GridLayoutGroup>();
             GameObject cell = Instantiate(cellPrefab, glg.transform, false);
-            cell.GetComponent<TMP_Text>().text = "";
+            ServiceResult r=Service.Service.GetServiceResult(ip,port);
+            string poc = r.AccessPoints.Find(a => a.Type == AccessPointType.Insecure_Authentication).POC;
+            cell.GetComponent<TMP_Text>().text = poc;
         }
 
         /// <summary>
