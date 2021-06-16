@@ -30,7 +30,8 @@ namespace DefaultNamespace
             string vulnName = parent.Find("Name").GetComponent<Text>().text;
             string[] ipPort = parent.Find("IP").GetComponent<Text>().text.Split(':');
             
-            if (vulnName.Contains("SQL")) DisplaySQLResults(ipPort[0], ipPort[1]);
+            if (vulnName.Contains("SQL")) DisplayPanel(ipPort[0], ipPort[1]);
+            if (vulnName.Contains("Insecure_Authentication")) DisplayPanel(ipPort[0], ipPort[1],"Insecure_Authentication");
             
         }
 
@@ -39,7 +40,7 @@ namespace DefaultNamespace
         /// </summary>
         /// <param name="ip"></param>
         /// <param name="port"></param>
-        public void DisplaySQLResults(string ip, string port)
+        public void DisplayPanel(string ip, string port,string vulnName="SQL")
         {
             string dir = Path.Combine("Results", ip, port, "dump");
             if (!Directory.Exists(dir)) return; // We don't display anything
@@ -59,9 +60,21 @@ namespace DefaultNamespace
             {   
                 dropdown.options.Add(new TMP_Dropdown.OptionData(s));
             }
+            if (vulnName == "SQL")
+            {
+                DisplaySQLResults(ip, port, dropdown);
+                dropdown.onValueChanged.AddListener(delegate { DisplaySQLResults(ip, port, dropdown); });
+            }
             
-            DisplaySQLResults(ip, port, dropdown);
-            dropdown.onValueChanged.AddListener(delegate { DisplaySQLResults(ip, port, dropdown); });
+            
+        }
+
+        private void DisplayWeakPassword()
+        {
+            GameObject sqlResultGroup = GameObject.Find("SQLResult");
+            GridLayoutGroup glg = sqlResultGroup.GetComponent<GridLayoutGroup>();
+            GameObject cell = Instantiate(cellPrefab, glg.transform, false);
+            cell.GetComponent<TMP_Text>().text = "";
         }
 
         /// <summary>
