@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using iTextSharp.text;
+using Service.Exploit;
 using TMPro;
 using UnityEditor;
 using UnityEditor.SearchService;
@@ -30,7 +31,8 @@ namespace DefaultNamespace
             string vulnName = parent.Find("Name").GetComponent<Text>().text;
             string[] ipPort = parent.Find("IP").GetComponent<Text>().text.Split(':');
             
-            if (vulnName.Contains("SQL")) DisplaySQLResults(ipPort[0], ipPort[1]);
+            if (vulnName.Contains("SQL")) DisplayPanel(ipPort[0], ipPort[1]);
+            if (vulnName.Contains("Insecure_Authentication")) DisplayPanel(ipPort[0], ipPort[1],"Insecure_Authentication");
             
         }
 
@@ -39,7 +41,7 @@ namespace DefaultNamespace
         /// </summary>
         /// <param name="ip"></param>
         /// <param name="port"></param>
-        public void DisplaySQLResults(string ip, string port)
+        public void DisplayPanel(string ip, string port,string vulnName="SQL")
         {
             string dir = Path.Combine("Results", ip, port, "dump");
             if (!Directory.Exists(dir)) return; // We don't display anything
@@ -59,9 +61,26 @@ namespace DefaultNamespace
             {   
                 dropdown.options.Add(new TMP_Dropdown.OptionData(s));
             }
+            if (vulnName == "SQL")
+            {
+                DisplaySQLResults(ip, port, dropdown);
+                dropdown.onValueChanged.AddListener(delegate { DisplaySQLResults(ip, port, dropdown); });
+            }
+            if (vulnName == "Insecure_Authentication")
+            {
+                DisplayWeakPassword(ip,port);
+            }
             
-            DisplaySQLResults(ip, port, dropdown);
-            dropdown.onValueChanged.AddListener(delegate { DisplaySQLResults(ip, port, dropdown); });
+        }
+
+        private void DisplayWeakPassword(string ip,string port)
+        {
+            GameObject sqlResultGroup = GameObject.Find("SQLResult");
+            GridLayoutGroup glg = sqlResultGroup.GetComponent<GridLayoutGroup>();
+            GameObject cell = Instantiate(cellPrefab, glg.transform, false);
+            ServiceResult r=Service.Service.GetServiceResult(ip,port);
+            string poc = r.AccessPoints.Find(a => a.Type == AccessPointType.Insecure_Authentication).POC;
+            cell.GetComponent<TMP_Text>().text = poc;
         }
 
         /// <summary>

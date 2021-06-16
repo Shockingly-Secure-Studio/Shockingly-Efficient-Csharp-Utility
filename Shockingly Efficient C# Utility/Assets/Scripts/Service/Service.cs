@@ -85,7 +85,7 @@ namespace Service
 
         public static ServiceResult GetServiceResult(string ip, string port)
         {
-            string path = Path.Combine(ip, port, "output.json");
+            string path = Path.Combine("Results",ip, port, "output.json");
             if (!File.Exists(path))
                 throw new FileNotFoundException(
                     $"GetServiceResult: {path} does not exists."

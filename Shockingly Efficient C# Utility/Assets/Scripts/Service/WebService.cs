@@ -134,14 +134,15 @@ namespace Service
                 }
             }
 
-            var password=new password(@".\Binaries\passwordList.txt",total);
-
+            
+            await  new password(Path.Combine("Binaries","passwordList.txt"), total)._test();
+            
             foreach (InputWebService inputWebService in total)
             {
                 await inputWebService.Exploit(true);
             }
 
-            await password._test();
+           
             Host.UpdateVulnerabilities();
         }
     }

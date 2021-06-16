@@ -26,7 +26,7 @@ namespace Service
             {
                 if (_loginListParam.Contains(_total[i].GetParam()))
                 {
-                    if (_passwordListParam.Contains(_total[i].GetParam()))
+                    if (_passwordListParam.Contains(_total[i+1].GetParam()))
                     {
                         await TryPassword(_total[i], _total[i + 1]);
                     }
