@@ -78,21 +78,32 @@ namespace Service
 
         public abstract Task<bool> IsOnline();
 
+        public static ServiceResult GetServiceResult(string ip, int port)
+        {
+            return GetServiceResult(ip, port.ToString());
+        }
+
+        public static ServiceResult GetServiceResult(string ip, string port)
+        {
+            string path = Path.Combine(ip, port, "output.json");
+            if (!File.Exists(path))
+                throw new FileNotFoundException(
+                    $"GetServiceResult: {path} does not exists."
+                    );
+            
+            StreamReader sr = new StreamReader(path);
+            ServiceResult result = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
+            sr.Close();
+
+            return result;
+        }
+        
         public void Log(AccessPoint accessPoint)
         {
             string path = Path.Combine(WorkingDirectory, "output.json");
             bool exists = File.Exists(path);
             ServiceResult result;
-            if (exists)
-            {
-                StreamReader sr = new StreamReader(path);
-                result = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
-                sr.Close();
-            }
-            else
-            {
-                result = new ServiceResult(_ip.ToString(), _port);
-            }
+            result = exists ? GetServiceResult(_ip.ToString(), _port) : new ServiceResult(_ip.ToString(), _port);
             
             result.AccessPoints.Add(accessPoint);
             
