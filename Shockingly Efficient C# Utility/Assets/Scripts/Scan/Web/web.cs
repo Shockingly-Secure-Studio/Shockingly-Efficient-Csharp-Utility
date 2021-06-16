@@ -402,7 +402,7 @@ public class web : MonoBehaviour
             
         }
     }
-
+    // will detect all the */.git files
     public async Task<List<string>> Git(List<string> urls)
     {
         List<Task> tasks = new List<Task>();
@@ -414,12 +414,12 @@ public class web : MonoBehaviour
 
         while (tasks.Count !=0)
         {
-            Task<(string, HttpStatusCode)> task = await Task.WhenAny(tasks) as Task<(string, HttpStatusCode)>;
-            (string, HttpStatusCode) res = task.Result;
+            Task<(HttpStatusCode,string)> task = await Task.WhenAny(tasks) as Task<(HttpStatusCode,string)>;
+            (HttpStatusCode,string) res = task.Result;
             tasks.Remove(task);
-            if (res.Item2 is HttpStatusCode.OK)
+            if (res.Item1 is HttpStatusCode.OK)
             {
-                result.Add(res.Item1);
+                result.Add(res.Item2);
             }
         }
 
