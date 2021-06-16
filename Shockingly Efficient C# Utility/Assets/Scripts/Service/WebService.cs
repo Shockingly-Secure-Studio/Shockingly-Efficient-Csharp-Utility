@@ -122,8 +122,7 @@ namespace Service
                 map = mapSave;
             }
             List<InputWebService> total = new List<InputWebService>();
-
-        
+            
             
             foreach (var link in map)
             {

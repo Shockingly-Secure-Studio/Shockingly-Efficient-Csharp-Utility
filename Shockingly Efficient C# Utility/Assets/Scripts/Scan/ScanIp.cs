@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using Scan;
+using UnityEditor;
 using Debug = UnityEngine.Debug;
 
 namespace Scan
@@ -122,6 +123,8 @@ namespace Scan
         Thread t = new Thread(() => ScanPort.MakePortScan(ipList,scanType));
         t.Start();
         t.Join();
+
+        MenuManager.IsThreadRunning = false;
     }
     private  static async Task<(IPAddress,bool)> PingAsync(IPAddress ip)
     {

@@ -42,6 +42,8 @@ namespace Scan
             ScanIp o = new ScanIp();
             Thread newScan = new Thread(() => o.MakePing(_ipRange,_portScanType));
             newScan.Start();
+            MenuManager.IsThreadRunning = true;
+            // TODO: Bien détecter quand le thread est terminé
             return newScan;
         }
         private static bool MAXCheck(int i,uint[] octet)

@@ -54,33 +54,63 @@ public class MenuManager : MonoBehaviour
     private RectTransform loadingCircleTransform;
     private int rotateSpeed = -200;
 
-    private void Start()
+    public static bool IsThreadRunning = false;
+
+    void Start()
     {
-        LoadingCircle = GameObject.Find("LoadingCircle");
-        loadingCircleTransform = LoadingCircle.GetComponent<RectTransform>();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        // Add the listener to be called when a scene is loaded
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Update()
     {
-        loadingCircleTransform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);        //UnityEngine.Debug.Log("MenuManager running");
+
         if (loadingScene)
         {
             //UnityEngine.Debug.Log("LOADING");
             SetLoading();
         }
-        
-        else if (SceneManager.GetActiveScene().name=="ResultScan"||isResultScan)
+
+        else if (SceneManager.GetActiveScene().name == "ResultScan" || isResultScan)
         {
+
             SetVulns();
             Chart();
             TextSet();
 
             // The scanning process has ended.
-            if (scanningThread != null && scanningThread.IsAlive)
+            if (IsThreadRunning)
             {
+                LoadingCircle.SetActive(true);
+                loadingCircleTransform.Rotate(0f, 0f,
+                    rotateSpeed * Time.deltaTime); //UnityEngine.Debug.Log("MenuManager running");
+            }
+            else
+            {
+                LoadingCircle.SetActive(false);
             }
         }
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //Debug.Log("OnSceneLoaded :" +SceneManager.GetActiveScene().name);
+        //Debug.Log("OnSceneLoaded2 :" + scene.name);
+        
+        if (scene.name == "ResultScan" && LoadingCircle is null)
+        {
+            // TODO Faire tourner le LoadingCircle
+            // Il réussi à tourner mais il est pas gardé set
+            LoadingCircle = GameObject.Find("LoadingCircle");
+            loadingCircleTransform = LoadingCircle.GetComponent<RectTransform>();
+            Debug.Log(LoadingCircle);
+            Debug.Log(loadingCircleTransform);
+        } 
+    }
+    
+    
     void ExitAPP()
     {
         //Debug.Log("Exit App");
@@ -153,6 +183,7 @@ public class MenuManager : MonoBehaviour
         
         Directory.CreateDirectory("Results");
         scanningThread = Scan.Scan();
+        Debug.Log(scanningThread.Name);
         SceneManager.LoadScene("loadingpage");
     }
 

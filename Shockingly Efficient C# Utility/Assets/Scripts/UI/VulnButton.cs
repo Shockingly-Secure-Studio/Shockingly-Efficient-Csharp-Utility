@@ -31,8 +31,8 @@ namespace DefaultNamespace
             string vulnName = parent.Find("Name").GetComponent<Text>().text;
             string[] ipPort = parent.Find("IP").GetComponent<Text>().text.Split(':');
             
-            if (vulnName.Contains("SQL")) DisplayPanel(ipPort[0], ipPort[1]);
-            if (vulnName.Contains("Insecure_Authentication")) DisplayPanel(ipPort[0], ipPort[1],"Insecure_Authentication");
+            if (vulnName.Contains("SQL")) DisplayPanel(ipPort[0], ipPort[1], AccessPointType.SQLi);
+            if (vulnName.Contains("Insecure_Authentication")) DisplayPanel(ipPort[0], ipPort[1], AccessPointType.Insecure_Authentication);
             
         }
 
@@ -41,7 +41,8 @@ namespace DefaultNamespace
         /// </summary>
         /// <param name="ip"></param>
         /// <param name="port"></param>
-        public void DisplayPanel(string ip, string port,string vulnName="SQL")
+        /// <param name="vulnName"></param>
+        public void DisplayPanel(string ip, string port, AccessPointType vulnName)
         {
             string dir = Path.Combine("Results", ip, port, "dump");
             if (!Directory.Exists(dir)) return; // We don't display anything
@@ -61,12 +62,12 @@ namespace DefaultNamespace
             {   
                 dropdown.options.Add(new TMP_Dropdown.OptionData(s));
             }
-            if (vulnName == "SQL")
+            if (vulnName == AccessPointType.SQLi)
             {
                 DisplaySQLResults(ip, port, dropdown);
                 dropdown.onValueChanged.AddListener(delegate { DisplaySQLResults(ip, port, dropdown); });
             }
-            if (vulnName == "Insecure_Authentication")
+            if (vulnName == AccessPointType.Insecure_Authentication)
             {
                 DisplayWeakPassword(ip,port);
             }
