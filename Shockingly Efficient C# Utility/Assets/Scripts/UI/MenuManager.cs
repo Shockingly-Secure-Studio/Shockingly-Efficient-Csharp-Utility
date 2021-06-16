@@ -9,6 +9,8 @@ using Service.Exploit;
 using System.Globalization;
 using System;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using DefaultNamespace;
 using Newtonsoft.Json;
 
@@ -27,7 +29,6 @@ public class MenuManager : MonoBehaviour
     public Toggle aggresif;
     public Toggle[] ListOption;
 
-    public GameObject[] listVulns; // Les lignes pour les vulns
     // Start is called before the first frame update
     public bool isResultScan;
     
@@ -44,22 +45,72 @@ public class MenuManager : MonoBehaviour
     public Image loadingbar;
     public bool loadingScene;
     
+    public GameObject vulnPrefab;
+    public GameObject vulnScrollView;
+
+    private Thread scanningThread;
+    private int framesPerSecond = 20;
+    public GameObject LoadingCircle;
+    private RectTransform loadingCircleTransform;
+    private int rotateSpeed = -200;
+
+    public static bool IsThreadRunning = false;
+
+    void Start()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        // Add the listener to be called when a scene is loaded
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
     void Update()
     {
-        //UnityEngine.Debug.Log("MenuManager running");
+
         if (loadingScene)
         {
             //UnityEngine.Debug.Log("LOADING");
             SetLoading();
         }
-        
-        else if (SceneManager.GetActiveScene().name=="ResultScan"||isResultScan)
+
+        else if (SceneManager.GetActiveScene().name == "ResultScan" || isResultScan)
         {
+
             SetVulns();
             Chart();
             TextSet();
+
+            // The scanning process has ended.
+            if (IsThreadRunning)
+            {
+                LoadingCircle.SetActive(true);
+                loadingCircleTransform.Rotate(0f, 0f,
+                    rotateSpeed * Time.deltaTime); //UnityEngine.Debug.Log("MenuManager running");
+            }
+            else
+            {
+                LoadingCircle.SetActive(false);
+            }
         }
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //Debug.Log("OnSceneLoaded :" +SceneManager.GetActiveScene().name);
+        //Debug.Log("OnSceneLoaded2 :" + scene.name);
+        
+        if (scene.name == "ResultScan" && LoadingCircle is null)
+        {
+            // TODO Faire tourner le LoadingCircle
+            // Il réussi à tourner mais il est pas gardé set
+            LoadingCircle = GameObject.Find("LoadingCircle");
+            loadingCircleTransform = LoadingCircle.GetComponent<RectTransform>();
+            Debug.Log(LoadingCircle);
+            Debug.Log(loadingCircleTransform);
+        } 
+    }
+    
+    
     void ExitAPP()
     {
         //Debug.Log("Exit App");
@@ -127,11 +178,13 @@ public class MenuManager : MonoBehaviour
             ipText += '/';
         }
         ScanControl Scan = new ScanControl(ipText,agg);
-        if (!Directory.Exists("Results"))
-            Directory.CreateDirectory("Results");
-        Scan.Scan();
-        SceneManager.LoadScene("loadingpage");
+        if (Directory.Exists("Results")) 
+            Directory.Delete("Results", true);
         
+        Directory.CreateDirectory("Results");
+        scanningThread = Scan.Scan();
+        Debug.Log(scanningThread.Name);
+        SceneManager.LoadScene("loadingpage");
     }
 
     public void ForceScanStart()
@@ -161,7 +214,6 @@ public class MenuManager : MonoBehaviour
             sr.Close();
             foreach (AccessPoint vuln in serviceResult.AccessPoints)
             {
-
                 Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, serviceResult.Identifier);
                 if (vulnerability.Severity > 7)
                     nbCrit++;           
@@ -179,50 +231,112 @@ public class MenuManager : MonoBehaviour
 
     public void SetVulns()
     {
-
         GetVulns(); 
         int nbVulns = vulnsFound.Count;
         for (int i = 0; i < nbVulns; i++)
         {
-            for (int j = 0; j < listVulns[i].transform.childCount; j++)
+            bool alreadyExists = false;
+            // iterate over the child of vulnScrollView
+            foreach (Transform child in vulnScrollView.transform)
             {
-                
-                GameObject tmp = listVulns[i] as GameObject;
-                try
+                if (
+                    child.Find("Access point").GetComponent<Text>().text ==
+                    vulnsFound[i].AccessPoint &&
+                    child.Find("IP").GetComponent<Text>().text == vulnsFound[i].IP
+                )
                 {
-                    Text Nametxt = tmp.transform.Find("Name").GetComponent<Text>() as Text;
-                    Nametxt.text = vulnsFound[i].Name;
+                    alreadyExists = true;
+                    break;
+                }
+            }
+            
+            if (alreadyExists) continue;
 
-                }
-                catch (Exception)
-                {
-                    UnityEngine.Debug.Log(" [+] NAME PROBLEM");
-                }
-                try
-                {
-                    Text Nametxt = tmp.transform.Find("Access point").GetComponent<Text>() as Text;
-                    Nametxt.text = vulnsFound[i].AccessPoint;
-                }
-                catch (Exception)
-                {
-                    UnityEngine.Debug.Log(" [+] Access PROBLEM ");
-                }
-                try
-                {
-                    Text Nametxt = tmp.transform.Find("IP").GetComponent<Text>() as Text;
-                    Nametxt.text = vulnsFound[i].IP;
-                }
-                catch (Exception)
-                {
-                    UnityEngine.Debug.Log(" [+] IP PROBLEM");
-                }
+            foreach (Transform child in vulnScrollView.transform)
+            {
+                child.transform.position += Vector3.down;
+                child.Find("Image").GetComponent<Image>().enabled = !child.Find("Image").GetComponent<Image>().enabled;
+            }
+            GameObject tmp = Instantiate(vulnPrefab, vulnScrollView.transform, false);
+            tmp.transform.position += Vector3.right;
+            
+            try
+            {
+                Text Nametxt = tmp.transform.Find("Name").GetComponent<Text>() as Text;
+                Nametxt.text = vulnsFound[i].Name;
+            }
+            catch (Exception)
+            {
+                UnityEngine.Debug.Log(" [+] NAME PROBLEM");
+            }
+            try
+            {
+                Text Nametxt = tmp.transform.Find("Access point").GetComponent<Text>() as Text;
+                Nametxt.text = vulnsFound[i].AccessPoint;
+            }
+            catch (Exception)
+            {
+                UnityEngine.Debug.Log(" [+] Access PROBLEM ");
+            }
+            try
+            {
+                Text Nametxt = tmp.transform.Find("IP").GetComponent<Text>() as Text;
+                Nametxt.text = vulnsFound[i].IP;
+            }
+            catch (Exception)
+            {
+                UnityEngine.Debug.Log(" [+] IP PROBLEM");
             }
 
 
         }
-             
+            
+        
+        
     }
-    
+
+    public void AddVuln(string vulnName, string accessPoint, string ip, int severity)
+    {
+        if (severity > 7)
+            nbCrit++;           
+
+        if (severity < 8 && severity > 4)
+            nbMoy++;
+                
+        if (severity < 5)
+            nbFaible ++;
+
+        GameObject child = Instantiate(vulnPrefab, new Vector3(0, 0, 0), Quaternion.identity, vulnScrollView.transform);
+        
+        try
+        {
+            Text Nametxt = child.transform.Find("Name").GetComponent<Text>() as Text;
+            Nametxt.text = vulnName;
+
+        }
+        catch (Exception)
+        {
+            UnityEngine.Debug.Log(" [+] NAME PROBLEM");
+        }
+        try
+        {
+            Text Nametxt = child.transform.Find("Access point").GetComponent<Text>() as Text;
+            Nametxt.text = accessPoint;
+        }
+        catch (Exception)
+        {
+            UnityEngine.Debug.Log(" [+] Access PROBLEM ");
+        }
+        try
+        {
+            Text Nametxt = child.transform.Find("IP").GetComponent<Text>() as Text;
+            Nametxt.text = ip;
+        }
+        catch (Exception)
+        {
+            UnityEngine.Debug.Log(" [+] IP PROBLEM");
+        }
+    }
 
    /////            SETUP GRAPHICS                 //////
 
@@ -262,5 +376,4 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    
 }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using Scan;
+using UnityEditor;
 using Debug = UnityEngine.Debug;
 
 namespace Scan
@@ -27,7 +28,7 @@ namespace Scan
 
         foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
         {
-            if (ni.Name.Contains("VirtualBox"))
+            if (ni.Name == NetworkInterfaceDropdown.dropdown.options[NetworkInterfaceDropdown.dropdown.value].text)
             {
                 Debug.Log(ni.Name);
                 foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
@@ -49,7 +50,6 @@ namespace Scan
                 Debug.Log("My ip:" + ip);
                 return (ip.ToString(), "ip");
                 //return "127.0.0.1";
-                //TODO vérifier l'interface de l'adresse
             }
         }
         return ("", "IPAddress.Any"); 
@@ -73,6 +73,12 @@ namespace Scan
         return (ip, ip);
     }
     
+    /// <summary>
+    /// Ping all ip addresses in range and if they respond back, start scanning their ports and exploiting them.
+    /// The function waits for the exploitation to end.
+    /// </summary>
+    /// <param name="ipRange">Couple representing the lower and upper bound of the addresses to scan</param>
+    /// <param name="scanType">If scanType == "all", perform a more thourough (and slow) process, i.e. scan all ports</param>
     public async void MakePing((string,string) ipRange,string scanType)
     {
         List<IPAddress> ipList=new List<IPAddress>();
@@ -116,6 +122,9 @@ namespace Scan
         SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},completed");
         Thread t = new Thread(() => ScanPort.MakePortScan(ipList,scanType));
         t.Start();
+        t.Join();
+
+        MenuManager.IsThreadRunning = false;
     }
     private  static async Task<(IPAddress,bool)> PingAsync(IPAddress ip)
     {

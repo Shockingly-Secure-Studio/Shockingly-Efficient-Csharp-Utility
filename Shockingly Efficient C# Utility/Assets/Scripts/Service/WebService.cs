@@ -122,8 +122,7 @@ namespace Service
                 map = mapSave;
             }
             List<InputWebService> total = new List<InputWebService>();
-
-        
+            
             
             foreach (var link in map)
             {
@@ -135,12 +134,14 @@ namespace Service
             }
 
             
+            await  new password(Path.Combine("Binaries","passwordList.txt"), total)._test();
+            
             foreach (InputWebService inputWebService in total)
             {
                 await inputWebService.Exploit(true);
             }
 
-            
+           
             Host.UpdateVulnerabilities();
         }
     }
