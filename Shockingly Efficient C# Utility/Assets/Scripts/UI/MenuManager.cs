@@ -52,6 +52,7 @@ public class MenuManager : MonoBehaviour
     private int framesPerSecond = 20;
     public GameObject LoadingCircle;
     private RectTransform loadingCircleTransform;
+    private int rotateSpeed = -200;
 
     private void Start()
     {
@@ -61,7 +62,7 @@ public class MenuManager : MonoBehaviour
 
     void Update()
     {
-        //UnityEngine.Debug.Log("MenuManager running");
+        loadingCircleTransform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);        //UnityEngine.Debug.Log("MenuManager running");
         if (loadingScene)
         {
             //UnityEngine.Debug.Log("LOADING");
@@ -77,7 +78,6 @@ public class MenuManager : MonoBehaviour
             // The scanning process has ended.
             if (scanningThread != null && scanningThread.IsAlive)
             {
-                loadingCircleTransform.Rotate(Vector3.back * Time.deltaTime);
             }
         }
     }
