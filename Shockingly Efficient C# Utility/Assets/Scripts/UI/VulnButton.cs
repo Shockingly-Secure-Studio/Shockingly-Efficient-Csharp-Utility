@@ -78,6 +78,9 @@ namespace DefaultNamespace
         {
             GameObject sqlResultGroup = GameObject.Find("SQLResult");
             GridLayoutGroup glg = sqlResultGroup.GetComponent<GridLayoutGroup>();
+            foreach (Transform child in glg.transform) {
+                Destroy(child.gameObject);
+            }
             GameObject cell = Instantiate(cellPrefab, glg.transform, false);
             ServiceResult r=Service.Service.GetServiceResult(ip,port);
             string poc = r.AccessPoints.Find(a => a.Type == AccessPointType.Insecure_Authentication).POC;
