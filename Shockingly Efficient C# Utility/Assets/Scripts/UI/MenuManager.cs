@@ -10,6 +10,7 @@ using System.Globalization;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using DefaultNamespace;
 using Newtonsoft.Json;
 
@@ -46,7 +47,18 @@ public class MenuManager : MonoBehaviour
     
     public GameObject vulnPrefab;
     public GameObject vulnScrollView;
-    
+
+    private Thread scanningThread;
+    private int framesPerSecond = 20;
+    public GameObject LoadingCircle;
+    private RectTransform loadingCircleTransform;
+
+    private void Start()
+    {
+        LoadingCircle = GameObject.Find("LoadingCircle");
+        loadingCircleTransform = LoadingCircle.GetComponent<RectTransform>();
+    }
+
     void Update()
     {
         //UnityEngine.Debug.Log("MenuManager running");
@@ -61,6 +73,12 @@ public class MenuManager : MonoBehaviour
             SetVulns();
             Chart();
             TextSet();
+
+            // The scanning process has ended.
+            if (scanningThread != null && scanningThread.IsAlive)
+            {
+                loadingCircleTransform.Rotate(Vector3.back * Time.deltaTime);
+            }
         }
     }
     void ExitAPP()
@@ -134,9 +152,8 @@ public class MenuManager : MonoBehaviour
             Directory.Delete("Results", true);
         
         Directory.CreateDirectory("Results");
-        Scan.Scan();
+        scanningThread = Scan.Scan();
         SceneManager.LoadScene("loadingpage");
-        
     }
 
     public void ForceScanStart()

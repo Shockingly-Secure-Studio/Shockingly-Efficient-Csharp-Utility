@@ -81,7 +81,7 @@ public class SessionSave
         if (infos[1] != "completed")
         {
             ScanIp o = new ScanIp(); 
-            Thread newScan = new Thread(new ThreadStart( () => o.MakePing((infos[2], infos[3]),infos[0])));
+            Thread newScan = new Thread(() => o.MakePing((infos[2], infos[3]),infos[0]));
             newScan.Start();
         }
         return true;

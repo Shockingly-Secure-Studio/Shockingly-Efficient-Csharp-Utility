@@ -33,11 +33,16 @@ namespace Scan
             _portScanType = portScanType;//all,fast
         }
         
-        public void Scan()
+        /// <summary>
+        /// Start the scan of the network in a separate thread.
+        /// </summary>
+        /// <returns>The thread representing the scanning process. When this thread ends, the exploitation is complete.</returns>
+        public Thread Scan()
         {
             ScanIp o = new ScanIp();
-            Thread newScan = new Thread(new ThreadStart( () => o.MakePing(_ipRange,_portScanType)));
+            Thread newScan = new Thread(() => o.MakePing(_ipRange,_portScanType));
             newScan.Start();
+            return newScan;
         }
         private static bool MAXCheck(int i,uint[] octet)
         {

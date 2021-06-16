@@ -135,7 +135,6 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\Packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-     <None Include="Assets\Scripts\Service\passwordList.txt" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\Packages\SSH.NET.2020.0.1\lib\netstandard2.0\Renci.SshNet.xml" />
