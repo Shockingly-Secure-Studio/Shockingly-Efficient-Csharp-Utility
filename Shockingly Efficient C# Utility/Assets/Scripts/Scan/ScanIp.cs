@@ -79,7 +79,7 @@ namespace Scan
     /// </summary>
     /// <param name="ipRange">Couple representing the lower and upper bound of the addresses to scan</param>
     /// <param name="scanType">If scanType == "all", perform a more thourough (and slow) process, i.e. scan all ports</param>
-    public async void MakePing((string,string) ipRange,string scanType)
+    public async Task MakePing((string,string) ipRange,string scanType)
     {
         List<IPAddress> ipList=new List<IPAddress>();
         int[] ipStart = ipRange.Item1.Split('.').Select(int.Parse).ToArray();

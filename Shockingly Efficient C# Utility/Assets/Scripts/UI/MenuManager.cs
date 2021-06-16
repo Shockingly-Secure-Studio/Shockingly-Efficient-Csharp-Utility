@@ -58,10 +58,6 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-
-        // Add the listener to be called when a scene is loaded
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Update()
@@ -83,26 +79,23 @@ public class MenuManager : MonoBehaviour
             // The scanning process has ended.
             if (IsThreadRunning)
             {
-                LoadingCircle.SetActive(true);
                 loadingCircleTransform.Rotate(0f, 0f,
                     rotateSpeed * Time.deltaTime); //UnityEngine.Debug.Log("MenuManager running");
             }
-            else
+            else if(LoadingCircle.active)
             {
                 LoadingCircle.SetActive(false);
             }
         }
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void Awake()
     {
         //Debug.Log("OnSceneLoaded :" +SceneManager.GetActiveScene().name);
         //Debug.Log("OnSceneLoaded2 :" + scene.name);
         
-        if (scene.name == "ResultScan" && LoadingCircle is null)
+        if (SceneManager.GetActiveScene().name == "ResultScan" && LoadingCircle == null)
         {
-            // TODO Faire tourner le LoadingCircle
-            // Il réussi à tourner mais il est pas gardé set
             LoadingCircle = GameObject.Find("LoadingCircle");
             loadingCircleTransform = LoadingCircle.GetComponent<RectTransform>();
             Debug.Log(LoadingCircle);
@@ -182,8 +175,8 @@ public class MenuManager : MonoBehaviour
             Directory.Delete("Results", true);
         
         Directory.CreateDirectory("Results");
-        scanningThread = Scan.Scan();
-        Debug.Log(scanningThread.Name);
+        Scan.Scan();
+        //Debug.Log(scanningThread.Name);
         SceneManager.LoadScene("loadingpage");
     }
 

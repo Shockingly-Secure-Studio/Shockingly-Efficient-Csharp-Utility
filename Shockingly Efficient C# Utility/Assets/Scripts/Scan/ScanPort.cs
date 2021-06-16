@@ -61,7 +61,7 @@ namespace Scan
                 IAsyncResult asyncResult = tcpClient.BeginConnect(ip, port,ConnectCallback, tcpClient);
                 if (asyncResult.AsyncWaitHandle.WaitOne(1000, false) && tcpClient.Connected){
                     //changer le timeout
-                    if(port == 80|| port==443 || port==8080)
+                    if(port == 80 || port==8080)
                     {
                         Debug.Log("WEB start exploit");
                         WebService newWebService = new WebService(mach, port, ip.ToString());

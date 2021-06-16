@@ -37,14 +37,12 @@ namespace Scan
         /// Start the scan of the network in a separate thread.
         /// </summary>
         /// <returns>The thread representing the scanning process. When this thread ends, the exploitation is complete.</returns>
-        public Thread Scan()
+        public void Scan()
         {
             ScanIp o = new ScanIp();
-            Thread newScan = new Thread(() => o.MakePing(_ipRange,_portScanType));
+            Thread newScan = new Thread(new ThreadStart(() => o.MakePing(_ipRange,_portScanType)));
             newScan.Start();
             MenuManager.IsThreadRunning = true;
-            // TODO: Bien détecter quand le thread est terminé
-            return newScan;
         }
         private static bool MAXCheck(int i,uint[] octet)
         {
