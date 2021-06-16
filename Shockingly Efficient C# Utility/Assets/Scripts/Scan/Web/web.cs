@@ -29,6 +29,7 @@ public class web : MonoBehaviour
         List<string> nlist = new List<string>();
         foreach (var e in list)
         {
+            
                 Request request = new Request(e.Item1, e.Item2, null, null);
                 string domain = $"{e.Item1}:{e.Item2}";
                 List<string> nnlist = new List<string>();
@@ -52,7 +53,9 @@ public class web : MonoBehaviour
                     {
                         nlist.Add(items);
                     }
-                }
+                }  
+            
+                
         }
         
         return nlist;
@@ -400,7 +403,28 @@ public class web : MonoBehaviour
         }
     }
 
+    public async Task<List<string>> Git(List<string> urls)
+    {
+        List<Task> tasks = new List<Task>();
+        List<string> result = new List<string>();
+        foreach (var url in urls)
+        {
+            tasks.Add(Request.Ping(url+ "/.git"));
+        }
 
+        while (tasks.Count !=0)
+        {
+            Task<(string, HttpStatusCode)> task = await Task.WhenAny(tasks) as Task<(string, HttpStatusCode)>;
+            (string, HttpStatusCode) res = task.Result;
+            tasks.Remove(task);
+            if (res.Item2 is HttpStatusCode.OK)
+            {
+                result.Add(res.Item1);
+            }
+        }
+
+        return result;
+    }
     
     // Update is called once per frame
     void Update()
