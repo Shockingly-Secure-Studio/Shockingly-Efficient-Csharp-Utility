@@ -101,7 +101,6 @@ namespace Scan
             }
 
             threadList.ForEach(thread => thread.Join());
-            MenuManager.IsThreadRunning = false;
         }
         private static void SendCallback(IAsyncResult asyncResult)
         {
@@ -168,6 +167,7 @@ namespace Scan
                 scanPortIPThread.Join();
                 //if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }
+            MenuManager.IsThreadRunning = false;
         }
         
     }

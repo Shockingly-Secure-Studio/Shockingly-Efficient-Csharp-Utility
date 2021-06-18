@@ -113,7 +113,7 @@ public class rapport: MonoBehaviour
     {
         var fontFamily = iTextSharp.text.Font.FontFamily.TIMES_ROMAN;
         NewTitle(document,"Rapport de l'analyse",fontFamily,30);
-        NewImage(document,@"./img.png");
+        NewImage(document,Path.Combine("Binaries","img.png"));
         NewTitle(document,"Tableau récapitulatif",fontFamily,15);
         var colinfo = "IP,Niveau de vulnérabilité,Nombre total de failles";
         var colW = "5,6,5";
