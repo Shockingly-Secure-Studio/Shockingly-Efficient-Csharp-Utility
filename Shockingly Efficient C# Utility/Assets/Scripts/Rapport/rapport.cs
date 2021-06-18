@@ -14,11 +14,12 @@ public class rapport: MonoBehaviour
 {
     List<SaveScan.Device> devicesList = SaveScan.LoadJson("scanPort");
 
-    public void NewDocument()
+    public void NewDocument(string path)
     {
-        if(File.Exists("report.pdf"))
-            File.Delete("report.pdf");
-        System.IO.FileStream fs = new FileStream(@"report.pdf", FileMode.Create);//TODO
+        var i = 0;
+        while (File.Exists(Path.Combine(path, $"report{i}.pdf")))
+            i++;
+        System.IO.FileStream fs = new FileStream(Path.Combine(path,$"report{i}.pdf"), FileMode.Create);
         Document document = new Document(PageSize.A4, 25, 25, 30, 30);  
         PdfWriter writer = PdfWriter.GetInstance(document, fs);  
         document.Open();
