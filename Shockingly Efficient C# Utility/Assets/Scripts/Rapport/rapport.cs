@@ -16,6 +16,8 @@ public class rapport: MonoBehaviour
 
     public void NewDocument()
     {
+        if(File.Exists("report.pdf"))
+            File.Delete("report.pdf");
         System.IO.FileStream fs = new FileStream(@"report.pdf", FileMode.Create);//TODO
         Document document = new Document(PageSize.A4, 25, 25, 30, 30);  
         PdfWriter writer = PdfWriter.GetInstance(document, fs);  
