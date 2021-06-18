@@ -232,10 +232,15 @@ public class MenuManager : MonoBehaviour
             // iterate over the child of vulnScrollView
             foreach (Transform child in vulnScrollView.transform)
             {
+                var t1 = child.Find("Access point").GetComponent<Text>().text;
+                var t2 = child.Find("IP").GetComponent<Text>().text;
+                var a1 = vulnsFound[i].AccessPoint;
+                var a2 = vulnsFound[i].IP;
                 if (
                     child.Find("Access point").GetComponent<Text>().text ==
                     vulnsFound[i].AccessPoint &&
-                    child.Find("IP").GetComponent<Text>().text == vulnsFound[i].IP
+                    child.Find("IP").GetComponent<Text>().text == vulnsFound[i].IP &&
+                    child.Find("Name").GetComponent<Text>().text == vulnsFound[i].Name
                 )
                 {
                     alreadyExists = true;

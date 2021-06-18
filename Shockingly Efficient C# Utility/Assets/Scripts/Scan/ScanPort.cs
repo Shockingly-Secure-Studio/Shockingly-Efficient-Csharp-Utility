@@ -101,6 +101,7 @@ namespace Scan
             }
 
             threadList.ForEach(thread => thread.Join());
+            MenuManager.IsThreadRunning = false;
         }
         private static void SendCallback(IAsyncResult asyncResult)
         {
