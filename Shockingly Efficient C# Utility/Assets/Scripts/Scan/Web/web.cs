@@ -363,14 +363,14 @@ public class web : MonoBehaviour
         List<Cookie> cookies = GetCookies(url);
         List<Cookie> Exploited_cookies = new List<Cookie>();
 
-        string pattern = "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$";
-        Regex rgx = new Regex(pattern2);
+        //string pattern = "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$";
+        //Regex rgx = new Regex(pattern2);
         List<Cookie> JWT_list = new List<Cookie>(); // Liste de JWT
         
         // Find JWT token
         foreach (Cookie c in cookies)
         {
-            if ( c.Name == "jwt" & rgx.IsMatch(c.Value) )
+            if ( c.Name == "jwt") //& //rgx.IsMatch(c.Value) )
                 JWT_list.Add(c);
 
         }
