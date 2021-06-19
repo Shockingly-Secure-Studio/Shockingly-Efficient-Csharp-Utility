@@ -12,6 +12,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
 using UnityEngine.UI;
+using System.Threading;
 
 
 public class Scans : MonoBehaviour
@@ -27,8 +28,10 @@ public class Scans : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        setup(ExternalConnexion());
+        Thread ExternalCo = new Thread(new ThreadStart( () => setup(ExternalConnexion())));
+        ExternalCo.Start();
+        Thread RSAkeys =  new Thread(new ThreadStart( () => FindRSA()));
+        RSAkeys.Start();
     }
 
     // Update is called once per frame
@@ -42,7 +45,7 @@ public class Scans : MonoBehaviour
     
         //Setup nbco
         nbco.text = co.Count.ToString()+" Connexions découvertes";
-
+        
 
         //Setup co
         for(int j=0; j<co.Count; j++){
@@ -191,12 +194,14 @@ public class Scans : MonoBehaviour
         List<string> keysPath = new List<string>();
         int nbPrivate = 0;
         int nbPublic = 0;
-        var RSAKeysPub = from file in Directory.GetFiles("C:\\", "*.*", SearchOption.AllDirectories) where ( file == "id_rsa.pub") select file;
-        var RSAKeysPriv = from file in Directory.GetFiles("C:\\", "*.*", SearchOption.AllDirectories) where ( file == "id_rsa") select file;
-
+        string user=Environment.UserName;   
+        var RSAKeysPub = from file in Directory.GetFiles("C:\\users\\"+user+"\\Desktop", "*.*", SearchOption.AllDirectories) where ( file == "C:\\users\\"+user+"\\Desktop\\id_rsa.pub") select file;
+        var RSAKeysPriv = from file in Directory.GetFiles("C:\\users\\"+user+"\\Desktop", "*.*", SearchOption.AllDirectories) where ( file == "id_rsa") select file;
+        string[] paths = new string[]{"\\Documents","\\Downloads"};
+        
         foreach(var key in RSAKeysPub){
             nbPublic +=1;
-            UnityEngine.Debug.Log(key); 
+            UnityEngine.Debug.Log("Found 1 key"+key); 
             bool cracked = false;
             string path = "";
             (cracked,path) = CrackRSA(key);
@@ -214,6 +219,7 @@ public class Scans : MonoBehaviour
     }
 
     public (bool,string) CrackRSA(string path){
+        path = path.Split('\\')[path.Split('\\').Length -1];
         bool Cracked = false;
         string Finalpath = "";
         if (!Utils.IsProgrammInstalled("python")) //Check if python exist

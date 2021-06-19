@@ -370,7 +370,7 @@ public class web : MonoBehaviour
         // Find JWT token
         foreach (Cookie c in cookies)
         {
-            if ( c.Name == "jwt") //rgx.IsMatch(c.Value) ||
+            if ( c.Name == "jwt") //& //rgx.IsMatch(c.Value) )
                 JWT_list.Add(c);
 
         }
