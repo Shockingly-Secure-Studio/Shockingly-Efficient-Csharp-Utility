@@ -8,11 +8,13 @@ using Machine;
 using Service.Exploit;
 using System.Globalization;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using DefaultNamespace;
 using Newtonsoft.Json;
+using Debug = UnityEngine.Debug;
 
 
 public class MenuManager : MonoBehaviour
@@ -374,4 +376,15 @@ public class MenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void Uninstall()
+    {
+        if (File.Exists("unins000.exe"))
+        {
+            Quit();
+            Process.Start("unins000.exe");
+            
+        }
+    }
+    
 }
