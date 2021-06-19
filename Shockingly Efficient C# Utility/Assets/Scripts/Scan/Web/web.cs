@@ -11,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Service.Exploit;
 using UnityEditor;
 using Web;
 using Task = System.Threading.Tasks.Task;
@@ -402,30 +403,7 @@ public class web : MonoBehaviour
             
         }
     }
-    // will detect all the */.git files
-    public async Task<List<string>> Git(List<string> urls)
-    {
-        List<Task> tasks = new List<Task>();
-        List<string> result = new List<string>();
-        foreach (var url in urls)
-        {
-            tasks.Add(Request.Ping(url+ "/.git"));
-        }
 
-        while (tasks.Count !=0)
-        {
-            Task<(HttpStatusCode,string)> task = await Task.WhenAny(tasks) as Task<(HttpStatusCode,string)>;
-            (HttpStatusCode,string) res = task.Result;
-            tasks.Remove(task);
-            if (res.Item1 is HttpStatusCode.OK)
-            {
-                result.Add(res.Item2);
-            }
-        }
-
-        return result;
-    }
-    
     // Update is called once per frame
     void Update()
     {
