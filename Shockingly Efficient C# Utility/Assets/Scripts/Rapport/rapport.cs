@@ -196,14 +196,17 @@ public class rapport: MonoBehaviour
                 case  AccessPointType.Git:
                     NewTitle(document, "Git",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tVous avez oublier d'enlever le .git de votre application. Il est important de penser à le supprimer car "+
-                        "si un pirate venait à le télécharger il serait en mesure d'obtenir tout le code source de votre application"
+                        "\tVous avez oublié d'enlever le .git de votre application. Il est important de penser à le supprimer car "+
+                        "si un pirate venait à le télécharger il serait en mesure d'obtenir tout le code source de votre application",
+                        new iTextSharp.text.Font(fontFamily, 12)
                     ));
+                    
                     break;
                 case AccessPointType.Insecure_Authentication: 
                     NewTitle(document, "Faible mot de passe",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tVous utilisez des mots de passes faibles il serait préférable de les changer"
+                        "\tVous utilisez des mots de passes faibles il serait préférable de les changer",
+                        new iTextSharp.text.Font(fontFamily, 12)
                         ));
                     break;
                 case  AccessPointType.Local_File_Inclusion:
@@ -211,7 +214,8 @@ public class rapport: MonoBehaviour
                     document.Add(new Paragraph(
                         "\tUne faille de type LFI à été détéctée, cette faille est dangueureses car un utilisateur pourrait afficher du contenus sensible"+
                         ", comme des fichiers de mots de passes,.. Ceci est du à un mauvais filtrage des paramètre des urls. Voici une ressource pour vous en protéger"+
-                        "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.1-Testing_for_Local_File_Inclusion"
+                        "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.1-Testing_for_Local_File_Inclusion",
+                        new iTextSharp.text.Font(fontFamily, 12)
                         ));
                     break;
                 case AccessPointType.Remote_File_Inclusion:
@@ -219,7 +223,8 @@ public class rapport: MonoBehaviour
                     document.Add(new Paragraph(
                         "\tUne faille de type RFI à  été détécté, il s'agit d'une faille ou un utilisateur peut utiliser"+
                         " les paramètre de l'url pour télécharger un fichier malveillant sur le serveur." +
-                        "Voici une ressource pour vous en protéger : https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.2-Testing_for_Remote_File_Inclusion"
+                        "Voici une ressource pour vous en protéger : https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.2-Testing_for_Remote_File_Inclusion",
+                        new iTextSharp.text.Font(fontFamily, 12)
                         ));
                     break;
             }
