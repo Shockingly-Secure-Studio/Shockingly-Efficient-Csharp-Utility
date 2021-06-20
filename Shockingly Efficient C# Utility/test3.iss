@@ -25,9 +25,9 @@ DefaultDirName={autopf}\{#MyAppName}
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
 LicenseFile=C:\Users\tudual\Desktop\licence.txt
-InfoBeforeFile=C:\Users\tudual\Desktop\avant intallation.txt
-InfoAfterFile=C:\Users\tudual\Desktop\apre intallation.txt
-; Uncomment the following line to run in non administrative install mode (install for current user only.)
+;InfoBeforeFile=C:\Users\tudual\Desktop\avant intallation.txt
+;InfoAfterFile=C:\Users\tudual\Desktop\apre intallation.txt
+;Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=C:\Users\tudual\Desktop\buildexe\exe
@@ -49,8 +49,8 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "install_python"; Description: "Install python 3.9.5 (required)"
-Name: "install_ruby"; Description: "Install ruby 2.7.3-1 (required)"
+Name: "install_python"; Description: "{cm:InstallPython}" ; GroupDescription: "{cm:AdditionalLibrary}"
+Name: "install_ruby"; Description: "{cm:InstallRuby}"   ; GroupDescription: "{cm:AdditionalLibrary}"
 [Files]
 Source: "C:\Users\tudual\Desktop\buildexe\b1\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\tudual\Desktop\buildexe\b1\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -124,4 +124,12 @@ begin
      { Check current user 64-bit installation}
      (not RegKeyExists(HKCU64, Key));
 end;
+[CustomMessages]
+InstallPython=Install Python 3.9.5 (required)
+InstallRuby=Install Ruby 2.7.3-1 (required)
+AdditionalLibrary=Additional library:
+french.InstallPython=Installer Python 3.9.5 (nécessaire)
+french.InstallRuby=Installer Ruby 2.7.3-1 (nécessaire)
+french.AdditionalLibrary=Logiciels à installer:
+
 
