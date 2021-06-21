@@ -8,11 +8,13 @@ using Machine;
 using Service.Exploit;
 using System.Globalization;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using DefaultNamespace;
 using Newtonsoft.Json;
+using Debug = UnityEngine.Debug;
 
 
 public class MenuManager : MonoBehaviour
@@ -235,7 +237,8 @@ public class MenuManager : MonoBehaviour
                 if (
                     child.Find("Access point").GetComponent<Text>().text ==
                     vulnsFound[i].AccessPoint &&
-                    child.Find("IP").GetComponent<Text>().text == vulnsFound[i].IP
+                    child.Find("IP").GetComponent<Text>().text == vulnsFound[i].IP &&
+                    child.Find("Name").GetComponent<Text>().text == vulnsFound[i].Name
                 )
                 {
                     alreadyExists = true;
@@ -369,4 +372,19 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void Uninstall()
+    {
+        if (File.Exists("unins000.exe"))
+        {
+            Quit();
+            Process.Start("unins000.exe");
+            
+        }
+    }
+    
 }

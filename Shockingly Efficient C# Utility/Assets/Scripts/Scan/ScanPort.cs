@@ -167,6 +167,7 @@ namespace Scan
                 scanPortIPThread.Join();
                 //if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }
+            MenuManager.IsThreadRunning = false;
         }
         
     }
