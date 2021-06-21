@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using iTextSharp.text;
+using System.Threading.Tasks;
+using DefaultNamespace;
 using Service.Exploit;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace DefaultNamespace
+namespace UI
 {
     public class VulnButton : MonoBehaviour, IPointerClickHandler
     {
@@ -43,6 +41,8 @@ namespace DefaultNamespace
         /// <param name="vulnName"></param>
         public void DisplayPanel(string ip, string port, AccessPointType vulnName)
         {
+            
+            
             string dir = Path.Combine("Results", ip, port, "dump");
             if (!Directory.Exists(dir)) return; // We don't display anything
             string[] tables = Directory.GetFiles(dir, "*.csv")
@@ -56,6 +56,21 @@ namespace DefaultNamespace
             sqlPanel.SetActive(true);
             TMP_Dropdown dropdown = tableNameDropdown.GetComponent<TMP_Dropdown>();
             dropdown.ClearOptions();
+
+            foreach (GameObject go in Resources.FindObjectsOfTypeAll<GameObject>())
+            {
+                switch (go.name)
+                {
+                    case "BaseDeDonnée":
+                    case "TableNamesDropdown":
+                        go.SetActive(true);
+                        break;
+                    case "RCEInputField":
+                    case "RCEButton":
+                        go.SetActive(false);
+                        break;
+                }
+            }
             
             foreach (string s in tables)
             {   
@@ -71,6 +86,8 @@ namespace DefaultNamespace
                 DisplayWeakPassword(ip,port);
             }
             
+            if (vulnName == AccessPointType.RCE)
+                DisplayReverseShell(ip, port);
         }
 
         private void DisplayWeakPassword(string ip,string port)
@@ -135,7 +152,43 @@ namespace DefaultNamespace
 
         public void DisplayReverseShell(string ip, string port)
         {
+            WebShellInterface webShellInterface = WebShellInterface.AttachWebShell(ip, port);
             
+            foreach (GameObject go in Resources.FindObjectsOfTypeAll<GameObject>())
+            {
+                switch (go.name)
+                {
+                    case "BaseDeDonnée":
+                    case "TableNamesDropdown":
+                        go.SetActive(false);
+                        break;
+                    case "RCEInputField":
+                    case "RCEButton":
+                        go.SetActive(true);
+                        break;
+                }
+            }
+            
+            GameObject.Find("RCEButton").GetComponent<Button>().onClick.AddListener(async delegate
+            {
+                await RCE_OnButtonClick(webShellInterface);
+            });
+        }
+
+        public async Task RCE_OnButtonClick(WebShellInterface webShellInterface)
+        {
+            string cmd = GameObject.Find("CommandText").GetComponent<TMP_Text>().text;
+            Debug.Log(cmd);
+            string result = await webShellInterface.SendCommand(cmd);
+            Debug.Log(result);
+            GameObject sqlResultGroup = GameObject.Find("SQLResult");
+            GridLayoutGroup glg = sqlResultGroup.GetComponent<GridLayoutGroup>();
+            foreach (Transform child in glg.transform) {
+                Destroy(child.gameObject);
+            }
+            
+            GameObject cell = Instantiate(cellPrefab, glg.transform, false);
+            cell.GetComponent<TMP_Text>().text = result;
         }
     }
 }

@@ -6,7 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Debug = UnityEngine.Debug;
 
 public static class Utils
@@ -165,5 +168,19 @@ public static class Utils
             .Select(netInterface => netInterface.Name)
             .OrderBy(x => x)
             .ToList();
+    }
+    
+    public class MyContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver
+    {
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        {
+            List<JsonProperty> props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Select(p => base.CreateProperty(p, memberSerialization))
+                .Union(type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Select(f => base.CreateProperty(f, memberSerialization)))
+                .ToList();
+            props.ForEach(p => { p.Writable = true; p.Readable = true; });
+            return props;
+        }
     }
 }

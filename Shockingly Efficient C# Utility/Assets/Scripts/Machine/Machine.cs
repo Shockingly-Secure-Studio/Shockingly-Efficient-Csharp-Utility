@@ -2,26 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Renci.SshNet;
 using Scan;
 using Service;
 using Service.Exploit;
+using UnityEngine;
 
 namespace Machine
 {
     public class Machine
     {
+        [JsonProperty("ip")]
         public string IPAdress;
         public string WorkingDirectory;
-        public List<Service.Service> OpenServices;
-        public List<WebShell> AccessibleShells;
 
         public Machine(string ip)
         {
             IPAdress = ip;
-            WorkingDirectory = Path.Combine("Results", ip);
-            OpenServices = new List<Service.Service>();
-            AccessibleShells = new List<WebShell>();
+            WorkingDirectory = Path.Combine("Results", IPAdress);
             if (!Directory.Exists(WorkingDirectory))
             {
                 Directory.CreateDirectory(WorkingDirectory);
@@ -77,7 +76,7 @@ namespace Machine
 
                 foreach (AccessPoint vuln in serviceResult.AccessPoints)
                 {
-                    Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, IPAdress);
+                    Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, IPAdress, vuln.POC);
                     result.Add(vulnerability);
                 }
             }
@@ -85,19 +84,20 @@ namespace Machine
             return result;
         }
 
-        public void AddService(Service.Service service)
-        {
-            OpenServices.Add(service);
-        }
-
         public void AddShell(WebShell webShell)
         {
-            AccessibleShells.Add(webShell);
-        }
-
-        public WebShell GetShell()
-        {
-            return AccessibleShells.Count == 0 ? null : AccessibleShells[0];
+            Debug.Log("In Machine.AddShell");
+            
+            //JsonSerializerSettings settings = new JsonSerializerSettings { ContractResolver = new Utils.MyContractResolver() };
+            
+            
+            string serialized = JsonConvert.SerializeObject(webShell);
+            Debug.Log(serialized);
+            string path = Path.Combine(webShell.Entry.WorkingDirectory, "rce.json");
+            Debug.Log(path);
+            if (File.Exists(path))
+                File.Delete(path);
+            File.WriteAllText(path, serialized);
         }
     }
 }

@@ -209,7 +209,7 @@ public class MenuManager : MonoBehaviour
             sr.Close();
             foreach (AccessPoint vuln in serviceResult.AccessPoints)
             {
-                Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, serviceResult.Identifier);
+                Vulnerability vulnerability = new Vulnerability(vuln.Type.ToString(), vuln.Access, vuln.Severity, serviceResult.Identifier, vuln.POC);
                 if (vulnerability.Severity > 7)
                     nbCrit++;           
 
@@ -281,14 +281,9 @@ public class MenuManager : MonoBehaviour
             }
             catch (Exception)
             {
-                UnityEngine.Debug.Log(" [+] IP PROBLEM");
+                Debug.Log(" [+] IP PROBLEM");
             }
-
-
         }
-            
-        
-        
     }
 
     public void AddVuln(string vulnName, string accessPoint, string ip, int severity)

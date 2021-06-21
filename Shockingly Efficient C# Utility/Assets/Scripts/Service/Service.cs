@@ -12,18 +12,18 @@ namespace Service
 {
     public abstract class Service
     {
-        private readonly IPAddress _ip;
+        private readonly string _ip;
+        [JsonProperty("port")]
         private readonly int _port;
-        protected readonly string WorkingDirectory;
+        public readonly string WorkingDirectory;
+        [JsonProperty("machine")]
         protected readonly Machine.Machine Host;
         
         public Service(Machine.Machine machine, int port)
         {
             Host = machine;
-            _ip = IPAddress.Parse(machine.IPAdress);
+            _ip = machine.IPAdress;
             _port = port;
-                
-            machine.AddService(this);
 
             WorkingDirectory = Path.Combine("Results", machine.IPAdress, port.ToString());
 
@@ -37,7 +37,7 @@ namespace Service
             byte[] bytesReceived = new byte[256];
             string result = "";
 
-            using (Socket s = Utils.ConnectSocket(_ip, _port))
+            using (Socket s = Utils.ConnectSocket(IPAddress.Parse(_ip), _port))
             {
                 if (s == null)
                     return ("Connection failed");
@@ -59,7 +59,7 @@ namespace Service
         }
 
 
-        public IPAddress GetIP()
+        public string GetIP()
         {
             return _ip;
         }
