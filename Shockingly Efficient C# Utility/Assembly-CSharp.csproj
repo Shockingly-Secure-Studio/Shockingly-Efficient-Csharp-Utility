@@ -56,7 +56,6 @@
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\Scan\ScanControl.cs" />
-     <Compile Include="Assets\Scripts\Service\Exploit\Wordpress.cs" />
      <Compile Include="Assets\Scripts\Machine\Shell.cs" />
      <Compile Include="Assets\Scripts\Scan\Web\web.cs" />
      <Compile Include="Assets\Scripts\Antivirus\FileScan.cs" />
