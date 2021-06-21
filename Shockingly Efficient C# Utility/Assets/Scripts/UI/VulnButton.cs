@@ -32,7 +32,7 @@ namespace DefaultNamespace
             
             if (vulnName.Contains("SQL")) DisplayPanel(ipPort[0], ipPort[1], AccessPointType.SQLi);
             if (vulnName.Contains("Insecure_Authentication")) DisplayPanel(ipPort[0], ipPort[1], AccessPointType.Insecure_Authentication);
-            
+            if (vulnName.Contains("RCE")) DisplayPanel(ipPort[0], ipPort[1],AccessPointType.RCE);
         }
 
         /// <summary>
@@ -131,6 +131,11 @@ namespace DefaultNamespace
             }
             
             LayoutRebuilder.ForceRebuildLayoutImmediate(glg.GetComponent<RectTransform>()); 
+        }
+
+        public void DisplayReverseShell(string ip, string port)
+        {
+            
         }
     }
 }
