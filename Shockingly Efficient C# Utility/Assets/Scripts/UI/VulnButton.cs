@@ -30,6 +30,10 @@ namespace UI
             
             if (vulnName.Contains("SQL")) DisplayPanel(ipPort[0], ipPort[1], AccessPointType.SQLi);
             if (vulnName.Contains("Insecure_Authentication")) DisplayPanel(ipPort[0], ipPort[1], AccessPointType.Insecure_Authentication);
+            if (vulnName.Contains("Wordpress"))
+            {
+                DisplayPanel(ipPort[0],ipPort[1], AccessPointType.Wordpress);
+            }
             if (vulnName.Contains("RCE")) DisplayPanel(ipPort[0], ipPort[1],AccessPointType.RCE);
         }
 
@@ -41,8 +45,6 @@ namespace UI
         /// <param name="vulnName"></param>
         public void DisplayPanel(string ip, string port, AccessPointType vulnName)
         {
-            
-            
             string dir = Path.Combine("Results", ip, port, "dump");
             if (!Directory.Exists(dir)) return; // We don't display anything
             string[] tables = Directory.GetFiles(dir, "*.csv")
@@ -85,11 +87,27 @@ namespace UI
             {
                 DisplayWeakPassword(ip,port);
             }
+
+            if (vulnName == AccessPointType.Wordpress)
+            {
+                DisplayWorpress(ip,port);
+            }
             
             if (vulnName == AccessPointType.RCE)
                 DisplayReverseShell(ip, port);
         }
 
+        private void DisplayWorpress(string ip, string port)
+        {
+            GameObject sqlResultGroup = GameObject.Find("SQLResult");
+            GridLayoutGroup glg = sqlResultGroup.GetComponent<GridLayoutGroup>();
+            foreach (Transform child in glg.transform) {
+                Destroy(child.gameObject);
+            }
+            GameObject cell = Instantiate(cellPrefab, glg.transform, false);
+            string res = File.ReadAllText(Path.Combine("Results", ip,port,"Wpscanres"));
+            cell.GetComponent<TMP_Text>().text = res;
+        }
         private void DisplayWeakPassword(string ip,string port)
         {
             GameObject sqlResultGroup = GameObject.Find("SQLResult");
