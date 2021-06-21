@@ -11,6 +11,8 @@ using Debug = UnityEngine.Debug;
 
 public static class Utils
 {
+    public static bool stopAllThreads = false;
+    
         
     // https://docs.microsoft.com/fr-fr/dotnet/api/system.net.sockets.socket?view=net-5.0
     public static Socket ConnectSocket(IPAddress server, int port)
