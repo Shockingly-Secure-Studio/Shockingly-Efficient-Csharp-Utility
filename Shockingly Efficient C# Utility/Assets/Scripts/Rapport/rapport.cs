@@ -163,41 +163,43 @@ public class rapport: MonoBehaviour
             {
                 case AccessPointType.RCE:
                     NewTitle(document,"RCE",fontFamily,13);
-                    document.Add(new Paragraph("\tRCE ou remonte commande injection, ce sont des failles qui" +
-                                               " permettent à l’utilisateur d’exécuter des commandes, pour éviter " +
-                                               "ce type de faille il faut vérifier  les requêtes de l’utilisateur, " +
-                                               "par exemple en vérifiant les symboles utilisés. \n", 
+                    document.Add(new Paragraph("\tRCE ou remote code injection, sont des failles qui Permettent"+
+                                               " à l’utilisateur d’exécuter des commandes, pour éviter ce type de faille,"+
+                                               " il faut vérifier les requêtes de l’utilisateur, par exemple en vérifiant "+
+                                               "les symboles utilisés ou alors en utilisant un meilleur filtrage. \n", 
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
                 case AccessPointType.SQLi:
                     NewTitle(document,"SQLi",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tLes SQLi, aussi appelées injection SQL est un type de faille qui a pour but interagir avec une base de " +
-                        "données, pour cela on injecte un morceau malveillant de requête SQL dans une requête SQL qui" +
-                        " va par exemple vérifier un mot de passe. Ce type de faille peux permettre par exemple de " +
-                        "récupérer tous les mots de passe et les noms d’utilisateurs. Voici une ressource pour vous " +
-                        "protéger contre les injections sql.\nhttps://cheatsheetseries.owasp.org/cheatsheets/SQL_Inject" +
+                        "\tLes SQLi, aussi appelées injection SQL est un type de faille qui a pour but interagir avec"+
+                        " une base de données, pour cela, on injecte un morceau malveillant de requête SQL dans une requête"+
+                        " SQL qui va par exemple vérifier un mot de passe. Ce type de faille peut permettre par exemple de"+
+                        " récupérer tous les mots de passe et les noms d’utilisateurs. Voici une ressource pour vous protéger"+
+                        " contre les injections sql.\nhttps://cheatsheetseries.owasp.org/cheatsheets/SQL_Inject" +
                         "ion_Prevention_Cheat_Sheet.html\n",
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
                 case AccessPointType.XSS:
                     NewTitle(document,"XSS",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tLes failles XSS sont des failles liées aux différents points d’entrée du site web, par exemple " +
-                        "en laissant un commentaire l’utilisateur peux tenter d’injecter du code malveillant, si votre serveur " +
-                        "ne vérifie pas ce que rentre l’utilisateur il va renvoyer le code qui va être interprété par les " +
-                        "navigateurs des autres utilisateurs qui visiteront la page. Ce type d’attaques peut permettre de " +
-                        "voler les cookies, si une personne vole un cookie d’un administrateur il peut élever ses privilèges" +
-                        " et accéder à des informations sensibles. Il peux aussi par exemple rediriger les utilisateurs sur " +
-                        "une page malveillante. Voici une ressource pour vous protéger contre les XSS\nhttps://cheatsheet" +
-                        "series.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html#defense-against-xss\n",
+                        "\tLes failles XSS sont des failles liées aux différents points d’entrée du site web, par exemple"+
+                        " en laissant un commentaire l’utilisateur peux tenter d’injecter du code malveillant, si votre"+
+                        " serveur ne vérifie pas ce que rentre l’utilisateur, il va renvoyer le code qui va être interprété"+
+                        " par les navigateurs des autres utilisateurs qui visiteront la page. Ce type d’attaques peut "+
+                        "permettre de voler les cookies, si une personne vole un cookie d’un administrateur, il peut "+
+                        "élever ses privilèges et accéder à des informations sensibles. Il peux aussi par exemple "+
+                        "rediriger les utilisateurs sur une page malveillante. Voici une ressource pour vous protéger "+
+                        "contre les XSS.\nhttps://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_S"+
+                        "heet.html#defense-against-xss\n",
                         new iTextSharp.text.Font(fontFamily, 12)));
                     break;
                 case  AccessPointType.Git:
                     NewTitle(document, "Git",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tVous avez oublié d'enlever le .git de votre application. Il est important de penser à le supprimer car "+
-                        "si un pirate venait à le télécharger il serait en mesure d'obtenir tout le code source de votre application",
+                        "\tVous avez oublié d'enlever le.git de votre application. Il est important de penser à le supprimer,"+
+                        " car si un pirate venait à le télécharger, il serait en mesure d'obtenir tout le code source de votre"+
+                        " application.",
                         new iTextSharp.text.Font(fontFamily, 12)
                     ));
                     
@@ -205,15 +207,16 @@ public class rapport: MonoBehaviour
                 case AccessPointType.Insecure_Authentication: 
                     NewTitle(document, "Faible mot de passe",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tVous utilisez des mots de passes faibles il serait préférable de les changer",
+                        "\tVous utilisez des mots de passe faibles, il serait préférable de les changer.",
                         new iTextSharp.text.Font(fontFamily, 12)
                         ));
                     break;
                 case  AccessPointType.Local_File_Inclusion:
                     NewTitle(document, "Local File Inclusion (LFI)",fontFamily,13);
                     document.Add(new Paragraph(
-                        "\tUne faille de type LFI à été détéctée, cette faille est dangueureses car un utilisateur pourrait afficher du contenus sensible"+
-                        ", comme des fichiers de mots de passes,.. Ceci est du à un mauvais filtrage des paramètre des urls. Voici une ressource pour vous en protéger"+
+                        "\tUne faille de type LFI a été détectée, cette faille est dangueureses, car un utilisateur pourrait"+
+                        " afficher du contenu sensible, comme des fichiers de mots de passe,.. Ceci est dû à un mauvais "+
+                        "filtrage des paramètre des urls. Voici une ressource pour vous en protéger"+
                         "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.1-Testing_for_Local_File_Inclusion",
                         new iTextSharp.text.Font(fontFamily, 12)
                         ));
@@ -221,9 +224,9 @@ public class rapport: MonoBehaviour
                 case AccessPointType.Remote_File_Inclusion:
                     NewTitle(document,"Remote File Inclusion (RFI)", fontFamily, 13);
                     document.Add(new Paragraph(
-                        "\tUne faille de type RFI à  été détécté, il s'agit d'une faille ou un utilisateur peut utiliser"+
-                        " les paramètre de l'url pour télécharger un fichier malveillant sur le serveur." +
-                        "Voici une ressource pour vous en protéger : https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.2-Testing_for_Remote_File_Inclusion",
+                        "\tUne faille de type RFI a été détecte, il s'agit d'une faille ou un utilisateur peut utiliser"+
+                        " les paramètres de l'url pour télécharger un fichier malveillant sur le serveur. Voici une "+
+                        "ressource pour vous en protéger : https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.2-Testing_for_Remote_File_Inclusion",
                         new iTextSharp.text.Font(fontFamily, 12)
                         ));
                     break;
