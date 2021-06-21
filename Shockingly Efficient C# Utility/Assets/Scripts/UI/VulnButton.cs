@@ -32,7 +32,10 @@ namespace DefaultNamespace
             
             if (vulnName.Contains("SQL")) DisplayPanel(ipPort[0], ipPort[1], AccessPointType.SQLi);
             if (vulnName.Contains("Insecure_Authentication")) DisplayPanel(ipPort[0], ipPort[1], AccessPointType.Insecure_Authentication);
-            
+            if (vulnName.Contains("Wordpress"))
+            {
+                DisplayPanel(ipPort[0],ipPort[1], AccessPointType.Wordpress);
+            }
         }
 
         /// <summary>
@@ -70,9 +73,24 @@ namespace DefaultNamespace
             {
                 DisplayWeakPassword(ip,port);
             }
-            
+
+            if (vulnName == AccessPointType.Wordpress)
+            {
+                DisplayWorpress(ip,port);
+            }
         }
 
+        private void DisplayWorpress(string ip, string port)
+        {
+            GameObject sqlResultGroup = GameObject.Find("SQLResult");
+            GridLayoutGroup glg = sqlResultGroup.GetComponent<GridLayoutGroup>();
+            foreach (Transform child in glg.transform) {
+                Destroy(child.gameObject);
+            }
+            GameObject cell = Instantiate(cellPrefab, glg.transform, false);
+            string res = File.ReadAllText(Path.Combine("Results", ip,port,"Wpscanres"));
+            cell.GetComponent<TMP_Text>().text = res;
+        }
         private void DisplayWeakPassword(string ip,string port)
         {
             GameObject sqlResultGroup = GameObject.Find("SQLResult");
