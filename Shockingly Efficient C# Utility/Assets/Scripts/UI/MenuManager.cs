@@ -58,6 +58,10 @@ public class MenuManager : MonoBehaviour
 
     public static bool IsThreadRunning = false;
 
+    // box de  : sur de supprimer l'appli ?
+    public GameObject exitbox;
+    public bool active;
+
     void Start()
     {
     }
@@ -371,7 +375,9 @@ public class MenuManager : MonoBehaviour
     {
         Application.Quit();
     }
-
+    public void SpawnBox(){
+        exitbox.SetActive(active);
+    }
     public void Uninstall()
     {
         if (File.Exists("unins000.exe"))
