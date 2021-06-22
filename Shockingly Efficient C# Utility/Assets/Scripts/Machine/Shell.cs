@@ -68,7 +68,7 @@ namespace Machine
             if (_shellType == ShellType.Linux || _shellType == ShellType.Windows)
             {
                 preCommand = "1 & echo \"SECUStudioDEBUT\" && ";
-                postCommand = " && echo \"SECUStudioFIN\"";
+                postCommand = " && echo \"SECUStudioFIN\" & ";
             }
 
             if (_isUpgraded)
