@@ -172,9 +172,10 @@ namespace Scan
             public string hostName { get; set; }
             public string IP { get; set; }
             public List<int> Port { get; set; }
-            public string nbOfSFlaw { get; set; }
+
+            public string nbOfSFlaw { get; set; } = "0";
             //sevérité CVE
-            public string severityLevel { get; set; }
+            public string severityLevel { get; set; } = "0";
             public string scanStatus { get; set; }
             
         }

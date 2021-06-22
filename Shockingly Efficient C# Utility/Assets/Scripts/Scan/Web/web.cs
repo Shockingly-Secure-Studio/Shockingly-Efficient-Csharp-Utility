@@ -11,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Service.Exploit;
 using UnityEditor;
 using Web;
 using Task = System.Threading.Tasks.Task;
@@ -29,6 +30,7 @@ public class web : MonoBehaviour
         List<string> nlist = new List<string>();
         foreach (var e in list)
         {
+            
                 Request request = new Request(e.Item1, e.Item2, null, null);
                 string domain = $"{e.Item1}:{e.Item2}";
                 List<string> nnlist = new List<string>();
@@ -52,7 +54,9 @@ public class web : MonoBehaviour
                     {
                         nlist.Add(items);
                     }
-                }
+                }  
+            
+                
         }
         
         return nlist;
@@ -367,7 +371,7 @@ public class web : MonoBehaviour
         // Find JWT token
         foreach (Cookie c in cookies)
         {
-            if ( c.Name == "jwt") //rgx.IsMatch(c.Value) ||
+            if ( c.Name == "jwt") //& //rgx.IsMatch(c.Value) )
                 JWT_list.Add(c);
 
         }
@@ -400,8 +404,6 @@ public class web : MonoBehaviour
         }
     }
 
-
-    
     // Update is called once per frame
     void Update()
     {

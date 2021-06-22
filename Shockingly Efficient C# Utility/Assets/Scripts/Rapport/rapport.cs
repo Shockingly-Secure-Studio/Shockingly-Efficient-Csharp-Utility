@@ -14,9 +14,12 @@ public class rapport: MonoBehaviour
 {
     List<SaveScan.Device> devicesList = SaveScan.LoadJson("scanPort");
 
-    public void NewDocument()
+    public void NewDocument(string path)
     {
-        System.IO.FileStream fs = new FileStream(@"report.pdf", FileMode.Create);
+        var i = 0;
+        while (File.Exists(Path.Combine(path, $"report{i}.pdf")))
+            i++;
+        System.IO.FileStream fs = new FileStream(Path.Combine(path,$"report{i}.pdf"), FileMode.Create);
         Document document = new Document(PageSize.A4, 25, 25, 30, 30);  
         PdfWriter writer = PdfWriter.GetInstance(document, fs);  
         document.Open();
@@ -111,8 +114,8 @@ public class rapport: MonoBehaviour
     {
         var fontFamily = iTextSharp.text.Font.FontFamily.TIMES_ROMAN;
         NewTitle(document,"Rapport de l'analyse",fontFamily,30);
-        NewImage(document,@"./img.png");
-        NewTitle(document,"Tableaux récapitulatif",fontFamily,15);
+        NewImage(document,Path.Combine("Binaries","img.png"));
+        NewTitle(document,"Tableau récapitulatif",fontFamily,15);
         var colinfo = "IP,Niveau de vulnérabilité,Nombre total de failles";
         var colW = "5,6,5";
         var nbCol = 3;
@@ -129,6 +132,8 @@ public class rapport: MonoBehaviour
             string info = $"{device.IP},{device.severityLevel},{device.nbOfSFlaw}";
             DirectoryInfo deviceDirectoryInfo = new DirectoryInfo(@"Results\"+device.IP+@"\");
             var dirList=deviceDirectoryInfo.EnumerateDirectories();
+            var n = Enum.GetNames(typeof(AccessPointType)).Length;
+            int[] nbF = new int[n];
             foreach (var dir in dirList)
             {
                 string path = Path.Combine(dir.ToString(), "output.json");
@@ -136,19 +141,18 @@ public class rapport: MonoBehaviour
                 {
                     string json = File.ReadAllText(path);
                     List<AccessPoint> accessPoints = JsonConvert.DeserializeObject<ServiceResult>(json).AccessPoints;
-                    var n = Enum.GetNames(typeof(AccessPointType)).Length;
-                    int[] nbF = new int[n];
+                    nbF = new int[n];
                     for(var i=0;i<accessPoints.Count;i++)
                     {
                         nbF[(int) accessPoints[i].Type] += 1;
                         if(!flaws.Contains(accessPoints[i].Type))
                             flaws.Add(accessPoints[i].Type);
                     }
-                    for (var i = 0; i < n ; i++)
-                    {
-                        info += $",{nbF[i]}";
-                    }
                 }
+            }
+            for (var i = 0; i < n ; i++)
+            {
+                info += $",{nbF[i]}";
             }
             AddLine(ref newTable,info);
         }
@@ -188,6 +192,40 @@ public class rapport: MonoBehaviour
                         "une page malveillante. Voici une ressource pour vous protéger contre les XSS\nhttps://cheatsheet" +
                         "series.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html#defense-against-xss\n",
                         new iTextSharp.text.Font(fontFamily, 12)));
+                    break;
+                case  AccessPointType.Git:
+                    NewTitle(document, "Git",fontFamily,13);
+                    document.Add(new Paragraph(
+                        "\tVous avez oublié d'enlever le .git de votre application. Il est important de penser à le supprimer car "+
+                        "si un pirate venait à le télécharger il serait en mesure d'obtenir tout le code source de votre application",
+                        new iTextSharp.text.Font(fontFamily, 12)
+                    ));
+                    
+                    break;
+                case AccessPointType.Insecure_Authentication: 
+                    NewTitle(document, "Faible mot de passe",fontFamily,13);
+                    document.Add(new Paragraph(
+                        "\tVous utilisez des mots de passes faibles il serait préférable de les changer",
+                        new iTextSharp.text.Font(fontFamily, 12)
+                        ));
+                    break;
+                case  AccessPointType.Local_File_Inclusion:
+                    NewTitle(document, "Local File Inclusion (LFI)",fontFamily,13);
+                    document.Add(new Paragraph(
+                        "\tUne faille de type LFI à été détéctée, cette faille est dangueureses car un utilisateur pourrait afficher du contenus sensible"+
+                        ", comme des fichiers de mots de passes,.. Ceci est du à un mauvais filtrage des paramètre des urls. Voici une ressource pour vous en protéger"+
+                        "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.1-Testing_for_Local_File_Inclusion",
+                        new iTextSharp.text.Font(fontFamily, 12)
+                        ));
+                    break;
+                case AccessPointType.Remote_File_Inclusion:
+                    NewTitle(document,"Remote File Inclusion (RFI)", fontFamily, 13);
+                    document.Add(new Paragraph(
+                        "\tUne faille de type RFI à  été détécté, il s'agit d'une faille ou un utilisateur peut utiliser"+
+                        " les paramètre de l'url pour télécharger un fichier malveillant sur le serveur." +
+                        "Voici une ressource pour vous en protéger : https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.2-Testing_for_Remote_File_Inclusion",
+                        new iTextSharp.text.Font(fontFamily, 12)
+                        ));
                     break;
             }
         }

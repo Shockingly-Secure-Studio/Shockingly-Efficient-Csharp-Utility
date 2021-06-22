@@ -30,7 +30,7 @@ namespace Service
             IsConnected = _sshClient.IsConnected;
             return _sshClient.IsConnected;
         }
-
+        //ajouter un clef si on a une reverse shell, brut force le mot de passe 
         public bool ConnectKey(string username, params PrivateKeyFile[] key)
         {
             _sshClient = new SshClient(GetIP().ToString(), GetPort(), username, key);

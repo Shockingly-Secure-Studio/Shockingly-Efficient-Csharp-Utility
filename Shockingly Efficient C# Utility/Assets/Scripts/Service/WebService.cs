@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using Newtonsoft.Json;
 using Scan;
 using Service.Exploit;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Service
 {
     public class WebService : Service
     {
+        [JsonProperty("vhost")]
         private readonly string _vHost;
 
         private static HttpClientHandler _handler = new HttpClientHandler()
@@ -20,6 +22,7 @@ namespace Service
             Proxy = new WebProxy("127.0.0.1:8080", false),
             UseProxy = true
         };
+        
         private readonly HttpClient _httpClient = new HttpClient(_handler);
 
         public WebService(Machine.Machine machine, int port, string vhost) : base(machine, port)
@@ -122,8 +125,7 @@ namespace Service
                 map = mapSave;
             }
             List<InputWebService> total = new List<InputWebService>();
-
-        
+            
             
             foreach (var link in map)
             {
@@ -135,12 +137,14 @@ namespace Service
             }
 
             
+            await  new password(Path.Combine("Binaries","passwordList.txt"), total)._test();
+            
             foreach (InputWebService inputWebService in total)
             {
                 await inputWebService.Exploit(true);
             }
 
-            
+           
             Host.UpdateVulnerabilities();
         }
     }

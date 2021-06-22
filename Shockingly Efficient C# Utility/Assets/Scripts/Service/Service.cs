@@ -12,18 +12,18 @@ namespace Service
 {
     public abstract class Service
     {
-        private readonly IPAddress _ip;
+        private readonly string _ip;
+        [JsonProperty("port")]
         private readonly int _port;
-        protected readonly string WorkingDirectory;
+        public readonly string WorkingDirectory;
+        [JsonProperty("machine")]
         protected readonly Machine.Machine Host;
         
         public Service(Machine.Machine machine, int port)
         {
             Host = machine;
-            _ip = IPAddress.Parse(machine.IPAdress);
+            _ip = machine.IPAdress;
             _port = port;
-                
-            machine.AddService(this);
 
             WorkingDirectory = Path.Combine("Results", machine.IPAdress, port.ToString());
 
@@ -37,7 +37,7 @@ namespace Service
             byte[] bytesReceived = new byte[256];
             string result = "";
 
-            using (Socket s = Utils.ConnectSocket(_ip, _port))
+            using (Socket s = Utils.ConnectSocket(IPAddress.Parse(_ip), _port))
             {
                 if (s == null)
                     return ("Connection failed");
@@ -59,7 +59,7 @@ namespace Service
         }
 
 
-        public IPAddress GetIP()
+        public string GetIP()
         {
             return _ip;
         }
@@ -78,21 +78,32 @@ namespace Service
 
         public abstract Task<bool> IsOnline();
 
+        public static ServiceResult GetServiceResult(string ip, int port)
+        {
+            return GetServiceResult(ip, port.ToString());
+        }
+
+        public static ServiceResult GetServiceResult(string ip, string port)
+        {
+            string path = Path.Combine("Results",ip, port, "output.json");
+            if (!File.Exists(path))
+                throw new FileNotFoundException(
+                    $"GetServiceResult: {path} does not exists."
+                    );
+            
+            StreamReader sr = new StreamReader(path);
+            ServiceResult result = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
+            sr.Close();
+
+            return result;
+        }
+        
         public void Log(AccessPoint accessPoint)
         {
             string path = Path.Combine(WorkingDirectory, "output.json");
             bool exists = File.Exists(path);
             ServiceResult result;
-            if (exists)
-            {
-                StreamReader sr = new StreamReader(path);
-                result = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
-                sr.Close();
-            }
-            else
-            {
-                result = new ServiceResult(_ip.ToString(), _port);
-            }
+            result = exists ? GetServiceResult(_ip.ToString(), _port) : new ServiceResult(_ip.ToString(), _port);
             
             result.AccessPoints.Add(accessPoint);
             
