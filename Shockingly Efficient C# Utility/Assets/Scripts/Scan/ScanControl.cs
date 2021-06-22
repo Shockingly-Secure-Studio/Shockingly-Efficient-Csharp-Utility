@@ -39,10 +39,11 @@ namespace Scan
         /// <returns>The thread representing the scanning process. When this thread ends, the exploitation is complete.</returns>
         public void Scan()
         {
-            ScanIp o = new ScanIp();
-            Thread newScan = new Thread(new ThreadStart(() => o.MakePing(_ipRange,_portScanType)));
-            newScan.Start();
             MenuManager.IsThreadRunning = true;
+
+            ScanIp o = new ScanIp();
+            Thread newScan = new Thread(new ThreadStart(async () => await o.MakePing(_ipRange,_portScanType)));
+            newScan.Start();
         }
         private static bool MAXCheck(int i,uint[] octet)
         {

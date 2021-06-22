@@ -120,9 +120,7 @@ namespace Scan
         }
         Debug.Log("FIN DU SCAN IP");
         SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},completed");
-        Thread t = new Thread(() => ScanPort.MakePortScan(ipList,scanType));
-        t.Start();
-        t.Join();
+        ScanPort.MakePortScan(ipList, scanType);
 
         MenuManager.IsThreadRunning = false;
     }

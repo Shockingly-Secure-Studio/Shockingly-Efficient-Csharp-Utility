@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using iTextSharp.text;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
@@ -100,7 +101,10 @@ namespace Scan
                 SaveScan.UpdatePortJson((ip,portList),fileName,"Completed");
             }
 
-            threadList.ForEach(thread => thread.Join());
+            foreach (Thread thread in threadList)
+            {
+                thread.Join();
+            }
         }
         private static void SendCallback(IAsyncResult asyncResult)
         {
@@ -156,6 +160,7 @@ namespace Scan
             var portScanRange = (1, 65536);
             var portScanTaskList = new List<Task>();
             var data = new List<(IPAddress, List<int>)>();
+            List<Thread> threads = new List<Thread>();
             Debug.Log("port start:");
             string fileName = "scanPort";
             SaveScan.NewJson(fileName);
@@ -164,10 +169,15 @@ namespace Scan
                 Machine.Machine mach = new Machine.Machine(ip.ToString());
                 Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType,fileName,mach));
                 scanPortIPThread.Start();
-                scanPortIPThread.Join();
+                threads.Add(scanPortIPThread);
                 //if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }
-            MenuManager.IsThreadRunning = false;
+
+            foreach (Thread thread in threads)
+            {
+                thread.Join();
+            }
+            //MenuManager.IsThreadRunning = false;
         }
         
     }
