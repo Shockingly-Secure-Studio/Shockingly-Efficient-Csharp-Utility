@@ -57,13 +57,21 @@ public class ListeDevices : MonoBehaviour
             }
             else{
                 DeviceScan = Instantiate(Device_Prefab, new Vector3(acc[0], -13, 0), Quaternion.identity,content.transform) as GameObject;
-                
-                ///// SETUP RED SQUARE /////
+                foreach (GameObject go in Resources.FindObjectsOfTypeAll<GameObject>())
+                {
+                    if (go.name=="Fiches")
+                    {
+                        FicheHolder = go.gameObject;
+                        break;
+                    }
+                }
+                Fiche = Instantiate(Device_Fiche, new Vector3(0, 0, 0), Quaternion.identity,FicheHolder.transform) as GameObject;
+                ///// SETUP FICHE /////
                 for(int k = 0; k < DeviceScan.transform.childCount; k++){
-                    if(DeviceScan.transform.GetChild(k).gameObject.name == "FichePlace")
-                        FicheHolder = DeviceScan.transform.GetChild(k).gameObject;
                     try{
                         UnityEngine.Debug.Log("YEPPP");
+                        if (DeviceScan.transform.GetChild(k).gameObject.name == "ScriptHandler")
+                            DeviceScan.transform.GetChild(k).gameObject.transform.GetComponent<SetFiche>().fiche=Fiche;
                         Text tmp = DeviceScan.transform.GetChild(k).gameObject.GetComponent<Text>(); //risk,asn_organization,localisation,country,threat,ip 
                         if(tmp.name == "Ports")
                             tmp.text = "Ports: "+devicesList[i].Port.Count.ToString() + " ports ouverts";
@@ -78,14 +86,11 @@ public class ListeDevices : MonoBehaviour
                 }
 
                 ///// SETUP FICHE /////
-                Fiche = Instantiate(Device_Fiche, new Vector3(acc[0], -13, 0), Quaternion.identity,FicheHolder.transform) as GameObject;
                 for(int k = 0; k < Fiche.transform.childCount; k++){
-                    if(Fiche.transform.GetChild(k).gameObject.name == "FichePlace")
-                        FicheHolder = Fiche.transform.GetChild(k).gameObject;
                     try{
-                        UnityEngine.Debug.Log("YEPPP");
+                        UnityEngine.Debug.Log("YEPPP2");
                         Text tmp = Fiche.transform.GetChild(k).gameObject.GetComponent<Text>(); //risk,asn_organization,localisation,country,threat,ip 
-                        string ports = ",";
+                        string ports = "";
                         foreach(int port in devicesList[i].Port){
                             ports += port.ToString() + ",";
                         }
@@ -95,8 +100,10 @@ public class ListeDevices : MonoBehaviour
                             tmp.text = "Nom: " + devicesList[i].hostName;
                         if(tmp.name == "ip")
                             tmp.text = "IP: "+devicesList[i].IP;
+                        if (tmp.name == "Site")
+                            tmp.text = "Site web: "+(devicesList[i].Port.Contains(80) ? "Oui" : "Non");
                         if(tmp.name == "Score")
-                            tmp.text = "score: " + devicesList[i].severityLevel;
+                            tmp.text = "score: " + devicesList[i].severityLevel+"/10";
                     }
                     catch{
                         continue;
