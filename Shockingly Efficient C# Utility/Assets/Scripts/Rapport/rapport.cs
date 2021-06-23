@@ -18,7 +18,9 @@ public class rapport: MonoBehaviour
     {
         var i = 0;
         while (File.Exists(Path.Combine(path, $"report{i}.pdf")))
+        {
             i++;
+        }
         System.IO.FileStream fs = new FileStream(Path.Combine(path,$"report{i}.pdf"), FileMode.Create);
         Document document = new Document(PageSize.A4, 25, 25, 30, 30);  
         PdfWriter writer = PdfWriter.GetInstance(document, fs);  

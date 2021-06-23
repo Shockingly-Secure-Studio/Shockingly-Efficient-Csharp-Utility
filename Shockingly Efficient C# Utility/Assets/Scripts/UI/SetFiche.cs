@@ -19,6 +19,10 @@ public class SetFiche : MonoBehaviour
     {
         _button.onClick.AddListener(Save);
     }
+    void OnDisable()
+    {
+        _button.onClick.RemoveListener(Save);
+    }
 
     private void Awake()
     {
@@ -57,18 +61,22 @@ public class SetFiche : MonoBehaviour
     public void SetActiveFiche(bool activate){
         fiche.SetActive(activate);
     }
-    
+
     private void Save()
     {
         string text;
-        text = _text.text; 
-        if (!Directory.Exists(text))
-            _alertBox.SetActive(true);
-        else
+        if (fiche!=null && fiche.activeInHierarchy && fiche.activeSelf)
         {
-            gameObject.AddComponent<rapport>().NewDocument(text);
-            _input.SetActive(false);
+            text = _text.text; 
+            if (!Directory.Exists(text))
+                _alertBox.SetActive(true);
+            else
+            {
+                gameObject.AddComponent<rapport>().NewDocument(text);
+                _input.SetActive(false);
+            }
         }
+       
     }
     public void AddRapport()
     {
