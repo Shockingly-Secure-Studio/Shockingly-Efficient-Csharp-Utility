@@ -23,15 +23,20 @@ public class Scans : MonoBehaviour
     public Text nbco;
     public Text nbcléText;
     public GameObject Keycontent;
+    public GameObject Keyprefab;
+    
 
-
+    private int nbclecrack = 0;
+    
     // Start is called before the first frame update
     void Start()
     {
-        Thread ExternalCo = new Thread(new ThreadStart( () => setup(ExternalConnexion())));
-        ExternalCo.Start();
-        Thread RSAkeys =  new Thread(new ThreadStart( () => FindRSA()));
-        RSAkeys.Start();
+        setup(ExternalConnexion());
+        //Thread ExternalCo = new Thread(new ThreadStart( () => setup(ExternalConnexion())));
+        //ExternalCo.Start();
+        //Thread RSAkeys =  new Thread(new ThreadStart( () => FindRSA()));
+        //RSAkeys.Start();
+        
     }
 
     // Update is called once per frame
@@ -69,11 +74,16 @@ public class Scans : MonoBehaviour
             }
         }
 
-        List<string> RSAkeys = FindRSA();
+        List<string> keysfinds = FindRSA();
         //Setup RSAKeys
-        nbcléText.text = RSAkeys.Count.ToString()+"clés trouvées";
-        for(int i=0; i<RSAkeys.Count; i++){
-
+        acc = 0;
+        nbcléText.text = keysfinds.Count.ToString()+"clés trouvées";
+        for(int i=0; i<keysfinds.Count; i++){
+            GameObject keyObj = Instantiate(Keyprefab, new Vector3(-10, -1f, 0), Quaternion.identity, Keycontent.transform) as GameObject;
+            keyObj.transform.position -= new Vector3(0,acc,0);
+            acc += 0.5f;
+            Text tmp = keyObj.transform.GetChild(0).gameObject.GetComponent<Text>();
+            tmp.text = keysfinds[i];
         }
        
     }
@@ -191,6 +201,7 @@ public class Scans : MonoBehaviour
 
 
     public List<string> FindRSA(){
+
         List<string> keysPath = new List<string>();
         int nbPrivate = 0;
         int nbPublic = 0;
@@ -198,10 +209,14 @@ public class Scans : MonoBehaviour
         var RSAKeysPub = from file in Directory.GetFiles("C:\\users\\"+user+"\\Desktop", "*.*", SearchOption.AllDirectories) where ( file == "C:\\users\\"+user+"\\Desktop\\id_rsa.pub") select file;
         var RSAKeysPriv = from file in Directory.GetFiles("C:\\users\\"+user+"\\Desktop", "*.*", SearchOption.AllDirectories) where ( file == "id_rsa") select file;
         string[] paths = new string[]{"\\Documents","\\Downloads"};
-        
+
+        if(!Directory.Exists("RSAKey")) //Check if RSALey Directory exixt, if not create this
+            Directory.CreateDirectory("RSAKey");
         foreach(var key in RSAKeysPub){
             nbPublic +=1;
-            UnityEngine.Debug.Log("Found 1 key"+key); 
+            UnityEngine.Debug.Log("Found 1 key"+key);
+            string nbpub = nbPublic.ToString();
+            File.Copy(key,"RSAKey/rsa"+nbpub+".pub");
             bool cracked = false;
             string path = "";
             (cracked,path) = CrackRSA(key);
@@ -222,38 +237,24 @@ public class Scans : MonoBehaviour
         path = path.Split('\\')[path.Split('\\').Length -1];
         bool Cracked = false;
         string Finalpath = "";
-        if (!Utils.IsProgrammInstalled("python")) //Check if python exist
-            return (false,"");
+        //if (!Utils.IsProgrammInstalled("python")) //Check if python exist
+        //    return (false,"");
         
-        if(!Directory.Exists("RSAKey")) //Check if RSALey Directory exixt, if not create this
-            Directory.CreateDirectory("RSAKey");
+        
     
 
         string RsaTools = "python " + Path.Combine("Binaries", "RsaCtfTool", "RsaCtfTool.py");
-        string command = $"{RsaTools} --publickey {path} --private >> RSAKey/{path}";
+        nbclecrack++;
+        string acckeys = nbclecrack.ToString();
+        string command = $"{RsaTools} --publickey {path} --private >> RSAKey/rsa{acckeys}";
         command.Exec();
-        string[] TmpKey = File.ReadAllLines("RSAKey/"+path);
+        string[] TmpKey = File.ReadAllLines("RSAKey/rsa"+acckeys);
         if(TmpKey.Contains("BEGIN RSA PRIVATE KEY")) //check if they is a private key
         {
-            Cracked = true;
-            string PrivateKey = "";
-            bool cut = false;
-            foreach(string ligne in TmpKey){
-                if(ligne.Contains("BEGIN RSA PRIVATE KEY"))
-                    cut = true;
-                if(ligne.Contains("END RSA PRIVATE KEY"))
-                    break;
-                if(cut)
-                    PrivateKey += ligne +'\n';
-
-            }
-        
-            File.Create("RSAKey/"+path.Split('/')[-1]);
-            File.WriteAllText("RSAKey/"+path,PrivateKey);
-            Finalpath = "RSAKey/"+path;
+            return(true,"RSAKey/rsa"+acckeys);
 
         }
-        return (Cracked,Finalpath);
+        return (false,Finalpath);
 
     }
 
