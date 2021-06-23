@@ -68,7 +68,8 @@ namespace Scan
                         WebService newWebService = new WebService(mach, port, ip.ToString());
                         Thread tr = new Thread((async () => await newWebService.Exploit()));
                         tr.Start();
-                        threadList.Add(tr);
+                        tr.Join();
+                        //threadList.Add(tr);
                     }
 
                     if (port == 21)
@@ -77,7 +78,8 @@ namespace Scan
                         FTPService ftpService = new FTPService(mach, port);
                         Thread tr = new Thread(ftpService.Exploit);
                         tr.Start();
-                        threadList.Add(tr);
+                        tr.Join();
+                        //threadList.Add(tr);
                     }
                     portList.Add(port);
                 }
@@ -169,7 +171,8 @@ namespace Scan
                 Machine.Machine mach = new Machine.Machine(ip.ToString());
                 Thread scanPortIPThread = new Thread(() => ScanTask(ip,portScanRange,scanType,fileName,mach));
                 scanPortIPThread.Start();
-                threads.Add(scanPortIPThread);
+                scanPortIPThread.Join();
+                //threads.Add(scanPortIPThread);
                 //if(scanPortIPThread.ThreadState != ThreadState.Running);//.join attendre la fin
             }
 

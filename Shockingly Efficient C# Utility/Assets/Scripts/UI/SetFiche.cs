@@ -22,12 +22,35 @@ public class SetFiche : MonoBehaviour
 
     private void Awake()
     {
+        foreach (GameObject go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            switch (go.name)
+            {
+                case "Save":
+                    _button = go.GetComponent<Button>();
+                    break;
+                case "TextInput":
+                    _text = go.GetComponent<Text>();
+                    break;
+                case "Input":
+                    _input = go;
+                    _input.SetActive(false);
+                    break;
+                case "AlertBox":
+                    _alertBox = go;
+                    _alertBox.SetActive(false);
+                    break;
+            }
+        }
+
+            /*
         _button=GameObject.Find("Save").GetComponent<Button>();
         _text = GameObject.Find("TextInput").GetComponent<Text>();
         _input=GameObject.Find("Input");
         _input.SetActive(false);
         _alertBox=GameObject.Find("AlertBox");
         _alertBox.SetActive(false);
+        */
 
     }
 
