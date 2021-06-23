@@ -1,5 +1,6 @@
 
 using System.Linq;
+using System.Net;
 using System.Threading;
 using UnityEngine;
 
@@ -14,8 +15,12 @@ namespace Scan
             string[] input = ipRangeI.Split('/');//TODO vérifier avant
             if (input[0] == "")
             {
-                string ip = ScanIp.GETLocalIp();
-                _ipRange = ScanIp.ReturnIpRange(ip);
+                (string, string) ip_et_mask = ScanIp.GETLocalIp();
+                string ip = ip_et_mask.Item1;
+                string mask = ip_et_mask.Item2;
+                _ipRange = ScanIp.ReturnIpRange(ip, mask);
+                Debug.Log(_ipRange.Item1);
+                Debug.Log(_ipRange.Item2);
             }
             else if (input[1] == "")
             {
@@ -28,10 +33,16 @@ namespace Scan
             _portScanType = portScanType;//all,fast
         }
         
+        /// <summary>
+        /// Start the scan of the network in a separate thread.
+        /// </summary>
+        /// <returns>The thread representing the scanning process. When this thread ends, the exploitation is complete.</returns>
         public void Scan()
         {
-            ScanIp o = new ScanIp(); 
-            Thread newScan = new Thread(new ThreadStart( () => o.MakePing(_ipRange,_portScanType)));
+            MenuManager.IsThreadRunning = true;
+
+            ScanIp o = new ScanIp();
+            Thread newScan = new Thread(new ThreadStart(async () => await o.MakePing(_ipRange,_portScanType)));
             newScan.Start();
         }
         private static bool MAXCheck(int i,uint[] octet)

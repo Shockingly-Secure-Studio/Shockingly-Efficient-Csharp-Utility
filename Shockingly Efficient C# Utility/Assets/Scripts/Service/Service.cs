@@ -12,18 +12,20 @@ namespace Service
 {
     public abstract class Service
     {
-        private readonly IPAddress _ip;
+        private readonly string _ip;
+        [JsonProperty("port")]
         private readonly int _port;
-        protected readonly string WorkingDirectory;
-        private Machine.Machine host;
+        public readonly string WorkingDirectory;
+        [JsonProperty("machine")]
+        protected readonly Machine.Machine Host;
         
-        public Service(Machine.Machine machine, string ip, int port)
+        public Service(Machine.Machine machine, int port)
         {
-            host = machine;
-            _ip = IPAddress.Parse(ip);
+            Host = machine;
+            _ip = machine.IPAdress;
             _port = port;
 
-            WorkingDirectory = Path.Combine("Results", ip, port.ToString());
+            WorkingDirectory = Path.Combine("Results", machine.IPAdress, port.ToString());
 
             Directory.CreateDirectory(WorkingDirectory);
         }
@@ -35,7 +37,7 @@ namespace Service
             byte[] bytesReceived = new byte[256];
             string result = "";
 
-            using (Socket s = Utils.ConnectSocket(_ip, _port))
+            using (Socket s = Utils.ConnectSocket(IPAddress.Parse(_ip), _port))
             {
                 if (s == null)
                     return ("Connection failed");
@@ -57,7 +59,7 @@ namespace Service
         }
 
 
-        public IPAddress GetIP()
+        public string GetIP()
         {
             return _ip;
         }
@@ -66,26 +68,42 @@ namespace Service
         {
             return _port;
         }
+
+        public Machine.Machine GetHost()
+        {
+            return Host;
+        }
         
         
 
         public abstract Task<bool> IsOnline();
 
+        public static ServiceResult GetServiceResult(string ip, int port)
+        {
+            return GetServiceResult(ip, port.ToString());
+        }
+
+        public static ServiceResult GetServiceResult(string ip, string port)
+        {
+            string path = Path.Combine("Results",ip, port, "output.json");
+            if (!File.Exists(path))
+                throw new FileNotFoundException(
+                    $"GetServiceResult: {path} does not exists."
+                    );
+            
+            StreamReader sr = new StreamReader(path);
+            ServiceResult result = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
+            sr.Close();
+
+            return result;
+        }
+        
         public void Log(AccessPoint accessPoint)
         {
             string path = Path.Combine(WorkingDirectory, "output.json");
             bool exists = File.Exists(path);
             ServiceResult result;
-            if (exists)
-            {
-                StreamReader sr = new StreamReader(path);
-                result = JsonConvert.DeserializeObject<ServiceResult>(sr.ReadToEnd());
-                sr.Close();
-            }
-            else
-            {
-                result = new ServiceResult(_ip.ToString(), _port);
-            }
+            result = exists ? GetServiceResult(_ip.ToString(), _port) : new ServiceResult(_ip.ToString(), _port);
             
             result.AccessPoints.Add(accessPoint);
             
@@ -96,7 +114,7 @@ namespace Service
             fs.Write(toWrite, 0, toWrite.Length);
             fs.Close();
             
-            host.UpdateFlaws();
+            Host.UpdateFlaws();
         }
     }
 }

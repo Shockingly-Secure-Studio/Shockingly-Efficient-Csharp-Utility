@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using Newtonsoft.Json;
+using Scan;
 using Service.Exploit;
 using UnityEngine;
 
@@ -11,6 +14,7 @@ namespace Service
 {
     public class WebService : Service
     {
+        [JsonProperty("vhost")]
         private readonly string _vHost;
 
         private static HttpClientHandler _handler = new HttpClientHandler()
@@ -18,9 +22,10 @@ namespace Service
             Proxy = new WebProxy("127.0.0.1:8080", false),
             UseProxy = true
         };
+        
         private readonly HttpClient _httpClient = new HttpClient(_handler);
 
-        public WebService(Machine.Machine machine, string vhost, string ip, int port) : base(machine, ip, port)
+        public WebService(Machine.Machine machine, int port, string vhost) : base(machine, port)
         {
             _vHost = vhost;
         }
@@ -59,15 +64,16 @@ namespace Service
                 {
                     requestMessage.Headers.Add(header.Key, header.Value);
                 }
-            }
+            }   
             
             if (content != null)
                 requestMessage.Content = new FormUrlEncodedContent(content);
 
-            // Debug.Log(requestMessage.ToString());
-            HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
+            //Debug.Log(requestMessage.ToString());
+            /*HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
             responseMessage.EnsureSuccessStatusCode();
-            string responseContent = await responseMessage.Content.ReadAsStringAsync();
+            string responseContent = await responseMessage.Content.ReadAsStringAsync();*/
+            string responseContent = Utils.MakeRequest(uri.AbsoluteUri);
             return responseContent;
         }
         
@@ -99,34 +105,47 @@ namespace Service
             return _vHost;
         }
 
-        public async void Exploit()
+        public async Task Exploit()
         {
             List<(string, int)> list = new List<(string, int)>();
             List<string> url = new List<string>();
             url.Add($"http://{_vHost}:{GetPort()}/");
-            List<string> map = web.map(list,url);
+            string path = Path.Combine(GetIP().ToString(), GetPort().ToString(), "mapSave");
+            list.Add((GetIP().ToString(),GetPort()));
+            List<string> map;
+            List<string> mapSave = SaveScan.LoadMap(path);
+            if (mapSave == null||mapSave.Count==0)
+            {
+                map = await web.map(list);
+                Debug.Log($"WebService.Exploit: map is done. Length of map == {map.Count}");
+                SaveScan.SaveMap(path,map);
+            }
+            else
+            {
+                map = mapSave;
+            }
             List<InputWebService> total = new List<InputWebService>();
-        
-            map.Add($"http://{_vHost}:{GetPort()}/");
-        
+            
             
             foreach (var link in map)
             {
                 Debug.Log(link);
-                foreach (var inputWebService in await InputWebService.FromLink(GetIP().ToString(), GetPort(), link))
+                foreach (var inputWebService in await InputWebService.FromLink(GetHost(), GetPort(), link))
                 {
                     total.Add(inputWebService);
                 }
             }
 
             
+            await  new password(Path.Combine("Binaries","passwordList.txt"), total)._test();
+            
             foreach (InputWebService inputWebService in total)
             {
                 await inputWebService.Exploit(true);
             }
 
-            
-            new global::Machine.Machine(GetIP().ToString()).GetVulnerabilities();
+           
+            Host.UpdateVulnerabilities();
         }
     }
 }

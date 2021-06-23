@@ -11,48 +11,75 @@ using Ping = System.Net.NetworkInformation.Ping;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading;
 using Scan;
+using UnityEditor;
 using Debug = UnityEngine.Debug;
 
 namespace Scan
 {
-    public class ScanIp : MonoBehaviour
+    public class ScanIp: MonoBehaviour
 {
     //si ip vide tt tout seul sinon scan a l'aide de l'ip
     public List<(IPAddress, List<int>)> Results;
-    
-    public static string GETLocalIp()
+    public static (string, string) GETLocalIp()
     {
         IPHostEntry ipLocal = Dns.GetHostEntry("");//recherche la liste d'adrese ip associer a notre machine
+
+        foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+        {
+            if (ni.Name == NetworkInterfaceDropdown.dropdown.options[NetworkInterfaceDropdown.dropdown.value].text)
+            {
+                Debug.Log(ni.Name);
+                foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                {
+                    if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        Debug.Log(ip.Address.ToString());
+                        
+                        return (ip.Address.ToString(), ip.IPv4Mask.ToString());
+                    }
+                }
+            }
+        }
+
         foreach (IPAddress ip in ipLocal.AddressList)
         {
             if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
             {
                 Debug.Log("My ip:" + ip);
-                return ip.ToString();
+                return (ip.ToString(), "ip");
                 //return "127.0.0.1";
-                //TODO vérifier l'interface de l'adresse
             }
         }
-        return ""; 
+        return ("", "IPAddress.Any"); 
     }
-    public static (string,string) ReturnIpRange(string ip)
+    public static (string,string) ReturnIpRange(string ip, string mask)
     {
-        uint firstOctet = uint.Parse(ip.Split('.')[0]);
-        switch (firstOctet)
-        {
-            case 10:
-                return ("10.0.0.0","10.255.255.255");//classe A, 10.0.0.0 à 10.255.255.255
-            case 172:
-                return ("172.16.0.0","172.31.255.255");//classe B, 	172.16.0.0 à 172.31.255.255
-            case 192:
-                return ("192.168.1.0","192.168.255.255");//classe C,  192.168.1.0 à 192.168.255.255
-            default:
-                return ("127.0.0.1","127.0.0.1"); 
-        }
+        string[] parts = ip.Split('.');
+        string[] mask_part = mask.Split('.');
+
+        if (mask_part[0] == "0") // mask == 0.0.0.0 
+            return ("0.0.0.0", "255.255.255.255");
+        if (mask_part[1] == "0") // mask == 255.0.0.0
+            return (parts[0] + ".0.0.0", parts[0] + ".255.255.255");
+        if (mask_part[2] == "0") // mask == 255.255.0.0
+            return ($"{parts[0]}.{parts[1]}.0.0", $"{parts[0]}.{parts[1]}.255.255");
+        if (mask_part[3] == "0") // mask == 255.255.255.0
+            return ($"{parts[0]}.{parts[1]}.{parts[2]}.0", $"{parts[0]}.{parts[1]}.{parts[2]}.255");
+        
+        // mask == 255.255.255.255
+        
+        return (ip, ip);
     }
     
-    public async void MakePing((string,string) ipRange,string scanType)
+    /// <summary>
+    /// Ping all ip addresses in range and if they respond back, start scanning their ports and exploiting them.
+    /// The function waits for the exploitation to end.
+    /// </summary>
+    /// <param name="ipRange">Couple representing the lower and upper bound of the addresses to scan</param>
+    /// <param name="scanType">If scanType == "all", perform a more thourough (and slow) process, i.e. scan all ports</param>
+    public async Task MakePing((string,string) ipRange,string scanType)
     {
         List<IPAddress> ipList=new List<IPAddress>();
         int[] ipStart = ipRange.Item1.Split('.').Select(int.Parse).ToArray();
@@ -61,12 +88,12 @@ namespace Scan
         var pingTaskList = new List<Task>();
         Debug.Log("start:"+ipRange.Item1+"end:"+ipRange.Item2);
         
-        if (ipRange.Item1 == ipRange.Item2)//scan only on Device
+        /*if (ipRange.Item1 == ipRange.Item2)//scan only on Device
         {
             ipList.Add(IPAddress.Parse(ipRange.Item1));
             ScanPort.MakePortScan(ipList,scanType);
             return;
-        }
+        }*/
         for (var i = ipStart[3]; i <= ipEnd[3]; i++)
         {
             for (var j = ipStart[2]; j <= ipEnd[2]; j++)
@@ -80,35 +107,39 @@ namespace Scan
         }
         while (pingTaskList.Count > 0)
         {
-            Task<IPAddress> taskResult = await Task.WhenAny(pingTaskList) as Task<IPAddress>;//atention peut attendre, task doit une erreur au bout d'un certin temps
-            IPAddress newIp = await taskResult;
+            Task<(IPAddress,bool)> taskResult = await Task.WhenAny(pingTaskList) as Task<(IPAddress,bool)>;
+            (IPAddress,bool) newIp=taskResult.Result;
             pingTaskList.Remove(taskResult);
-            if (newIp != null)
+            if (newIp.Item2)
             {
-                UnityEngine.Debug.Log("New ip found"+newIp);
-                Debug.Log("Host name:"+Dns.GetHostEntry(newIp).HostName);
-                ipList.Add(newIp);//on peut aussi récuperer les adresse mac et nom NetBios
+                UnityEngine.Debug.Log("New ip found"+newIp.Item1);
+                Debug.Log("Host name:"+Dns.GetHostEntry(newIp.Item1).HostName);
+                ipList.Add(newIp.Item1);
+                SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},Underway,{newIp.Item1},{ipRange.Item2}");
             }
         }
         Debug.Log("FIN DU SCAN IP");
-        ScanPort.MakePortScan(ipList,scanType);
+        SaveScan.SaveIpScan("ipScan",ipList,$"{scanType},completed");
+        ScanPort.MakePortScan(ipList, scanType);
+
+        MenuManager.IsThreadRunning = false;
     }
-    private  static async Task<IPAddress> PingAsync(IPAddress ip)
+    private  static async Task<(IPAddress,bool)> PingAsync(IPAddress ip)
     {
         Ping pingSender = new Ping ();
-        int timeout = 120;
+        int timeout = 128;
         try
         {
-            PingReply reply = await pingSender.SendPingAsync(ip, timeout);//TODO timeout
+            PingReply reply = await pingSender.SendPingAsync(ip, timeout);
             if (reply !=null && reply.Status == IPStatus.Success)
             {
-                return ip;
+                return (ip,true);
             }
-            return null;
+            return (ip, false);
         }
         catch
         {
-            return null;
+            return (ip,false);
         }
     }
     public static string GETHostName(IPAddress ip)
