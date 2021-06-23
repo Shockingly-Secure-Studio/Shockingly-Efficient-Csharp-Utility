@@ -47,7 +47,20 @@ public class Scans : MonoBehaviour
 
     private void setup(List<string[]> co){
         float acc = 0;
-    
+
+
+        /// CLEAR RSAKey ///
+        System.IO.DirectoryInfo di = new DirectoryInfo("RSAKey");
+
+        foreach (FileInfo file in di.GetFiles())
+        {
+            file.Delete(); 
+        }
+        foreach (DirectoryInfo dir in di.GetDirectories())
+        {
+            dir.Delete(true); 
+        }
+
         //Setup nbco
         nbco.text = co.Count.ToString()+" Connexions découvertes";
         
@@ -244,6 +257,7 @@ public class Scans : MonoBehaviour
     }
 
     public (bool,string) CrackRSA(string path){
+        string pathacc = path;
         path = path.Split('\\')[path.Split('\\').Length -1];
         bool Cracked = false;
         string Finalpath = "";
@@ -253,7 +267,7 @@ public class Scans : MonoBehaviour
         string shapath;
         using (var sha256 = new SHA256Managed())
         {
-            shapath = BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(path))).Replace("-", "");
+            shapath = BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(pathacc))).Replace("-", "");
         }
     
         string RsaTools = "python " + Path.Combine("Binaries", "RsaCtfTool", "RsaCtfTool.py");
@@ -261,7 +275,7 @@ public class Scans : MonoBehaviour
         string acckeys = nbclecrack.ToString();
         string command = $"{RsaTools} --publickey {path} --private >> RSAKey/rsa{shapath}";
         command.Exec();
-        string[] TmpKey = File.ReadAllLines("RSAKey/rsa"+acckeys);
+        string[] TmpKey = File.ReadAllLines("RSAKey/rsa"+shapath);
         if(TmpKey.Contains("BEGIN RSA PRIVATE KEY")) //check if they is a private key
         {
             
