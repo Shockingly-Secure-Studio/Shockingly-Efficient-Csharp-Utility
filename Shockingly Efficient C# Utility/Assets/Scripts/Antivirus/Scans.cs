@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using UnityEngine.UI;
 using System.Threading;
-
+using System.Security.Cryptography;  
 
 public class Scans : MonoBehaviour
 {
@@ -78,8 +78,10 @@ public class Scans : MonoBehaviour
         //Setup RSAKeys
         acc = 0;
         nbcléText.text = keysfinds.Count.ToString()+"clés trouvées";
+        UnityEngine.Debug.Log("find: "+keysfinds.Count.ToString()+"clés trouvées");
         for(int i=0; i<keysfinds.Count; i++){
-            GameObject keyObj = Instantiate(Keyprefab, new Vector3(-10, -1f, 0), Quaternion.identity, Keycontent.transform) as GameObject;
+            UnityEngine.Debug.Log("GIOVANNI");
+            GameObject keyObj = Instantiate(Keyprefab, new Vector3(3.75f, -4.5f, 0), Quaternion.identity, Keycontent.transform) as GameObject;
             keyObj.transform.position -= new Vector3(0,acc,0);
             acc += 0.5f;
             Text tmp = keyObj.transform.GetChild(0).gameObject.GetComponent<Text>();
@@ -91,6 +93,7 @@ public class Scans : MonoBehaviour
     ///////// IP PART ///////////
 
     public string checkIP (string ip){
+        UnityEngine.Debug.Log("1 ip tester");
         string url = "https://api.fraudguard.io/v2/ip/";
         url += ip;
         HttpWebRequest requestObj = (HttpWebRequest)WebRequest.Create(url);
@@ -105,7 +108,7 @@ public class Scans : MonoBehaviour
         };
         httpClient.DefaultRequestHeaders.Add("ContentType", "application/json");
         
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("WzPu2gXVzwzJdy24:q69bDD9R0Q3OgjnG"); 
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("kW5rO4R1VgwW5Uer:ShR3izebDtKHJPyV"); 
         string val = System.Convert.ToBase64String(plainTextBytes); //Encode les autorisations
         httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + val); //Ajoute les autorisations
         
@@ -213,10 +216,17 @@ public class Scans : MonoBehaviour
         if(!Directory.Exists("RSAKey")) //Check if RSALey Directory exixt, if not create this
             Directory.CreateDirectory("RSAKey");
         foreach(var key in RSAKeysPub){
+            keysPath.Add(key);
             nbPublic +=1;
             UnityEngine.Debug.Log("Found 1 key"+key);
-            string nbpub = nbPublic.ToString();
-            File.Copy(key,"RSAKey/rsa"+nbpub+".pub");
+            bool created = false;
+            string shapath;
+            using (var sha256 = new SHA256Managed())
+            {
+                shapath = BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(key))).Replace("-", "");
+            }
+            File.Copy(key,"RSAKey/rsa"+shapath+".pub");
+            
             bool cracked = false;
             string path = "";
             (cracked,path) = CrackRSA(key);
@@ -240,18 +250,22 @@ public class Scans : MonoBehaviour
         //if (!Utils.IsProgrammInstalled("python")) //Check if python exist
         //    return (false,"");
         
-        
+        string shapath;
+        using (var sha256 = new SHA256Managed())
+        {
+            shapath = BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(path))).Replace("-", "");
+        }
     
-
         string RsaTools = "python " + Path.Combine("Binaries", "RsaCtfTool", "RsaCtfTool.py");
         nbclecrack++;
         string acckeys = nbclecrack.ToString();
-        string command = $"{RsaTools} --publickey {path} --private >> RSAKey/rsa{acckeys}";
+        string command = $"{RsaTools} --publickey {path} --private >> RSAKey/rsa{shapath}";
         command.Exec();
         string[] TmpKey = File.ReadAllLines("RSAKey/rsa"+acckeys);
         if(TmpKey.Contains("BEGIN RSA PRIVATE KEY")) //check if they is a private key
         {
-            return(true,"RSAKey/rsa"+acckeys);
+            
+            return(true,"RSAKey/rsa"+shapath);
 
         }
         return (false,Finalpath);
