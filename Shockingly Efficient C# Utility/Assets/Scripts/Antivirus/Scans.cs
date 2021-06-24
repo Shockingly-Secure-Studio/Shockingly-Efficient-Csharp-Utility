@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using UnityEngine.UI;
 using System.Threading;
-
+using System.Security.Cryptography;  
 
 public class Scans : MonoBehaviour
 {
@@ -23,15 +23,20 @@ public class Scans : MonoBehaviour
     public Text nbco;
     public Text nbcléText;
     public GameObject Keycontent;
+    public GameObject Keyprefab;
+    
 
-
+    private int nbclecrack = 0;
+    
     // Start is called before the first frame update
     void Start()
     {
-        Thread ExternalCo = new Thread(new ThreadStart( () => setup(ExternalConnexion())));
-        ExternalCo.Start();
-        Thread RSAkeys =  new Thread(new ThreadStart( () => FindRSA()));
-        RSAkeys.Start();
+        setup(ExternalConnexion());
+        //Thread ExternalCo = new Thread(new ThreadStart( () => setup(ExternalConnexion())));
+        //ExternalCo.Start();
+        //Thread RSAkeys =  new Thread(new ThreadStart( () => FindRSA()));
+        //RSAkeys.Start();
+        
     }
 
     // Update is called once per frame
@@ -42,7 +47,20 @@ public class Scans : MonoBehaviour
 
     private void setup(List<string[]> co){
         float acc = 0;
-    
+
+
+        /// CLEAR RSAKey ///
+        System.IO.DirectoryInfo di = new DirectoryInfo("RSAKey");
+
+        foreach (FileInfo file in di.GetFiles())
+        {
+            file.Delete(); 
+        }
+        foreach (DirectoryInfo dir in di.GetDirectories())
+        {
+            dir.Delete(true); 
+        }
+
         //Setup nbco
         nbco.text = co.Count.ToString()+" Connexions découvertes";
         
@@ -69,11 +87,18 @@ public class Scans : MonoBehaviour
             }
         }
 
-        List<string> RSAkeys = FindRSA();
+        List<string> keysfinds = FindRSA();
         //Setup RSAKeys
-        nbcléText.text = RSAkeys.Count.ToString()+"clés trouvées";
-        for(int i=0; i<RSAkeys.Count; i++){
-
+        acc = 0;
+        nbcléText.text = keysfinds.Count.ToString()+"clés trouvées";
+        UnityEngine.Debug.Log("find: "+keysfinds.Count.ToString()+"clés trouvées");
+        for(int i=0; i<keysfinds.Count; i++){
+            UnityEngine.Debug.Log("GIOVANNI");
+            GameObject keyObj = Instantiate(Keyprefab, new Vector3(3.75f, -4.5f, 0), Quaternion.identity, Keycontent.transform) as GameObject;
+            keyObj.transform.position -= new Vector3(0,acc,0);
+            acc += 0.5f;
+            Text tmp = keyObj.transform.GetChild(0).gameObject.GetComponent<Text>();
+            tmp.text = keysfinds[i];
         }
        
     }
@@ -81,6 +106,7 @@ public class Scans : MonoBehaviour
     ///////// IP PART ///////////
 
     public string checkIP (string ip){
+        UnityEngine.Debug.Log("1 ip tester");
         string url = "https://api.fraudguard.io/v2/ip/";
         url += ip;
         HttpWebRequest requestObj = (HttpWebRequest)WebRequest.Create(url);
@@ -95,7 +121,7 @@ public class Scans : MonoBehaviour
         };
         httpClient.DefaultRequestHeaders.Add("ContentType", "application/json");
         
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("Jxc10JkiyGKM30mg:KXb7CZ8K0LLtq2ts"); 
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("kW5rO4R1VgwW5Uer:ShR3izebDtKHJPyV"); 
         string val = System.Convert.ToBase64String(plainTextBytes); //Encode les autorisations
         httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + val); //Ajoute les autorisations
         
@@ -191,6 +217,7 @@ public class Scans : MonoBehaviour
 
 
     public List<string> FindRSA(){
+
         List<string> keysPath = new List<string>();
         int nbPrivate = 0;
         int nbPublic = 0;
@@ -198,10 +225,21 @@ public class Scans : MonoBehaviour
         var RSAKeysPub = from file in Directory.GetFiles("C:\\users\\"+user+"\\Desktop", "*.*", SearchOption.AllDirectories) where ( file == "C:\\users\\"+user+"\\Desktop\\id_rsa.pub") select file;
         var RSAKeysPriv = from file in Directory.GetFiles("C:\\users\\"+user+"\\Desktop", "*.*", SearchOption.AllDirectories) where ( file == "id_rsa") select file;
         string[] paths = new string[]{"\\Documents","\\Downloads"};
-        
+
+        if(!Directory.Exists("RSAKey")) //Check if RSALey Directory exixt, if not create this
+            Directory.CreateDirectory("RSAKey");
         foreach(var key in RSAKeysPub){
+            keysPath.Add(key);
             nbPublic +=1;
-            UnityEngine.Debug.Log("Found 1 key"+key); 
+            UnityEngine.Debug.Log("Found 1 key"+key);
+            bool created = false;
+            string shapath;
+            using (var sha256 = new SHA256Managed())
+            {
+                shapath = BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(key))).Replace("-", "");
+            }
+            File.Copy(key,"RSAKey/rsa"+shapath+".pub");
+            
             bool cracked = false;
             string path = "";
             (cracked,path) = CrackRSA(key);
@@ -219,41 +257,32 @@ public class Scans : MonoBehaviour
     }
 
     public (bool,string) CrackRSA(string path){
+        string pathacc = path;
         path = path.Split('\\')[path.Split('\\').Length -1];
         bool Cracked = false;
         string Finalpath = "";
-        if (!Utils.IsProgrammInstalled("python")) //Check if python exist
-            return (false,"");
+        //if (!Utils.IsProgrammInstalled("python")) //Check if python exist
+        //    return (false,"");
         
-        if(!Directory.Exists("RSAKey")) //Check if RSALey Directory exixt, if not create this
-            Directory.CreateDirectory("RSAKey");
+        string shapath;
+        using (var sha256 = new SHA256Managed())
+        {
+            shapath = BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(pathacc))).Replace("-", "");
+        }
     
-
         string RsaTools = "python " + Path.Combine("Binaries", "RsaCtfTool", "RsaCtfTool.py");
-        string command = $"{RsaTools} --publickey {path} --private >> RSAKey/{path}";
+        nbclecrack++;
+        string acckeys = nbclecrack.ToString();
+        string command = $"{RsaTools} --publickey {path} --private >> RSAKey/rsa{shapath}";
         command.Exec();
-        string[] TmpKey = File.ReadAllLines("RSAKey/"+path);
+        string[] TmpKey = File.ReadAllLines("RSAKey/rsa"+shapath);
         if(TmpKey.Contains("BEGIN RSA PRIVATE KEY")) //check if they is a private key
         {
-            Cracked = true;
-            string PrivateKey = "";
-            bool cut = false;
-            foreach(string ligne in TmpKey){
-                if(ligne.Contains("BEGIN RSA PRIVATE KEY"))
-                    cut = true;
-                if(ligne.Contains("END RSA PRIVATE KEY"))
-                    break;
-                if(cut)
-                    PrivateKey += ligne +'\n';
-
-            }
-        
-            File.Create("RSAKey/"+path.Split('/')[-1]);
-            File.WriteAllText("RSAKey/"+path,PrivateKey);
-            Finalpath = "RSAKey/"+path;
+            
+            return(true,"RSAKey/rsa"+shapath);
 
         }
-        return (Cracked,Finalpath);
+        return (false,Finalpath);
 
     }
 
