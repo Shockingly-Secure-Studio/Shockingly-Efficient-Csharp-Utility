@@ -170,6 +170,13 @@ namespace UI
 
         public void DisplayReverseShell(string ip, string port)
         {
+            // We clear the glg
+            GameObject sqlResultGroup = GameObject.Find("SQLResult");
+            GridLayoutGroup glg = sqlResultGroup.GetComponent<GridLayoutGroup>();
+            foreach (Transform child in glg.transform) {
+                Destroy(child.gameObject);
+            }
+            
             WebShellInterface webShellInterface = WebShellInterface.AttachWebShell(ip, port);
             
             foreach (GameObject go in Resources.FindObjectsOfTypeAll<GameObject>())

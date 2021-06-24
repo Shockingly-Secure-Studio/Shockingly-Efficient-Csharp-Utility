@@ -28,6 +28,7 @@ public class web : MonoBehaviour
     public static async Task<List<string>> map(List<(string, int)> list, List<string> url = null)
     {
         List<string> nlist = new List<string>();
+        
         foreach (var e in list)
         {
             
@@ -38,7 +39,7 @@ public class web : MonoBehaviour
                 //domain = request.GetDomainName($"http://{e.Item1}");
                 nnlist = await WebDiscover(domain, $"http://{e.Item1}:{e.Item2}", 10);
                 Debug.Log("after WebDiscover");
-
+                
                 foreach (var items in nnlist)
                 {
                     bool find = false;
@@ -66,7 +67,8 @@ public class web : MonoBehaviour
     {
         List<string> res = new List<string>();
 
-        string src = Utils.MakeRequest(url);
+        //string src = Utils.MakeRequest(url);
+        string src = await SourceCode(url);
         if (src == "")
         {
             return res;
@@ -193,7 +195,7 @@ public class web : MonoBehaviour
                 //}
         }
 
-        hashSet.Clear();
+        //hashSet.Clear();
         
         foreach (var VARIABLE in visited)
         {
